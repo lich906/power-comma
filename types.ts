@@ -67,6 +67,7 @@ type PresentationType = {
 
 type EditorType = {
     readonly presentation: PresentationType;
-    readonly activeSlide: number;
+    readonly activeSlide: Array<number>;
+    readonly focusedSlide: number;
 }
 
