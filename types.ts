@@ -64,7 +64,6 @@ type SlideType = {
     readonly titel: TextType;
     readonly elements: Array<ElementType>;
     readonly background: PictureType | ColorType;
-    readonly activeElements: Array<number>;
     readonly Id: number;
 }
 
@@ -76,6 +75,7 @@ type PresentationType = {
 type EditorType = {
     readonly presentation: PresentationType;
     readonly activeSlide: Array<number>;
+    readonly activeElements: Array<number>;
     readonly openSlide: number;
 }
 
