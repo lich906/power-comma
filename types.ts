@@ -51,8 +51,12 @@ type Rectangle = {
     readonly x2, y2: number;
 }
 
+type TypeType = {
+    readonly name: string;
+}
+
 type ElementType = Rectangle | TriangleType | CircleType | PictureType | TextBoxType & {
-    readonly type: string;
+    readonly type: TypeType;
 };
 
 type SlideType = {
