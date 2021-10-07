@@ -27,6 +27,7 @@ type CommonType = {
     readonly x1, y1: number;
     readonly border: BorderType;
     readonly fill: FillType;
+    readonly Id: number;
 }
 
 type TextBoxType = CommonType & {
