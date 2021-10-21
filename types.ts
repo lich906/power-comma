@@ -45,7 +45,7 @@ type CircleType = CommonType & {
 }
 
 type TriangleType = CommonType & {
-    readonly x2, x3, y2, y3: number;
+    readonly h, w: number;
 }
 
 type Rectangle = {
@@ -61,7 +61,7 @@ type ElementType = Rectangle | TriangleType | CircleType | PictureType | TextBox
 };
 
 type SlideType = {
-    readonly titel: TextType;
+    //readonly titel: TextType;
     readonly elements: Array<ElementType>;
     readonly background: PictureType | ColorType;
     readonly Id: number;
@@ -71,11 +71,17 @@ type PresentationType = {
     readonly title: string;
     readonly slider: Array<SlideType>;
 }
+type HistoryType = {
+    readonly functionName: string;
+    readonly params: Array<String>;
+    readonly paramsCount: number;
+}
 
 type EditorType = {
     readonly presentation: PresentationType;
     readonly activeSlide: Array<number>;
     readonly activeElements: Array<number>;
     readonly openSlide: number;
+    readonly history: HistoryType;
 }
 
