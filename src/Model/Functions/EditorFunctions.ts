@@ -1,32 +1,26 @@
 import {Presentation} from "../Presentation";
+import {Editor} from "../Editor";
 
 var fs = require('fs');
 
-function savePresentation(presentation: Presentation, fileName: string): void {
-    if (!fs.existsSync('./data/')) {
-        fs.mkdir('data')
-    }
-    fs.writeFile(`./data/${fileName}`, JSON.stringify(presentation), function (e: Error) {
-        if (e) throw e;
-        console.log('Failed to save presentation into a file');
-    })
-}
-
-function openPresentation(fileName: string): Presentation {
+function openPresentation(fileName: string, editor: Editor): Editor {
     const data: string = fs.readFile(`./data/${fileName}`, 'utf8');
+    const presentation: Presentation = JSON.parse(data);
 
-    return JSON.parse(data);
+    return {
+        ...editor,
+        presentation: presentation
+    }
 }
 
-function renamePresentation(name: string, presentation: Presentation): Presentation {
+function openSlide(id: number, editor: Editor): Editor {
     return {
-        ...presentation,
-        title: name,
-    };
+        ...editor,
+        openSlide: id,
+    }
 }
 
 export {
-    savePresentation,
     openPresentation,
-    renamePresentation,
+    openSlide,
 }
