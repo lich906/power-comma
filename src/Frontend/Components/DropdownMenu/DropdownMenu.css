@@ -1,0 +1,14 @@
+.dropdown-menu__item {
+    font-size: 12px;
+    padding: 0 10px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.dropdown-menu__item:hover {
+    text-decoration: underline;
+}
+
+.button-and-dropdown-menu-wrapper {
+    display: flex;
+}
