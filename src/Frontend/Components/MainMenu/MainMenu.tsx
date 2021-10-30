@@ -15,14 +15,10 @@ function MainMenu() {
 function FileButton() {
     const [showDropdownMenu, setShowDropdownMenu] = useState(false);
 
-    function handleClick() {
-        setShowDropdownMenu(!showDropdownMenu)
-    }
-
     if (!showDropdownMenu) {
         return (
             <span className="top-main-menu__item"
-                  onClick={handleClick}
+                  onClick={() => setShowDropdownMenu(!showDropdownMenu)}
             >
             File
         </span>
@@ -31,7 +27,7 @@ function FileButton() {
         return (
             <span className="button-and-dropdown-menu-wrapper">
                 <span className="top-main-menu__item"
-                  onClick={handleClick}
+                  onClick={() => setShowDropdownMenu(!showDropdownMenu)}
                 >
                     File
                 </span>
@@ -44,14 +40,10 @@ function FileButton() {
 function EditButton() {
     const [showDropdownMenu, setShowDropdownMenu] = useState(false);
 
-    function handleClick() {
-        setShowDropdownMenu(!showDropdownMenu)
-    }
-
     if (!showDropdownMenu) {
         return (
             <span className="top-main-menu__item"
-                  onClick={handleClick}
+                  onClick={() => setShowDropdownMenu(!showDropdownMenu)}
             >
             Edit
         </span>
@@ -60,7 +52,7 @@ function EditButton() {
         return (
             <span className="button-and-dropdown-menu-wrapper">
                 <span className="top-main-menu__item"
-                      onClick={handleClick}
+                      onClick={() => setShowDropdownMenu(!showDropdownMenu)}
                 >
                     Edit
                 </span>
@@ -73,14 +65,10 @@ function EditButton() {
 function SettingsButton() {
     const [showDropdownMenu, setShowDropdownMenu] = useState(false);
 
-    function handleClick() {
-        setShowDropdownMenu(!showDropdownMenu)
-    }
-
     if (!showDropdownMenu) {
         return (
             <span className="top-main-menu__item"
-                  onClick={handleClick}
+                  onClick={() => setShowDropdownMenu(!showDropdownMenu)}
             >
             Settings
         </span>
@@ -89,7 +77,7 @@ function SettingsButton() {
         return (
             <span className="button-and-dropdown-menu-wrapper">
                 <span className="top-main-menu__item"
-                      onClick={handleClick}
+                      onClick={() => setShowDropdownMenu(!showDropdownMenu)}
                 >
                     Settings
                 </span>
