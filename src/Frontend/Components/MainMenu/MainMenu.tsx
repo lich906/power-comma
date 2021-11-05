@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import './MainMenu.css';
-import {FileDropdownMenu, EditDropdownMenu, SettingsDropdownMenu} from "../DropdownMenu/DropdownMenu";
+import CustomDropdownMenu from "./CustomDropdownMenu/CustomDropdownMenu";
 
 function MainMenu() {
     return (
@@ -27,11 +27,33 @@ function FileButton() {
         return (
             <span className="button-and-dropdown-menu-wrapper">
                 <span className="top-main-menu__item"
-                  onClick={() => setShowDropdownMenu(!showDropdownMenu)}
+                      onClick={() => setShowDropdownMenu(!showDropdownMenu)}
                 >
                     File
                 </span>
-                <FileDropdownMenu />
+                <CustomDropdownMenu items={
+                    [
+                        {
+                            title: "New",
+                            handler: () => console.log("New"),
+                        },
+                        {
+                            title: "Open",
+                            handler: () => console.log("Open"),
+                        },
+                        {
+                            title: "Save",
+                            handler: () => console.log("Save"),
+                        },
+                        {
+                            title: "Save As",
+                            handler: () => console.log("Save As"),
+                        },
+                        {
+                            title: "Export As PDF",
+                            handler: () => console.log("Export As PDF"),
+                        }
+                    ]} />
             </span>
         )
     }
@@ -56,7 +78,17 @@ function EditButton() {
                 >
                     Edit
                 </span>
-                <EditDropdownMenu />
+                <CustomDropdownMenu items={
+                    [
+                        {
+                            title: "Undo",
+                            handler: () => console.log("Undo"),
+                        },
+                        {
+                            title: "Redo",
+                            handler: () => console.log("Redo"),
+                        }
+                    ]} />
             </span>
         )
     }
@@ -81,7 +113,18 @@ function SettingsButton() {
                 >
                     Settings
                 </span>
-                <SettingsDropdownMenu />
+                <CustomDropdownMenu items={
+                    [
+                        {
+                            title: "Setting 1",
+                            handler: () => console.log("Setting 1"),
+                        },
+                        {
+                            title: "Setting 2",
+                            handler: () => console.log("Setting 2"),
+                        }
+                    ]
+                } />
             </span>
         )
     }
