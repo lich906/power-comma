@@ -1,0 +1,23 @@
+.sidebar {
+    margin: 0.5% 0.5% 0.5% 0;
+    border: #525252 1px solid;
+    width: 17%;
+    overflow: auto;
+}
+
+.sidebar::-webkit-scrollbar {
+    display: none;
+}
+
+.sidebar__item {
+    margin: 4%;
+    border: #969696 1px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.sidebar__item_selected {
+    border-color: #d51b1b;
+}
