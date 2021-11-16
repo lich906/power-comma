@@ -7,22 +7,27 @@ type SidebarProps = {
 
 type SidebarItemProps = {
     id: number,
+    selected: boolean,
 }
 
 function Sidebar(props: SidebarProps) {
+    const [selectedItemId, setSelectedItemId] = useState(0);
+
+    function handleSelection(id: number) {
+        setSelectedItemId(id);
+    }
 
     function SidebarItem(props: SidebarItemProps) {
-        const [selected, setSelected] = useState(false);
 
-        if (selected) {
+        if (props.selected) {
             return (
-                <div className="sidebar__item sidebar__item_selected" onClick={() => setSelected(!selected)}>
+                <div className="sidebar__item sidebar__item_selected" onClick={() => handleSelection(props.id)}>
                     {props.id}
                 </div>
             )
         } else {
             return (
-                <div className="sidebar__item" onClick={() => setSelected(!selected)}>
+                <div className="sidebar__item" onClick={() => handleSelection(props.id)}>
                     {props.id}
                 </div>
             )
@@ -30,9 +35,9 @@ function Sidebar(props: SidebarProps) {
     }
 
     let items: JSX.Element[] = [];
-
     for (let i = 0; i < props.items.length; i++) {
-        items.push(<SidebarItem id={props.items[i].id}/>)
+        let selected = props.items[i].selected || props.items[i].id === selectedItemId;
+        items.push(<SidebarItem id={props.items[i].id} selected={selected}/>)
     }
 
     return (

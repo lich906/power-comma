@@ -9,31 +9,26 @@ function App() {
             <MainMenu/>
             <div className="main-container">
                 <Sidebar items={[
-                    {id: 1},
-                    {id: 2},
-                    {id: 3},
-                    {id: 4},
-                    {id: 5},
-                    {id: 6},
-                    {id: 6},
-                    {id: 6},
-                    {id: 6},
-                    {id: 6},
-                    {id: 6},
-                    {id: 6},
-                    {id: 6},
-                    {id: 6},
-                    {id: 6},
-                    {id: 6},
-                    {id: 6},
-                    {id: 6},
-                    {id: 6},
-                    {id: 6},
-                    {id: 6},
-                    {id: 6},
-                    {id: 6},
-                    {id: 6},
-                    {id: 6},
+                    {
+                        id: 1,
+                        selected: false
+                    },
+                    {
+                        id: 2,
+                        selected: false
+                    },
+                    {
+                        id: 3,
+                        selected: false
+                    },
+                    {
+                        id: 4,
+                        selected: false
+                    },
+                    {
+                        id: 5,
+                        selected: false
+                    }
                 ]}/>
             </div>
         </div>

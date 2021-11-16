@@ -1,5 +1,6 @@
 .top-main-menu {
-    min-height: 28px;
+    height: 28px;
+    min-width: 750px;
     display: flex;
     padding-bottom: 4px;
     border-bottom: 1px solid #c7c7c7;
