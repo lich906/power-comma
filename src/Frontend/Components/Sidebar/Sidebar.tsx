@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import './Sidebar.css';
+import {range} from "../../Utils/Range";
 
 type SidebarProps = {
     items: SidebarItemProps[]
@@ -16,20 +17,8 @@ function Sidebar(props: SidebarProps) {
     function SidebarItem(props: SidebarItemProps) {
 
         function handleSelection(e: any) {
-            let low, high: number;
-            let range: number[] = [];
             if (e.shiftKey) {
-                if (selectedItemIds[0] < props.id) {
-                    low = selectedItemIds[0];
-                    high = props.id;
-                } else {
-                    low = props.id;
-                    high = selectedItemIds[0];
-                }
-                for (let i = low; i <= high; i++) {
-                    range.push(i);
-                }
-                setSelectedItemIds(selectedItemIds => range);
+                setSelectedItemIds(selectedItemIds => range(selectedItemIds[0], props.id));
             } else {
                 setSelectedItemIds(selectedItemIds => [props.id]);
             }
