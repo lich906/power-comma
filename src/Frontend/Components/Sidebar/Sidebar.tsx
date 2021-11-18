@@ -27,13 +27,11 @@ function Sidebar(props: SidebarProps) {
         if (props.selected) {
             return (
                 <div className="sidebar__item sidebar__item_selected" onClick={handleSelection}>
-                    {props.id}
                 </div>
             )
         } else {
             return (
                 <div className="sidebar__item" onClick={handleSelection}>
-                    {props.id}
                 </div>
             )
         }
