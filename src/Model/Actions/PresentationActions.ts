@@ -2,7 +2,7 @@ import {Presentation} from "../Presentation";
 
 const fs = require('fs');
 
-function savePresentation(presentation: Presentation, fileName: string): void {
+export function savePresentation(presentation: Presentation, fileName: string): void {
     if (!fs.existsSync('./data/')) {
         fs.mkdir('data')
     }
@@ -13,14 +13,9 @@ function savePresentation(presentation: Presentation, fileName: string): void {
     })
 }
 
-function renamePresentation(name: string, presentation: Presentation): Presentation {
+export function renamePresentation(name: string, presentation: Presentation): Presentation {
     return {
         ...presentation,
-        title: name,
+        title: name
     };
-}
-
-export {
-    savePresentation,
-    renamePresentation,
 }

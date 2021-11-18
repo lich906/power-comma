@@ -1,9 +1,5 @@
 import {Common} from "./Common";
 
-type Circle = Common & {
+export type Circle = Common & {
     readonly r: number;
-}
-
-export type {
-    Circle,
 }

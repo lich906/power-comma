@@ -1,12 +1,43 @@
 import {Presentation} from "./Presentation";
 
-type Editor = {
+let editor = {};
+
+export type Editor = {
     readonly presentation: Presentation;
-    readonly activeSlide: Array<number>;
-    readonly activeElements: Array<number>;
-    readonly openSlide: number;
+    readonly selectedSlideIds: number[];
+    readonly selectedElementIds: number[];
+    readonly currentSlideId: number;
 }
 
-export type {
-    Editor,
+export function getEditor() {
+    return editor;
+}
+
+export function setEditor(newEditor: Editor) {
+    editor = newEditor;
+}
+
+export function getCurrentPresentation(editor: Editor): Presentation {
+    return editor.presentation
+}
+
+export function setCurrentPresentation(editor: Editor, presentation: Presentation): Editor {
+    return {
+        ...editor,
+        presentation: presentation
+    }
+}
+
+export function setSelectedSlideIds(editor: Editor, selectedSlideIds: number[]): Editor {
+    return {
+        ...editor,
+        selectedSlideIds: selectedSlideIds
+    }
+}
+
+export function setSelectedElementIds(editor: Editor, selectedElementIds: number[]): Editor {
+    return {
+        ...editor,
+        selectedElementIds: selectedElementIds
+    }
 }

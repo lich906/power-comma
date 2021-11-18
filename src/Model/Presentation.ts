@@ -1,10 +1,17 @@
 import {Slide} from "./Slide"
 
-type Presentation = {
+export type Presentation = {
     readonly title: string;
     readonly slides: Array<Slide>;
 }
 
-export type {
-    Presentation,
+export function getSlideById(presentation: Presentation, id: number): Slide {
+    return presentation.slides.filter(slide => slide.id === id)[0];
+}
+
+export function addNewSlide(presentation: Presentation, newSlide: Slide): Presentation {
+    return {
+        ...presentation,
+        slides: presentation.slides.concat(newSlide)
+    }
 }
