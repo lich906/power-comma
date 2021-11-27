@@ -1,12 +1,9 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {createStore} from "redux";
-import {appReducers} from "./Model/Store/Reducers/AppReducers";
-import {getInitialAppState} from "./Model/Store/getInitialAppState";
+import {appStore, AppDispatch, RootState} from "./Model/Store/Store";
 
 function App() {
-  let appStore = createStore(appReducers, getInitialAppState);
 
   return (
     <div className="App">

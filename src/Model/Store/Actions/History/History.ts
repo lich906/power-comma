@@ -1,14 +1,14 @@
-export const UNDO_COMMAND = 'UNDO';
+import {AnyAction} from "redux";
 
-export function undo(): Object {
+export const UNDO_COMMAND = 'UNDO';
+export function undo(): AnyAction {
     return {
         type: UNDO_COMMAND
     }
 }
 
 export const REDO_COMMAND = 'REDO';
-
-export function redo(): Object {
+export function redo(): AnyAction {
     return {
         type: REDO_COMMAND
     }
