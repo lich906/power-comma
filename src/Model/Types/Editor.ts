@@ -3,10 +3,10 @@ import {Presentation} from "./Presentation";
 let editor = {};
 
 export type Editor = {
-    readonly presentation: Presentation;
+    readonly presentation: Presentation|null;
     readonly selectedSlideIds: number[];
     readonly selectedElementIds: number[];
-    readonly currentSlideId: number;
+    readonly currentSlideId: number|null;
 }
 
 export function getEditor() {
@@ -17,7 +17,7 @@ export function setEditor(newEditor: Editor) {
     editor = newEditor;
 }
 
-export function getCurrentPresentation(editor: Editor): Presentation {
+export function getCurrentPresentation(editor: Editor): Presentation|null {
     return editor.presentation
 }
 

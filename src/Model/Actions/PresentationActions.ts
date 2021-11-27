@@ -1,4 +1,4 @@
-import {Presentation} from "../Presentation";
+import {Presentation} from "../Types/Presentation";
 
 const fs = require('fs');
 

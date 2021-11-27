@@ -1,5 +1,5 @@
-import {Presentation} from "../Presentation";
-import {Editor} from "../Editor";
+import {Presentation} from "../Types/Presentation";
+import {Editor} from "../Types/Editor";
 
 var fs = require('fs');
 
