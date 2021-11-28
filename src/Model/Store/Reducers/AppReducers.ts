@@ -1,5 +1,8 @@
-import {Action} from "redux";
-import {REDO_COMMAND, UNDO_COMMAND} from "../Actions/History/History";
+import {Action, AnyAction} from "redux";
+import {REDO_COMMAND} from "../Actions/History/redo";
+import {UNDO_COMMAND} from "../Actions/History/undo";
+import {getInitialAppState} from "../getInitialState";
+import {App} from "../../Types/App";
 
 export const history = (state: Object = {}, action: Action) => {
     switch (action.type) {
@@ -12,10 +15,6 @@ export const history = (state: Object = {}, action: Action) => {
     }
 }
 
-const appReducers = (state: Object = {}, action: Object) => {
+export const appReducers = (state: App = getInitialAppState(), action: AnyAction) => {
     return {}
-}
-
-export {
-    appReducers,
 }

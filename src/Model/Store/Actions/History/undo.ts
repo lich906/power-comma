@@ -7,9 +7,3 @@ export function undo(): AnyAction {
     }
 }
 
-export const REDO_COMMAND = 'REDO';
-export function redo(): AnyAction {
-    return {
-        type: REDO_COMMAND
-    }
-}

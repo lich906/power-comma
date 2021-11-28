@@ -1,6 +1,6 @@
 import {Editor} from "./Editor";
 
-export type AppState = {
+export type App = {
     past: Editor|null,
     future: Editor|null,
     data: Editor

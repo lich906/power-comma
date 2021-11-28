@@ -4,6 +4,7 @@ import {Triangle} from "./Elements/Triangle";
 import {Rectangle} from "./Elements/Rectangle";
 import {Picture} from "./Elements/Picture";
 import {TextBox} from "./Elements/Text";
+import {generate} from "../Utils/generate";
 
 export type ElementType = (Rectangle | Triangle | Circle | Picture | TextBox) & {
     readonly typeName: string;
@@ -14,14 +15,14 @@ export type Slide = {
     readonly title: string;
     readonly elements: Array<ElementType>;
     readonly background: Picture | Color;
-    readonly id: number;
+    readonly id: string;
 }
 
-export function getSlideId(slide: Slide): number {
+export function getSlideId(slide: Slide): string {
     return slide.id;
 }
 
-export function createSlide(id: number): Slide {
+export function createSlide(): Slide {
     return {
         title: 'New Slide',
         elements: [],
@@ -31,7 +32,7 @@ export function createSlide(id: number): Slide {
             blue: 255,
             alpha: 1.0
         },
-        id: id
+        id: generate()
     }
 }
 

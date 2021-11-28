@@ -1,8 +1,8 @@
 import {createStore} from "redux";
 import {appReducers} from "./Reducers/AppReducers";
-import {getInitialAppState} from "./getInitialAppState";
+import {getInitialState} from "./getInitialAppState";
 
-export let appStore = createStore(appReducers, getInitialAppState);
+export let appStore = createStore(appReducers, getInitialState);
 
 export type RootState = ReturnType<typeof appStore.getState>
 
