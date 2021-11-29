@@ -1,4 +1,4 @@
-import {Color} from "./Elements/Common";
+import {Color} from "./Elements/StyleTypes";
 import {Circle} from "./Elements/Circle"
 import {Triangle} from "./Elements/Triangle";
 import {Rectangle} from "./Elements/Rectangle";
@@ -6,15 +6,15 @@ import {Picture} from "./Elements/Picture";
 import {TextBox} from "./Elements/Text";
 import {generate} from "../Utils/generate";
 
-export type ElementType = (Rectangle | Triangle | Circle | Picture | TextBox) & {
+export type ElementType = (Rectangle|Triangle|Circle|Picture|TextBox) & {
     readonly typeName: string;
-    id: number;
-};
+    readonly id: string;
+}
 
 export type Slide = {
     readonly title: string;
     readonly elements: Array<ElementType>;
-    readonly background: Picture | Color;
+    readonly background: Picture|Color;
     readonly id: string;
 }
 
@@ -68,6 +68,6 @@ export function getElementType(element: ElementType): string {
     return element.typeName;
 }
 
-export function getElementById(slide: Slide, id: number): ElementType {
+export function getElementById(slide: Slide, id: string): ElementType {
     return slide.elements.filter(element => element.id === id)[0];
 }

@@ -6,7 +6,7 @@ export type Presentation = {
     readonly slides: Array<Slide>;
 }
 
-export function getSlideById(presentation: Presentation, id: number): Slide {
+export function getSlideById(presentation: Presentation, id: string): Slide {
     return presentation.slides.filter(slide => slide.id === id)[0];
 }
 
