@@ -16,24 +16,11 @@ export type Slide = {
     readonly elements: Array<ElementType>;
     readonly background: Picture|Color;
     readonly id: string;
+    readonly order: number;
 }
 
 export function getSlideId(slide: Slide): string {
     return slide.id;
-}
-
-export function createSlide(): Slide {
-    return {
-        title: 'New Slide',
-        elements: [],
-        background: {
-            red: 255,
-            green: 255,
-            blue: 255,
-            alpha: 1.0
-        },
-        id: generate()
-    }
 }
 
 export function setSlideTitle(slide: Slide, title: string): Slide {

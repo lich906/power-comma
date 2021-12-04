@@ -3,7 +3,8 @@ import {Slide} from "./Slide"
 export type Presentation = {
     readonly fileName: string|null;
     readonly title: string;
-    readonly slides: Array<Slide>;
+    readonly slides: Slide[];
+    readonly slidesQuantity: number;
 }
 
 export function getSlideById(presentation: Presentation, id: string): Slide {

@@ -33,13 +33,15 @@ export function getInitialPresentationState(): Presentation {
     return {
         fileName: null,
         title: 'New Presentation',
-        slides: [getInitialSlideState()]
+        slides: [getInitialSlideState(1)],
+        slidesQuantity: 1
     }
 }
 
-export function getInitialSlideState(): Slide {
+export function getInitialSlideState(order: number): Slide {
     return {
         id: generate(),
+        order: order,
         title: 'New Slide',
         elements: [],
         background: {
