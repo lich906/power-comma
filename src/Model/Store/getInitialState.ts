@@ -3,12 +3,20 @@ import {App} from "../Types/App";
 import {Presentation} from "../Types/Presentation";
 import {Slide} from "../Types/Slide";
 import {generate} from "../Utils/generate";
+import {History} from "../Types/History";
+import {CombinedState} from "redux";
 
-export function getInitialAppState(): App {
+export function getInitialAppState(): any {
+    return {
+        history: getInitialHistoryState(),
+        data: getInitialEditorState()
+    }
+}
+
+export function getInitialHistoryState(): History {
     return {
         past: null,
-        future: null,
-        data: getInitialEditorState()
+        future: null
     }
 }
 

@@ -1,7 +1,7 @@
 import {Editor} from "./Editor";
+import {History} from "./History";
 
 export type App = {
-    past: Editor[]|null,
-    future: Editor[]|null,
+    history: History
     data: Editor
 }

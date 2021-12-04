@@ -1,8 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {appStore, AppDispatch, RootState} from "./Model/Store/Store";
-
+import './Model/Store/Store.ts'
 function App() {
 
   return (
