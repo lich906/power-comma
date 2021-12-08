@@ -4,8 +4,9 @@ import {AnyAction} from "redux";
 import {UNDO_COMMAND} from "../Actions/History/undo";
 import {REDO_COMMAND} from "../Actions/History/redo";
 import {UPDATE_HISTORY} from "../Actions/History/update";
+import {RESET_HISTORY} from "../Actions/History/reset";
 
-export const historyReducers = (state: App = getInitialAppState(), action: AnyAction): App|null => {
+export const HistoryReducers = (state: App = getInitialAppState(), action: AnyAction): App|null => {
     let newState: App = state;
     switch (action.type) {
         case UNDO_COMMAND:
@@ -24,6 +25,10 @@ export const historyReducers = (state: App = getInitialAppState(), action: AnyAc
             return newState;
         case UPDATE_HISTORY:
             newState.history.past = newState.history.past ? newState.history.past.concat([state.data]) : [state.data];
+            newState.history.future = null;
+            return newState;
+        case RESET_HISTORY:
+            newState.history.past = null;
             newState.history.future = null;
             return newState;
         default:

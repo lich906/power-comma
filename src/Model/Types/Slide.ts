@@ -4,7 +4,6 @@ import {Triangle} from "./Elements/Triangle";
 import {Rectangle} from "./Elements/Rectangle";
 import {Picture} from "./Elements/Picture";
 import {TextBox} from "./Elements/Text";
-import {generate} from "../Utils/generate";
 
 export type ElementType = (Rectangle|Triangle|Circle|Picture|TextBox) & {
     readonly typeName: string;

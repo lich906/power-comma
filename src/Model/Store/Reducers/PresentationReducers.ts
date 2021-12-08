@@ -5,6 +5,25 @@ import {getInitialPresentationState, getInitialSlideState} from "../getInitialSt
 import {Presentation} from "../../Types/Presentation";
 import {DELETE_SLIDES} from "../Actions/Presentation/deleteSlides";
 import {MOVE_SELECTED_SLIDES_UP} from "../Actions/Presentation/moveSelectedSlides";
+import {OPEN_PRESENTATION} from "../Actions/Editor/openPresentation";
+import {CLOSE_PRESENTATION} from "../Actions/Editor/closePresentation";
+import {appDispatch} from "../appDispatch";
+import {reset} from "../Actions/History/reset";
+
+const open = (state: Presentation|null, action: AnyAction): Presentation|undefined => {
+    if (action.type === OPEN_PRESENTATION) {
+        let fs = require('fs');
+        const data: string = fs.readFile(`./data/${action.fileName}`, 'utf8');
+        appDispatch(reset());
+        return JSON.parse(data);
+    }
+}
+
+const close = (state: Presentation|null, action: AnyAction) => {
+    if (action.type === CLOSE_PRESENTATION) {
+        return null
+    }
+}
 
 const slides = (state: Slide[] = [getInitialSlideState(1)], slidesQuantity: number, action: AnyAction): Slide[]|null => {
     let newState: Slide[] = [];
@@ -19,6 +38,7 @@ const slides = (state: Slide[] = [getInitialSlideState(1)], slidesQuantity: numb
             })
             return newState;
         case MOVE_SELECTED_SLIDES_UP:
+            // TODO
             let minOrder: number|null = null;
             state.forEach((slide) => {
                 if (action.slideIds.includes(slide.id)) {
@@ -56,5 +76,7 @@ export const PresentationReducers = (state: Presentation = getInitialPresentatio
     return {
         slides: slides(state.slides, state.slidesQuantity, action),
         slidesQuantity: slidesQuantity(state.slidesQuantity, action),
+        open: open(state, action),
+        close: close(state, action)
     }
 }
