@@ -5,8 +5,6 @@ export type Presentation = {
     readonly title: string;
     readonly slides: Slide[];
     readonly slidesQuantity: number;
-    open: Function,
-    close: Function
 }
 
 export function getSlideById(presentation: Presentation, id: string): Slide {

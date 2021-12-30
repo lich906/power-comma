@@ -5,4 +5,5 @@ export type Editor = {
     readonly selectedSlideIds: string[];
     readonly selectedElementIds: string[];
     readonly currentSlideId: string|null;
+
 }

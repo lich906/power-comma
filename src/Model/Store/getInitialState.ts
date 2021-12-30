@@ -2,21 +2,6 @@ import {Editor} from "../Types/Editor";
 import {Presentation} from "../Types/Presentation";
 import {Slide} from "../Types/Slide";
 import {generate} from "../Utils/generate";
-import {History} from "../Types/History";
-
-export function getInitialAppState(): any {
-    return {
-        history: getInitialHistoryState(),
-        data: getInitialEditorState()
-    }
-}
-
-export function getInitialHistoryState(): History {
-    return {
-        past: null,
-        future: null
-    }
-}
 
 export function getInitialEditorState(): Editor {
     return {
@@ -32,9 +17,7 @@ export function getInitialPresentationState(): Presentation {
         fileName: null,
         title: 'New Presentation',
         slides: [getInitialSlideState(1)],
-        slidesQuantity: 1,
-        open: () => {},
-        close: () => {}
+        slidesQuantity: 1
     }
 }
 

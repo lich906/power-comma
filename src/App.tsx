@@ -1,12 +1,15 @@
 import React from 'react';
 import './App.css';
-import './Model/Store/Store.ts'
+import './Model/Store/AppStore.ts'
 import {Slide} from "./Model/Types/Slide";
-import {AppDispatch, AppState} from "./Model/Store/Store";
+import {AppDispatch, AppState} from "./Model/Store/AppStore";
 import {createNewSlide} from "./Model/Store/Actions/Presentation/createNewSlide";
 import {connect} from "react-redux";
 import {deleteAllSlides} from "./Model/Store/Actions/Presentation/deleteAllSlides";
 import {savePresentationToFile} from "./Model/Store/AdditionalFunctions/savePresentationToFile";
+import {appDispatch} from "./Model/Store/appDispatch";
+import {undo} from "./Model/Store/Actions/History/undo";
+import {redo} from "./Model/Store/Actions/History/redo";
 
 function SlideList(props: { slides: Slide[] }): JSX.Element {
 
@@ -29,6 +32,9 @@ function App(props: any) {
         <button onClick={props.createNewSlide}>Add Slide</button>
         <button onClick={props.deleteAllSlides}>Delete All Slides</button>
         <button onClick={() => savePresentationToFile(props.editor)}>Save Presentation</button>
+        <br/>
+        <button onClick={props.undo}>Undo</button>
+        <button onClick={props.redo}>Redo</button>
         <SlideList slides={props.slides}/>
       </>
   );
@@ -43,8 +49,10 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = (dispatch: AppDispatch) => {
     return {
-        createNewSlide: () => dispatch(createNewSlide()),
-        deleteAllSlides: () => dispatch(deleteAllSlides())
+        createNewSlide: () => appDispatch(dispatch, createNewSlide()),
+        deleteAllSlides: () => appDispatch(dispatch, deleteAllSlides()),
+        undo: () => appDispatch(dispatch, undo()),
+        redo: () => appDispatch(dispatch, redo())
     }
 }
 
