@@ -35,7 +35,7 @@ const currentSlideId = (state: string|null = null, action: AnyAction): number|nu
 
 export const EditorReducers = (state: Editor = getInitialEditorState(), action: AnyAction): any => {
     return {
-        presentation: PresentationReducers(state.presentation ? state.presentation : getInitialPresentationState(), action),
+        presentation: PresentationReducers(state.presentation, action),
         selectedSlideIds: selectedSlideIds(state.selectedSlideIds, action),
         selectedElementsIds: selectedElementsIds(state.selectedElementIds, action),
         currentSlideId: currentSlideId(state.currentSlideId, action)

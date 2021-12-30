@@ -42,8 +42,8 @@ function App(props: any) {
 
 const mapStateToProps = (state: AppState) => {
     return {
-        slides: state.data.presentation.slides,
-        editor: state.data
+        slides: state.present.presentation.slides,
+        editor: state.present
     }
 }
 
