@@ -6,32 +6,57 @@ import {REDO_COMMAND} from "../Actions/History/redo";
 import {UPDATE_HISTORY} from "../Actions/History/update";
 import {RESET_HISTORY} from "../Actions/History/reset";
 
-export const HistoryReducers = (state: App = getInitialAppState(), action: AnyAction): App|null => {
-    let newState: App = state;
+export const HistoryReducers = (state: App = getInitialAppState(), action: AnyAction): App => {
+    let {history, data} = state;
+    let {past, future} = history;
     switch (action.type) {
         case UNDO_COMMAND:
-            if (state.history.past) {
-                newState.data = state.history.past[state.history.past.length - 1];
-                newState.history.past = state.history.past.splice(-1,1);
-                newState.history.future = newState.history.future ? newState.history.future.concat([state.data]) : [state.data];
+            if (past) {
+                future = future.concat([data]);
+                data = past[past.length - 1];
+                past = past.filter((_, i) => i !== (past.length - 1));
             }
-            return newState;
+            return {
+                history: {
+                    past: past,
+                    future: future
+                },
+                data: data
+            };
         case REDO_COMMAND:
-            if (state.history.future) {
-                newState.data = state.history.future[state.history.future.length - 1];
-                newState.history.future = state.history.future.splice(-1,1);
-                newState.history.past = newState.history.past ? newState.history.past.concat([state.data]) : [state.data];
+            if (future) {
+                past = past.concat([data]);
+                data = future[future.length - 1];
+                future = future.filter((_, i) => i !== (future.length - 1));
             }
-            return newState;
+            return {
+                history: {
+                    past: past,
+                    future: future
+                },
+                data: data
+            };
         case UPDATE_HISTORY:
-            newState.history.past = newState.history.past ? newState.history.past.concat([state.data]) : [state.data];
-            newState.history.future = null;
-            return newState;
+            past = past.concat([data]);
+            future = [];
+            return {
+                history: {
+                    past: past,
+                    future: future
+                },
+                data: data
+            };
         case RESET_HISTORY:
-            newState.history.past = null;
-            newState.history.future = null;
-            return newState;
+            past = [];
+            future = [];
+            return {
+                history: {
+                    past: past,
+                    future: future
+                },
+                data: data
+            };
         default:
-            return null;
+            return state;
     }
 }
