@@ -1,14 +1,10 @@
-import {Presentation} from "../../Types/Presentation";
+import fs from "fs";
+import {Editor} from "../../Types/Editor";
 
-const fs = require('fs');
-
-export function savePresentationToFile(presentation: Presentation, fileName: string): void {
+export function savePresentationToFile(editor: Editor, fileName: string = 'test'): void {
     if (!fs.existsSync('./data/')) {
-        fs.mkdir('data')
+        fs.mkdirSync('data')
     }
 
-    fs.writeFile(`./data/${fileName}`, JSON.stringify(presentation), function (e: Error) {
-        if (e) throw e;
-        console.log('Failed to save presentation into a file');
-    })
+    fs.writeFileSync(`./data/${fileName}.pcp`, JSON.stringify(editor))
 }

@@ -8,6 +8,6 @@ function updateHistoryOnDispatch(action: AnyAction): void {
 }
 
 export const appDispatch = (action: AnyAction) => {
-    updateHistoryOnDispatch(action);
+    // updateHistoryOnDispatch(action);
     appStore.dispatch(action);
 }

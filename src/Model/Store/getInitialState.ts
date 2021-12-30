@@ -1,10 +1,8 @@
 import {Editor} from "../Types/Editor";
-import {App} from "../Types/App";
 import {Presentation} from "../Types/Presentation";
 import {Slide} from "../Types/Slide";
 import {generate} from "../Utils/generate";
 import {History} from "../Types/History";
-import {CombinedState} from "redux";
 
 export function getInitialAppState(): any {
     return {
@@ -34,7 +32,9 @@ export function getInitialPresentationState(): Presentation {
         fileName: null,
         title: 'New Presentation',
         slides: [getInitialSlideState(1)],
-        slidesQuantity: 1
+        slidesQuantity: 1,
+        open: () => {},
+        close: () => {}
     }
 }
 
