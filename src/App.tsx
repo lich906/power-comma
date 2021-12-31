@@ -7,15 +7,16 @@ import {createNewSlide} from "./Model/Store/Actions/Presentation/createNewSlide"
 import {connect} from "react-redux";
 import {deleteAllSlides} from "./Model/Store/Actions/Presentation/deleteAllSlides";
 import {savePresentationToFile} from "./Model/Store/AdditionalFunctions/savePresentationToFile";
-import {appDispatch} from "./Model/Store/appDispatch";
 import {undo} from "./Model/Store/Actions/History/undo";
 import {redo} from "./Model/Store/Actions/History/redo";
 
 function SlideList(props: { slides: Slide[] }): JSX.Element {
 
   function Slide(props: {slide: Slide}): JSX.Element {
+    const {slide} = props
+
     return (
-        <span>{props.slide.id} : {props.slide.title}</span>
+        <span>{slide.id} : {slide.title}</span>
     )
   }
 
@@ -26,7 +27,7 @@ function SlideList(props: { slides: Slide[] }): JSX.Element {
   );
 }
 
-function App(props: any) {
+function App(props: any): JSX.Element {
   return (
       <>
         <button onClick={props.createNewSlide}>Add Slide</button>
@@ -49,10 +50,10 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = (dispatch: AppDispatch) => {
     return {
-        createNewSlide: () => appDispatch(dispatch, createNewSlide()),
-        deleteAllSlides: () => appDispatch(dispatch, deleteAllSlides()),
-        undo: () => appDispatch(dispatch, undo()),
-        redo: () => appDispatch(dispatch, redo())
+        createNewSlide: () => dispatch(createNewSlide()),
+        deleteAllSlides: () => dispatch(deleteAllSlides()),
+        undo: () => dispatch(undo()),
+        redo: () => dispatch(redo())
     }
 }
 

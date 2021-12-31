@@ -15,7 +15,6 @@ export type Slide = {
     readonly elements: Array<ElementType>;
     readonly background: Picture|Color;
     readonly id: string;
-    readonly order: number;
 }
 
 export function getSlideId(slide: Slide): string {
