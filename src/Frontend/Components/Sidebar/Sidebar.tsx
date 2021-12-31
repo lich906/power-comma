@@ -2,10 +2,11 @@ import React, {useState} from "react";
 import './Sidebar.css';
 import {range} from "../../Utils/Range";
 import {Slide} from "../../../Model/Types/Slide";
-import {AppDispatch} from "../../../Model/Store/AppStore";
+import SlidePreview from "./SlidePreview/SlidePreview";
 
 function Sidebar(props: {slides: Slide[], createNewSlide: any}) {
-    const [selectedItemIndexes, setSelectedItemIndexes] = useState([1]);
+    const [selectedItemIndexes, setSelectedItemIndexes] = useState([0]);
+    const [displayAddSlideButton, setDisplayAddSlideButton] = useState(false);
 
     function SidebarItem(props: {slide: Slide, index: number}): JSX.Element {
         const {slide, index} = props;
@@ -18,25 +19,25 @@ function Sidebar(props: {slides: Slide[], createNewSlide: any}) {
             }
         }
 
-        function Slide(props: {slide: Slide, isSelected: boolean}): JSX.Element {
-            const {slide, isSelected} = props;
-
-            return (
-                <div className={`sidebar__item ${isSelected ? "sidebar__item_selected" : ""}`} onClick={handleSelection}>
-                    {slide.id}
-                </div>
-            )
-        }
-
         return (
-            <Slide slide={slide} isSelected={selectedItemIndexes.includes(index)}/>
+            <SlidePreview slide={slide} isSelected={selectedItemIndexes.includes(index)} onClickHandler={handleSelection}/>
         )
     }
 
     return (
         <div className="sidebar">
-            {props.slides.map((slide, index) => <SidebarItem slide={slide} index={index}/>)}
-            <button onClick={props.createNewSlide}>Add slide</button>
+            <div
+                onMouseEnter={() => setDisplayAddSlideButton(true)}
+                onMouseLeave={() => setDisplayAddSlideButton(false)}
+                className="slides-container"
+            >
+                {props.slides.map((slide, index) => <SidebarItem slide={slide} index={index}/>)}
+                <button className={`add-slide-btn ${!displayAddSlideButton ? "hidden" : ""}`} onClick={props.createNewSlide}>Add slide</button>
+            </div>
+            <div className="slides-info">
+                <span>Total slides: {props.slides.length}</span>
+                <span>Selected: {selectedItemIndexes.length}</span>
+            </div>
         </div>
     )
 }

@@ -1,0 +1,13 @@
+.slide {
+    margin: 5px;
+    min-height: 40px;
+    border: #969696 1px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.selected {
+    box-shadow: 0 0 2px 2px rgba(108, 128, 164, 0.46);
+}
