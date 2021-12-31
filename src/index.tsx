@@ -9,7 +9,7 @@ import App from "./Frontend/App";
 ReactDOM.render(
   <React.StrictMode>
       <Provider store={appStore}>
-          <App />
+          <App/>
       </Provider>
   </React.StrictMode>,
   document.getElementById('root')
