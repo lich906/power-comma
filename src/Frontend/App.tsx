@@ -6,11 +6,13 @@ import {Slide} from "../Model/Types/Slide";
 import {AppDispatch, AppState} from "../Model/Store/AppStore";
 import {connect} from "react-redux";
 import {createNewSlide} from "../Model/Store/Actions/Presentation/createNewSlide";
+import {undo} from "../Model/Store/Actions/History/undo";
+import {redo} from "../Model/Store/Actions/History/redo";
 
-function App(props: {slides: Slide[], createNewSlide: any}) {
+function App(props: {slides: Slide[], createNewSlide: any, redo: any, undo: any}) {
     return (
         <div className="app">
-            <MainMenu/>
+            <MainMenu redo={props.redo} undo={props.undo}/>
             <div className="main-container">
                 <Sidebar slides={props.slides} createNewSlide={props.createNewSlide}/>
             </div>
@@ -26,7 +28,9 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = (dispatch: AppDispatch) => {
     return {
-        createNewSlide: () => dispatch(createNewSlide())
+        createNewSlide: () => dispatch(createNewSlide()),
+        undo: () => dispatch(undo()),
+        redo: () => dispatch(redo())
     }
 }
 

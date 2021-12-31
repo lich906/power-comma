@@ -2,11 +2,11 @@ import React, {useState} from "react";
 import './MainMenu.css';
 import CustomDropdownMenu from "./CustomDropdownMenu/CustomDropdownMenu";
 
-function MainMenu() {
+function MainMenu(props: {undo: any, redo: any}) {
     return (
         <div className="top-main-menu">
             <FileButton/>
-            <EditButton/>
+            <EditButton redoHandler={props.redo} undoHandler={props.undo}/>
             <SettingsButton/>
         </div>
     );
@@ -59,7 +59,7 @@ function FileButton() {
     }
 }
 
-function EditButton() {
+function EditButton(props: {undoHandler: any, redoHandler: any}) {
     const [showDropdownMenu, setShowDropdownMenu] = useState(false);
 
     if (!showDropdownMenu) {
@@ -82,11 +82,11 @@ function EditButton() {
                     [
                         {
                             title: "Undo",
-                            handler: () => console.log("Undo"),
+                            handler: props.undoHandler,
                         },
                         {
                             title: "Redo",
-                            handler: () => console.log("Redo"),
+                            handler: props.redoHandler,
                         }
                     ]} />
             </span>
