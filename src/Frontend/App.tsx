@@ -2,37 +2,32 @@ import React from 'react';
 import './App.css';
 import MainMenu from "./Components/MainMenu/MainMenu";
 import Sidebar from "./Components/Sidebar/Sidebar";
+import {Slide} from "../Model/Types/Slide";
+import {AppDispatch, AppState} from "../Model/Store/AppStore";
+import {connect} from "react-redux";
+import {createNewSlide} from "../Model/Store/Actions/Presentation/createNewSlide";
 
-function App() {
+function App(props: {slides: Slide[], createNewSlide: any}) {
     return (
         <div className="app">
             <MainMenu/>
             <div className="main-container">
-                <Sidebar items={[
-                    {
-                        id: 1,
-                        selected: false
-                    },
-                    {
-                        id: 2,
-                        selected: false
-                    },
-                    {
-                        id: 3,
-                        selected: false
-                    },
-                    {
-                        id: 4,
-                        selected: false
-                    },
-                    {
-                        id: 5,
-                        selected: false
-                    }
-                ]}/>
+                <Sidebar slides={props.slides} createNewSlide={props.createNewSlide}/>
             </div>
         </div>
     );
 }
 
-export default App;
+const mapStateToProps = (state: AppState) => {
+    return {
+        slides: state.present.presentation.slides
+    }
+}
+
+const mapDispatchToProps = (dispatch: AppDispatch) => {
+    return {
+        createNewSlide: () => dispatch(createNewSlide())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

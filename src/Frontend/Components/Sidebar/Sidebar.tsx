@@ -1,51 +1,42 @@
 import React, {useState} from "react";
 import './Sidebar.css';
 import {range} from "../../Utils/Range";
+import {Slide} from "../../../Model/Types/Slide";
+import {AppDispatch} from "../../../Model/Store/AppStore";
 
-type SidebarProps = {
-    items: SidebarItemProps[]
-}
+function Sidebar(props: {slides: Slide[], createNewSlide: any}) {
+    const [selectedItemIndexes, setSelectedItemIndexes] = useState([1]);
 
-type SidebarItemProps = {
-    id: number,
-    selected: boolean,
-}
-
-function Sidebar(props: SidebarProps) {
-    const [selectedItemIds, setSelectedItemIds] = useState([1]);
-
-    function SidebarItem(props: SidebarItemProps) {
+    function SidebarItem(props: {slide: Slide, index: number}): JSX.Element {
+        const {slide, index} = props;
 
         function handleSelection(e: any) {
             if (e.shiftKey) {
-                setSelectedItemIds(selectedItemIds => range(selectedItemIds[0], props.id));
+                setSelectedItemIndexes(selectedItemIds => range(selectedItemIds[0], index));
             } else {
-                setSelectedItemIds(selectedItemIds => [props.id]);
+                setSelectedItemIndexes([index]);
             }
         }
 
-        if (props.selected) {
+        function Slide(props: {slide: Slide, isSelected: boolean}): JSX.Element {
+            const {slide, isSelected} = props;
+
             return (
-                <div className="sidebar__item sidebar__item_selected" onClick={handleSelection}>
-                </div>
-            )
-        } else {
-            return (
-                <div className="sidebar__item" onClick={handleSelection}>
+                <div className={`sidebar__item ${isSelected ? "sidebar__item_selected" : ""}`} onClick={handleSelection}>
+                    {slide.id}
                 </div>
             )
         }
-    }
 
-    let items: JSX.Element[] = [];
-    for (let i = 0; i < props.items.length; i++) {
-        let selected = props.items[i].selected || selectedItemIds.includes(props.items[i].id);
-        items.push(<SidebarItem id={props.items[i].id} selected={selected}/>)
+        return (
+            <Slide slide={slide} isSelected={selectedItemIndexes.includes(index)}/>
+        )
     }
 
     return (
         <div className="sidebar">
-            {items}
+            {props.slides.map((slide, index) => <SidebarItem slide={slide} index={index}/>)}
+            <button onClick={props.createNewSlide}>Add slide</button>
         </div>
     )
 }

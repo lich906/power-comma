@@ -3,22 +3,24 @@ import {Presentation} from "../Types/Presentation";
 import {Slide} from "../Types/Slide";
 import {generate} from "../Utils/generate";
 
-export const initialSlideState: Slide = {
-    id: generate(),
-    title: 'New Slide',
-    elements: [],
-    background: {
-        red: 255,
-        green: 255,
-        blue: 255,
-        alpha: 0
+export const getInitialSlideState = (): Slide => {
+    return {
+        id: generate(),
+        title: 'New Slide',
+        elements: [],
+        background: {
+            red: 255,
+            green: 255,
+            blue: 255,
+            alpha: 0
+        }
     }
 }
 
 export const initialPresentationState: Presentation = {
     fileName: null,
     title: 'New Presentation',
-    slides: [initialSlideState]
+    slides: [getInitialSlideState()]
 }
 
 export const initialEditorState: Editor = {
