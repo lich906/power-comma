@@ -12,7 +12,7 @@ function enhance(reducer: Function) {
         future: []
     }
 
-    return function (state = initialAppState, action: AnyAction) {
+    return function (state: App = initialAppState, action: AnyAction) {
         let {past, present, future} = state
         switch (action.type) {
             case UNDO_COMMAND:

@@ -1,19 +1,19 @@
 import {Slide} from "../../Types/Slide";
 import {AnyAction} from "redux";
 import {CREATE_NEW_SLIDE} from "../Actions/Presentation/createNewSlide";
-import {getInitialPresentationState, getInitialSlideState} from "../InitialStates";
+import {initialPresentationState, initialSlideState} from "../InitialStates";
 import {Presentation} from "../../Types/Presentation";
 import {DELETE_SLIDES} from "../Actions/Presentation/deleteSlides";
 import {MOVE_SELECTED_SLIDES_DOWN, MOVE_SELECTED_SLIDES_UP} from "../Actions/Presentation/moveSelectedSlides";
 import {CHANGE_PRESENTATION_TITLE} from "../Actions/Presentation/changePresentationTitle";
 import {DELETE_ALL_SLIDES} from "../Actions/Presentation/deleteAllSlides";
 
-const slides = (state: Slide[] = [getInitialSlideState()], action: AnyAction): Slide[] => {
+const slides = (state: Slide[] = [initialSlideState], action: AnyAction): Slide[] => {
     let newState: Slide[] = [];
     let startIndex, endIndex: number;
     switch (action.type) {
         case CREATE_NEW_SLIDE:
-            return state.concat([getInitialSlideState()]);
+            return state.concat([initialSlideState]);
         case DELETE_ALL_SLIDES:
             return [];
         case DELETE_SLIDES:
@@ -54,7 +54,7 @@ const title = (state: string, action: AnyAction): string => {
   }
 }
 
-export const PresentationReducers = (state: Presentation = getInitialPresentationState(), action: AnyAction): any => {
+export const PresentationReducers = (state: Presentation = initialPresentationState, action: AnyAction): any => {
     return {
         slides: slides(state.slides, action),
         title: title(state.title, action),
