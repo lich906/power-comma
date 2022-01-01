@@ -27,7 +27,7 @@ function SlideList(props: { slides: Slide[] }): JSX.Element {
   );
 }
 
-function App(props: any): JSX.Element {
+function Test(props: any): JSX.Element {
   return (
       <>
         <button onClick={props.createNewSlide}>Add Slide</button>
@@ -57,4 +57,4 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(Test)

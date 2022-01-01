@@ -4,7 +4,7 @@ import {range} from "../../Utils/Range";
 import {Slide} from "../../../Model/Types/Slide";
 import SlidePreview from "./SlidePreview/SlidePreview";
 
-function Sidebar(props: {slides: Slide[], createNewSlide: any}) {
+function Sidebar(props: {slides: Slide[], createNewSlide: any}): JSX.Element {
     const [selectedItemIndexes, setSelectedItemIndexes] = useState([0]);
     const [displayAddSlideButton, setDisplayAddSlideButton] = useState(false);
 
@@ -31,11 +31,11 @@ function Sidebar(props: {slides: Slide[], createNewSlide: any}) {
                 onMouseLeave={() => setDisplayAddSlideButton(false)}
                 className="slides-container"
             >
-                {props.slides.map((slide, index) => <SidebarItem slide={slide} index={index}/>)}
-                <button className={`add-slide-btn ${!displayAddSlideButton ? "hidden" : ""}`} onClick={props.createNewSlide}>Add slide</button>
+                {props.slides.map((slide, index) => <SidebarItem key={slide.id} slide={slide} index={index}/>)}
+                <div className={`add-slide ${!displayAddSlideButton ? "hidden" : ""}`} onClick={props.createNewSlide}>New slide</div>
             </div>
-            <div className="slides-info">
-                <span>Total slides: {props.slides.length}</span>
+            <div className="additional-info">
+                <span>Slides count: {props.slides.length}</span>
                 <span>Selected: {selectedItemIndexes.length}</span>
             </div>
         </div>
