@@ -20,11 +20,9 @@ function App(props: {slides: Slide[], createNewSlide: any, undo: any, redo: any}
         if (e.ctrlKey) {
             switch (e.keyCode) {
                 case 90:
-                    console.log('Ctrl+Z');
                     undo();
                     break;
                 case 89:
-                    console.log('Ctrl+Y');
                     redo();
                     break;
             }
