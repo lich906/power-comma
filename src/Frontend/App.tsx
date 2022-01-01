@@ -5,12 +5,10 @@ import {Slide} from "../Model/Types/Slide";
 import {AppDispatch, AppState} from "../Model/Store/AppStore";
 import {connect} from "react-redux";
 import {createNewSlide} from "../Model/Store/Actions/Presentation/createNewSlide";
-import {undo} from "../Model/Store/Actions/History/undo";
-import {redo} from "../Model/Store/Actions/History/redo";
 import MainMenu from "./Components/MainMenu/MainMenu"
 import DropdownList from "./Components/DropdownList/DropdownList";
 
-function App(props: {slides: Slide[], createNewSlide: any, redo: any, undo: any}) {
+function App(props: {slides: Slide[], createNewSlide: any}) {
     const [dropdownListContent, setDropdownListContent] = useState([]);
     const [displayDropdownList, setDisplayDropdownList] = useState(false);
     const [dropdownListAnchor, setDropdownListAnchor] = useState({x: undefined, y: undefined})
@@ -43,9 +41,7 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = (dispatch: AppDispatch) => {
     return {
-        createNewSlide: () => dispatch(createNewSlide()),
-        undo: () => dispatch(undo()),
-        redo: () => dispatch(redo())
+        createNewSlide: () => dispatch(createNewSlide())
     }
 }
 
