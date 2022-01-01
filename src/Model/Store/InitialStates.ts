@@ -1,7 +1,7 @@
 import {Editor} from "../Types/Editor";
 import {Presentation} from "../Types/Presentation";
 import {Slide} from "../Types/Slide";
-import {generate} from "../Utils/generate";
+import {generate} from "../../Utils/generate";
 
 export const getInitialSlideState = (): Slide => {
     return {

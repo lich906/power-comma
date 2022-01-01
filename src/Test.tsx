@@ -6,7 +6,7 @@ import {AppDispatch, AppState} from "./Model/Store/AppStore";
 import {createNewSlide} from "./Model/Store/Actions/Presentation/createNewSlide";
 import {connect} from "react-redux";
 import {deleteAllSlides} from "./Model/Store/Actions/Presentation/deleteAllSlides";
-import {savePresentationToFile} from "./Model/Store/AdditionalFunctions/savePresentationToFile";
+import {savePresentationToFile} from "./AdditionalFunctions/savePresentationToFile";
 import {undo} from "./Model/Store/Actions/History/undo";
 import {redo} from "./Model/Store/Actions/History/redo";
 

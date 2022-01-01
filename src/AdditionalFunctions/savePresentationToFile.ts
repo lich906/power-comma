@@ -1,5 +1,5 @@
 import fs from "fs";
-import {Editor} from "../../Types/Editor";
+import {Editor} from "../Model/Types/Editor";
 
 export function savePresentationToFile(editor: Editor, fileName: string = 'test'): void {
     if (!fs.existsSync('./data/')) {
