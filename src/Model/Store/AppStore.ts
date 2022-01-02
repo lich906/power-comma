@@ -49,7 +49,7 @@ function enhance(reducer: Function) {
                 };
             default:
                 const newPresent = reducer(present, action);
-                if (newPresent === present) {
+                if (newPresent.presentation === present.presentation) {
                     return state;
                 }
                 return {

@@ -19,13 +19,13 @@ export const getInitialSlideState = (): Slide => {
 
 export const initialPresentationState: Presentation = {
     fileName: null,
-    title: 'New Presentation',
+    title: 'Untitled',
     slides: [getInitialSlideState()]
 }
 
 export const initialEditorState: Editor = {
     presentation: initialPresentationState,
-    selectedSlideIds: [],
+    selectedSlideIds: [initialPresentationState.slides[0].id],
     selectedElementIds: [],
-    currentSlideId: null
+    currentSlideId: initialPresentationState.slides[0].id
 }

@@ -8,8 +8,8 @@ type DropdownMenuItemProps = {
 }
 
 type DropdownMenuProps = {
-    items: DropdownMenuItemProps[],
-    anchor: {x?: number, y?: number},
+    content: DropdownMenuItemProps[],
+    anchor: {x: number, y: number},
     setDisplayDropdownList: React.Dispatch<any>
 }
 
@@ -20,7 +20,7 @@ function DropdownList(props: DropdownMenuProps) {
             style={{top: props.anchor.y, left: props.anchor.x}}
             onMouseLeave={() => props.setDisplayDropdownList(false)}
         >
-            {props.items.map((item, i) => <DropdownMenuItem key={i} title={item.title} handler={item.handler} hotkey={item.hotkey}/>)}
+            {props.content.map((item, i) => <DropdownMenuItem key={i} title={item.title} handler={item.handler} hotkey={item.hotkey}/>)}
         </div>
     )
 }

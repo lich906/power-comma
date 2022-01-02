@@ -4,9 +4,11 @@ export function range(a: number, b: number): number[] {
     if (a < b) {
         low = a;
         high = b;
-    } else {
+    } else if (b < a) {
         low = b;
         high = a;
+    } else {
+        return [a];
     }
     for (let i = low; i <= high; i++) {
         res.push(i);
