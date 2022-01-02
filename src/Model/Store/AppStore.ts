@@ -4,6 +4,8 @@ import {App} from "../Types/App";
 import {UNDO_COMMAND} from "./Actions/History/undo";
 import {REDO_COMMAND} from "./Actions/History/redo";
 import {RESET_HISTORY} from "./Actions/History/reset";
+import {OPEN_PRESENTATION} from "./Actions/Editor/openPresentation";
+import {openPresentationJSON} from "../../AdditionalFunctions/openPresentationJSON";
 
 function enhance(reducer: Function) {
     const initialAppState: App = {
@@ -12,7 +14,7 @@ function enhance(reducer: Function) {
         future: []
     }
 
-    return function (state: App = initialAppState, action: AnyAction) {
+    return function (state: App = initialAppState, action: AnyAction): App {
         let {past, present, future} = state
         switch (action.type) {
             case UNDO_COMMAND:
@@ -47,6 +49,21 @@ function enhance(reducer: Function) {
                     future: [],
                     present: present
                 };
+            case OPEN_PRESENTATION:
+                openPresentationJSON().then((presentation) => {
+                    let firstSlideId: string|null = presentation.slides[0] ? presentation.slides[0].id : null;
+                    return {
+                        past: [],
+                        present: {
+                            presentation: presentation,
+                            currentSlideId: firstSlideId,
+                            selectedSlideIds: firstSlideId ? [firstSlideId]: [],
+                            selectedElementIds: []
+                        },
+                        future: []
+                    }
+                }, (reason) => console.log(reason));
+                return state;
             default:
                 const newPresent = reducer(present, action);
                 if (newPresent.presentation === present.presentation) {
