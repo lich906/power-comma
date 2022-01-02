@@ -3,6 +3,7 @@
     min-width: 750px;
     display: flex;
     border-bottom: 1px solid #afafaf;
+    position: relative;
 }
 
 .top-main-menu__item {
@@ -17,4 +18,12 @@
 .top-main-menu__item:hover {
     background: #038fee;
     color: #ececec;
+}
+
+.logo {
+    background: url('./res/comma.svg') no-repeat;
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    right: 0;
 }

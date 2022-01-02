@@ -26,19 +26,18 @@ type SidebarProps = {
     showDropdownList: Function
 }
 
-function Sidebar(props: SidebarProps): JSX.Element {
+function Sidebar({
+    slides,
+    selectedSlideIds,
+    createNewSlide,
+    changeCurrentSlide,
+    updateSlidesSelection,
+    moveSelectedSlidesUp,
+    moveSelectedSlidesDown,
+    showDropdownList
+}: SidebarProps): JSX.Element {
     const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
     const [displayAddSlideButton, setDisplayAddSlideButton] = useState(false);
-    const {
-        slides,
-        selectedSlideIds,
-        createNewSlide,
-        changeCurrentSlide,
-        updateSlidesSelection,
-        moveSelectedSlidesUp,
-        moveSelectedSlidesDown,
-        showDropdownList
-    } = props;
 
     function SidebarItem(props: {slide: Slide, index: number}): JSX.Element {
         const {slide, index} = props;

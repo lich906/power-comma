@@ -32,6 +32,7 @@ function MainMenu(props: {
             <span className="top-main-menu__item" onClick={() => showDropdownList(FileDropdownListContent, {x: 0, y: 33})}>File</span>
             <span className="top-main-menu__item" onClick={() => showDropdownList(EditDropdownListContent, {x: 30, y: 33})}>Edit</span>
             <span className="top-main-menu__item" onClick={() => showDropdownList(SettingsDropdownListContent, {x: 90, y: 33})}>Settings</span>
+            <div className="logo"> </div>
         </div>
     );
 }
