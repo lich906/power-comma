@@ -19,16 +19,12 @@
 
 .exit {
     position: absolute;
-    top: 5px;
-    right: 5px;
+    top: 7px;
+    right: 7px;
     background: url("./res/cross.svg") no-repeat;
     width: 16px;
     height: 16px;
     cursor: pointer;
-}
-
-.exit:hover {
-    background: url("./res/cross_hover.svg") no-repeat;
 }
 
 .input {

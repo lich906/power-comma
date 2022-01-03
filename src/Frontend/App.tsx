@@ -112,7 +112,6 @@ function App({
                 <Sidebar showDropdownList={showDropdownList}/>
                 <div className={styles.editorContainer}>
                     <div className={styles.presentationTitle}>{presentationTitle}</div>
-                    {currentSlideId}
                 </div>
             </div>
             {
