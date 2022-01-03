@@ -4,14 +4,14 @@
     border-right: var(--theme-color-2) 1px solid;
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
+    width: 20%;
 }
 
 .slidesContainer {
     overflow: auto;
     display: flex;
     flex-direction: column;
-    flex-grow: 90;
+    height: 97%;
 }
 
 .slidesContainer::-webkit-scrollbar {
@@ -19,7 +19,8 @@
 }
 
 .additionalInfo {
-    flex-grow: 1;
+    overflow: hidden;
+    height: 3%;
     color: var(--theme-color-4);
     font-size: 12px;
     border-top: var(--theme-color-2) 1px solid;

@@ -1,6 +1,6 @@
 import React from "react";
 import {Slide} from "../../../../Model/Types/Slide"
-import './SlidePreview.css'
+import styles from './SlidePreview.module.css'
 
 type SlidePreviewProps = {
     slide: Slide,
@@ -9,12 +9,11 @@ type SlidePreviewProps = {
     onClickHandler: React.MouseEventHandler<HTMLDivElement>
 }
 
-function SlidePreview(props: SlidePreviewProps): JSX.Element {
-    const {slide, order, isSelected, onClickHandler} = props;
+function SlidePreview({slide, order, isSelected, onClickHandler}: SlidePreviewProps): JSX.Element {
 
     return (
-        <div className={`slide ${isSelected ? "selected" : ""}`} onClick={onClickHandler}>
-            <span className="order">{order}</span>
+        <div className={`${styles.slide} ${isSelected ? styles.selected : ""}`} onClick={onClickHandler}>
+            <span className={styles.order}>{order}</span>
             {slide.id}
         </div>
     )

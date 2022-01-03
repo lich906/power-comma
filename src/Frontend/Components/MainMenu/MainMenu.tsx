@@ -35,7 +35,6 @@ function MainMenu({
         {title: "Rename", handler: () => showStringInputPopup(renamePresentationPopupTexts, changePresentationTitle)},
         {title: "Open", hotkey: "Ctrl + O", handler: () => console.log("Open")},
         {title: "Save", hotkey: "Ctrl + S", handler: () => console.log("Save")},
-        {title: "Save As", hotkey: "Ctrl + Alt + S", handler: () => console.log("Save As")},
         {title: "Export As PDF", hotkey: "Ctrl + Alt + E", handler: () => console.log("Export As PDF")}
     ];
     const EditDropdownListContent: DropdownMenuItemProps[] = [
@@ -52,7 +51,7 @@ function MainMenu({
             <span className={styles.item} onClick={() => showDropdownList(FileDropdownListContent, {x: 0, y: 33})}>File</span>
             <span className={styles.item} onClick={() => showDropdownList(EditDropdownListContent, {x: 30, y: 33})}>Edit</span>
             <span className={styles.item} onClick={() => showDropdownList(SettingsDropdownListContent, {x: 90, y: 33})}>Settings</span>
-            <div className={styles.logo}> </div>
+            <div className={styles.logo}>,</div>
         </div>
     );
 }
