@@ -4,7 +4,7 @@
     border-right: var(--theme-color-2) 1px solid;
     display: flex;
     flex-direction: column;
-    width: 20%;
+    width: 16%;
 }
 
 .slidesContainer {
