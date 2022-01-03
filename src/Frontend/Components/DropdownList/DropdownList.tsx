@@ -1,16 +1,21 @@
 import React from "react";
 import styles from './DropdownList.module.css';
 
-type DropdownMenuItemProps = {
+export type DropdownMenuItemProps = {
     title: string,
     hotkey?: string,
-    handler: Function,
+    handler: () => void,
+}
+
+export type AnchorType = {
+    x: number,
+    y: number
 }
 
 type DropdownMenuProps = {
     content: DropdownMenuItemProps[],
-    anchor: {x: number, y: number},
-    setDisplayDropdownList: React.Dispatch<any>
+    anchor: AnchorType,
+    setDisplayDropdownList: React.Dispatch<boolean>
 }
 
 function DropdownList(props: DropdownMenuProps) {

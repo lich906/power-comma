@@ -1,15 +1,17 @@
+@import "../../ColorConstants.css";
+
 .sidebar {
-    border-right: #afafaf 1px solid;
+    border-right: var(--theme-color-2) 1px solid;
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
 }
 
 .slidesContainer {
-    width: 200px;
     overflow: auto;
     display: flex;
     flex-direction: column;
-    height: 97%;
+    flex-grow: 90;
 }
 
 .slidesContainer::-webkit-scrollbar {
@@ -17,9 +19,10 @@
 }
 
 .additionalInfo {
-    color: #4b4b4b;
+    flex-grow: 1;
+    color: var(--theme-color-4);
     font-size: 12px;
-    border-top: #afafaf 1px solid;
+    border-top: var(--theme-color-2) 1px solid;
     padding: 0 12px;
     display: flex;
     justify-content: space-between;
@@ -27,7 +30,7 @@
 }
 
 .addSlide {
-    color: #4b4b4b;
+    color: var(--theme-color-4);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -40,8 +43,8 @@
 }
 
 .addSlide:hover {
-    background-color: #30a7ff;
-    color: #ececec;
+    background-color: var(--theme-color-1);
+    color: var(--theme-color-3);
 }
 
 .hidden {

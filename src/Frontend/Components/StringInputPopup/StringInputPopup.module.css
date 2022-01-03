@@ -1,0 +1,61 @@
+.popup {
+    color: var(--theme-color-4);
+    font-size: 14px;
+    padding: 10px 0;
+    position: absolute;
+    top: 40%;
+    left: 35%;
+    width: 350px;
+    height: 120px;
+    border: 1px solid var(--theme-color-2);
+    border-radius: 5px;
+    box-shadow: 1px 1px 40px #4b4b4b33;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.exit {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: url("./res/cross.svg") no-repeat;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.exit:hover {
+    background: url("./res/cross_hover.svg") no-repeat;
+}
+
+.input {
+    color: var(--theme-color-4);
+    width: 80%;
+    height: 30px;
+    padding: 0px 10px;
+    box-sizing: border-box;
+}
+
+.input:focus {
+    outline: none;
+    border-radius: 3px;
+    border: 2px solid var(--theme-color-1);
+}
+
+.submit {
+    width: 20%;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.submit:hover {
+    border-radius: 5px;
+    background: var(--theme-color-1);
+    color: var(--theme-color-3);
+    cursor: pointer;
+}

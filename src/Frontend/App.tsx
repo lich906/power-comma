@@ -4,32 +4,38 @@ import Sidebar from "./Components/Sidebar/Sidebar";
 import {AppDispatch, AppState} from "../Model/Store/AppStore";
 import {connect} from "react-redux";
 import MainMenu from "./Components/MainMenu/MainMenu"
-import DropdownList from "./Components/DropdownList/DropdownList";
+import DropdownList, {AnchorType} from "./Components/DropdownList/DropdownList";
 import {undo} from "../Model/Store/Actions/History/undo";
 import {redo} from "../Model/Store/Actions/History/redo";
 import {AnyAction} from "redux";
 import {moveSelectedSlidesDown, moveSelectedSlidesUp} from "../Model/Store/Actions/Presentation/moveSelectedSlides";
 import {getSelectedSlideIds} from "../Model/Store/GetState/getSelectedSlideIds";
+import StringInputPopup, {StringInputPopupTexts} from "./Components/StringInputPopup/StringInputPopup";
+import {initialAnchor, initialStringInputPopupTexts} from "./Constants";
 
 type AppProps = {
     currentSlideId: string|null,
+    presentationTitle: string,
     undo: () => AnyAction,
     redo: () => AnyAction,
     moveSelectedSlidesUp: () => AnyAction,
     moveSelectedSlidesDown: () => AnyAction
 }
 
-function App(props: AppProps) {
+function App({
+    currentSlideId,
+    presentationTitle,
+    undo,
+    redo,
+    moveSelectedSlidesUp,
+    moveSelectedSlidesDown
+}: AppProps) {
     const [dropdownListContent, setDropdownListContent] = useState([]);
     const [displayDropdownList, setDisplayDropdownList] = useState(false);
-    const [dropdownListAnchor, setDropdownListAnchor] = useState({x: 0, y: 0})
-    const {
-        currentSlideId,
-        undo,
-        redo,
-        moveSelectedSlidesUp,
-        moveSelectedSlidesDown
-    } = props;
+    const [dropdownListAnchor, setDropdownListAnchor] = useState(initialAnchor)
+    const [stringInputPopupTexts, setStringInputPopupTexts] = useState(initialStringInputPopupTexts);
+    const [stringInputPopupOnSubmitFn, setStringInputPopupOnSubmitFn] = useState(() => (val: string) => {})
+    const [displayStringInputPopup, setDisplayStringInputPopup] = useState(false);
 
     const handleKeyDown = useCallback((e: any): void => {
         if (e.ctrlKey && e.altKey) {
@@ -87,18 +93,27 @@ function App(props: AppProps) {
         document.addEventListener("keydown", handleKeyDown);
     }, [handleKeyDown]);
 
-    function showDropdownList(content: never[], anchor: {x: number, y: number}): void {
+    function showDropdownList(content: never[], anchor: AnchorType): void {
         setDropdownListContent(content);
         setDropdownListAnchor(anchor);
         setDisplayDropdownList(true);
     }
 
+    function showStringInputPopup(texts: StringInputPopupTexts, onSubmitFn: (val: string) => void): void {
+        setStringInputPopupTexts(texts);
+        setStringInputPopupOnSubmitFn(() => onSubmitFn);
+        setDisplayStringInputPopup(true);
+    }
+
     return (
         <div className={styles.app}>
-            <MainMenu showDropdownList={showDropdownList}/>
+            <MainMenu showDropdownList={showDropdownList} showStringInputPopup={showStringInputPopup}/>
             <div className={styles.mainContainer}>
-                <Sidebar showDropdownList={showDropdownList} />
-                {currentSlideId}
+                <Sidebar showDropdownList={showDropdownList}/>
+                <div className={styles.editorContainer}>
+                    <div className={styles.presentationTitle}>{presentationTitle}</div>
+                    {currentSlideId}
+                </div>
             </div>
             {
                 displayDropdownList &&
@@ -108,13 +123,22 @@ function App(props: AppProps) {
                     anchor={dropdownListAnchor}
                 />
             }
+            {
+                displayStringInputPopup &&
+                <StringInputPopup
+                    texts={stringInputPopupTexts}
+                    onSubmit={stringInputPopupOnSubmitFn}
+                    setDisplayStringInputPopup={setDisplayStringInputPopup}
+                />
+            }
         </div>
     );
 }
 
 const mapStateToProps = (state: AppState) => {
     return {
-        currentSlideId: state.present.currentSlideId
+        currentSlideId: state.present.currentSlideId,
+        presentationTitle: state.present.presentation.title
     }
 }
 

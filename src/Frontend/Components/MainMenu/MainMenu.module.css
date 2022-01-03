@@ -1,13 +1,15 @@
+@import "../../ColorConstants.css";
+
 .mainMenu {
     height: 32px;
     min-width: 750px;
     display: flex;
-    border-bottom: 1px solid #afafaf;
+    border-bottom: 1px solid var(--theme-color-2);
     position: relative;
 }
 
 .item {
-    color: #4b4b4b;
+    color: var(--theme-color-4);
     font-size: 12px;
     padding: 0 15px;
     display: flex;
@@ -16,8 +18,8 @@
 }
 
 .item:hover {
-    background: #038fee;
-    color: #ececec;
+    background: var(--theme-color-1);
+    color: var(--theme-color-3);
 }
 
 .logo {
