@@ -1,8 +1,8 @@
 export type Color = {
-    readonly red: number;
-    readonly green: number;
-    readonly blue: number;
-    readonly alpha: number;
+    readonly r: number;
+    readonly g: number;
+    readonly b: number;
+    readonly a: number;
 }
 
 export type BorderType = {

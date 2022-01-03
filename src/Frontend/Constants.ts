@@ -11,3 +11,15 @@ export const initialAnchor: AnchorType = {
     x: 0,
     y: 0
 }
+
+export const renamePresentationPopupTexts: StringInputPopupTexts = {
+    title: "Enter new presentation title",
+    inputPlaceholder: "New title",
+    submitBtnText: "Save"
+};
+
+export const savePresentationPopupTexts: StringInputPopupTexts = {
+    title: "Enter presentation file name",
+    inputPlaceholder: "File name",
+    submitBtnText: "Save to file"
+}

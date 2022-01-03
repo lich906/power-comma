@@ -1,4 +1,4 @@
-@import "../../ColorConstants.css";
+@import "../../StyleConstants.css";
 
 .sidebar {
     border-right: var(--theme-color-2) 1px solid;
