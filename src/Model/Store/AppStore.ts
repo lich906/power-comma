@@ -50,9 +50,10 @@ function enhance(reducer: Function) {
                     present: present
                 };
             case OPEN_PRESENTATION:
+                let newState: App = state;
                 openPresentationJSON().then((presentation) => {
                     let firstSlideId: string|null = presentation.slides[0] ? presentation.slides[0].id : null;
-                    return {
+                    newState = {
                         past: [],
                         present: {
                             presentation: presentation,
@@ -63,7 +64,7 @@ function enhance(reducer: Function) {
                         future: []
                     }
                 }, (reason) => console.log(reason));
-                return state;
+                return newState;
             default:
                 const newPresent = reducer(present, action);
                 if (newPresent.presentation === present.presentation) {

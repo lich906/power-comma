@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import './Sidebar.css';
+import styles from './Sidebar.module.css';
 import {range} from "../../Utils/Range";
 import {Slide} from "../../../Model/Types/Slide";
 import SlidePreview from "./SlidePreview/SlidePreview";
@@ -80,17 +80,17 @@ function Sidebar({
     }
 
     return (
-        <div className="sidebar">
+        <div className={styles.sidebar}>
             <div
                 onMouseEnter={() => setDisplayAddSlideButton(true)}
                 onMouseLeave={() => setDisplayAddSlideButton(false)}
-                className="slides-container"
+                className={styles.slidesContainer}
                 onContextMenu={showContextMenu}
             >
                 {slides.map((slide, index) => <SidebarItem key={slide.id} slide={slide} index={index}/>)}
-                <div className={`add-slide ${!displayAddSlideButton ? "hidden" : ""}`} onClick={createNewSlide}>New slide</div>
+                <div className={`${styles.addSlide} ${!displayAddSlideButton ? styles.hidden : ""}`} onClick={createNewSlide}>New slide</div>
             </div>
-            <div className="additional-info">
+            <div className={styles.additionalInfo}>
                 <span>Slides count: {slides.length}</span>
                 <span>Selected: {selectedSlideIds.length}</span>
             </div>

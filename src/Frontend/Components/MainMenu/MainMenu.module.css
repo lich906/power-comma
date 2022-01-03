@@ -1,4 +1,4 @@
-.top-main-menu {
+.mainMenu {
     height: 32px;
     min-width: 750px;
     display: flex;
@@ -6,7 +6,7 @@
     position: relative;
 }
 
-.top-main-menu__item {
+.item {
     color: #4b4b4b;
     font-size: 12px;
     padding: 0 15px;
@@ -15,7 +15,7 @@
     cursor: pointer;
 }
 
-.top-main-menu__item:hover {
+.item:hover {
     background: #038fee;
     color: #ececec;
 }

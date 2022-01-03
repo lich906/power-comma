@@ -1,5 +1,5 @@
 import React from 'react';
-import './Frontend/App.css';
+import './Frontend/App.module.css';
 import './Model/Store/AppStore.ts'
 import {Slide} from "./Model/Types/Slide";
 import {AppDispatch, AppState} from "./Model/Store/AppStore";

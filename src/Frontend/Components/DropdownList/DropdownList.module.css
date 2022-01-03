@@ -1,4 +1,4 @@
-.dropdown-list {
+.dropdownList {
     position: absolute;
     min-width: 100px;
     height: fit-content;
@@ -11,7 +11,7 @@
     z-index: 3;
 }
 
-.dropdown-list__item {
+.item {
     height: 30px;
     font-size: 12px;
     color: #4b4b4b;
@@ -22,16 +22,16 @@
     cursor: pointer;
 }
 
-.dropdown-list__item-title {
+.itemTitle {
     margin-right: 10px;
 }
 
-.dropdown-list__item:hover {
+.item:hover {
     background: #038fee;
     color: #ececec;
 }
 
-.dropdown-list__hotkey {
+.hotkey {
     color: #c4c4c4;
     font-size: 10px;
 }

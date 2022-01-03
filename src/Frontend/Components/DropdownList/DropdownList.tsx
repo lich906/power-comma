@@ -1,5 +1,5 @@
 import React from "react";
-import './DropdownList.css';
+import styles from './DropdownList.module.css';
 
 type DropdownMenuItemProps = {
     title: string,
@@ -16,7 +16,7 @@ type DropdownMenuProps = {
 function DropdownList(props: DropdownMenuProps) {
     return (
         <div
-            className="dropdown-list"
+            className={styles.dropdownList}
             style={{top: props.anchor.y, left: props.anchor.x}}
             onMouseLeave={() => props.setDisplayDropdownList(false)}
         >
@@ -27,11 +27,11 @@ function DropdownList(props: DropdownMenuProps) {
 
 function DropdownMenuItem(props: DropdownMenuItemProps) {
     return (
-        <div className="dropdown-list__item"
+        <div className={styles.item}
              onClick={() => {props.handler()}}
         >
-            <span className="dropdown-list__item-title">{props.title}</span>
-            {props.hotkey ? <span className="dropdown-list__hotkey">{props.hotkey}</span> : ""}
+            <span className={styles.itemTitle}>{props.title}</span>
+            {props.hotkey ? <span className={styles.hotkey}>{props.hotkey}</span> : ""}
         </div>
     )
 }

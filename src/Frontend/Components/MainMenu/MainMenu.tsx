@@ -1,5 +1,5 @@
 import React from "react";
-import './MainMenu.css';
+import styles from './MainMenu.module.css';
 import {AppDispatch} from "../../../Model/Store/AppStore";
 import {redo} from "../../../Model/Store/Actions/History/redo";
 import {undo} from "../../../Model/Store/Actions/History/undo";
@@ -28,11 +28,11 @@ function MainMenu(props: {
     ];
 
     return (
-        <div className="top-main-menu">
-            <span className="top-main-menu__item" onClick={() => showDropdownList(FileDropdownListContent, {x: 0, y: 33})}>File</span>
-            <span className="top-main-menu__item" onClick={() => showDropdownList(EditDropdownListContent, {x: 30, y: 33})}>Edit</span>
-            <span className="top-main-menu__item" onClick={() => showDropdownList(SettingsDropdownListContent, {x: 90, y: 33})}>Settings</span>
-            <div className="logo"> </div>
+        <div className={styles.mainMenu}>
+            <span className={styles.item} onClick={() => showDropdownList(FileDropdownListContent, {x: 0, y: 33})}>File</span>
+            <span className={styles.item} onClick={() => showDropdownList(EditDropdownListContent, {x: 30, y: 33})}>Edit</span>
+            <span className={styles.item} onClick={() => showDropdownList(SettingsDropdownListContent, {x: 90, y: 33})}>Settings</span>
+            <div className={styles.logo}> </div>
         </div>
     );
 }

@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import './App.css';
+import styles from './App.module.css';
 import Sidebar from "./Components/Sidebar/Sidebar";
 import {AppDispatch, AppState} from "../Model/Store/AppStore";
 import {connect} from "react-redux";
@@ -94,9 +94,9 @@ function App(props: AppProps) {
     }
 
     return (
-        <div className="app">
+        <div className={styles.app}>
             <MainMenu showDropdownList={showDropdownList}/>
-            <div className="main-container">
+            <div className={styles.mainContainer}>
                 <Sidebar showDropdownList={showDropdownList} />
                 {currentSlideId}
             </div>
