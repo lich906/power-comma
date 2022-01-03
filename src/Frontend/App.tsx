@@ -100,12 +100,14 @@ function App(props: AppProps) {
                 <Sidebar showDropdownList={showDropdownList} />
                 {currentSlideId}
             </div>
-            {displayDropdownList ?
+            {
+                displayDropdownList &&
                 <DropdownList
                     setDisplayDropdownList={setDisplayDropdownList}
                     content={dropdownListContent}
                     anchor={dropdownListAnchor}
-                /> : ""}
+                />
+            }
         </div>
     );
 }
