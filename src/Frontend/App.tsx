@@ -12,6 +12,7 @@ import {moveSelectedSlidesDown, moveSelectedSlidesUp} from "../Model/Store/Actio
 import {getSelectedSlideIds} from "../Model/Store/GetState/getSelectedSlideIds";
 import StringInputPopup, {StringInputPopupTexts} from "./Components/StringInputPopup/StringInputPopup";
 import {initialAnchor, initialStringInputPopupTexts} from "./Constants";
+import {openPresentationAsync} from "../AdditionalFunctions/openPresentationAsync";
 
 type AppProps = {
     currentSlideId: string|null,
@@ -34,7 +35,7 @@ function App({
     const [displayDropdownList, setDisplayDropdownList] = useState(false);
     const [dropdownListAnchor, setDropdownListAnchor] = useState(initialAnchor)
     const [stringInputPopupTexts, setStringInputPopupTexts] = useState(initialStringInputPopupTexts);
-    const [stringInputPopupOnSubmitFn, setStringInputPopupOnSubmitFn] = useState(() => (val: string) => {})
+    const [stringInputPopupOnSubmitFn, setStringInputPopupOnSubmitFn] = useState(() => (_: string) => {})
     const [displayStringInputPopup, setDisplayStringInputPopup] = useState(false);
 
     const handleKeyDown = useCallback((e: any): void => {
@@ -107,11 +108,16 @@ function App({
 
     return (
         <div className={styles.app}>
-            <MainMenu showDropdownList={showDropdownList} showStringInputPopup={showStringInputPopup}/>
+            <MainMenu
+                showDropdownList={showDropdownList}
+                showStringInputPopup={showStringInputPopup}
+                openPresentationAsync={openPresentationAsync}
+            />
             <div className={styles.mainContainer}>
                 <Sidebar showDropdownList={showDropdownList}/>
                 <div className={styles.editorContainer}>
                     <div className={styles.presentationTitle}>{presentationTitle}</div>
+                    {currentSlideId}
                 </div>
             </div>
             {

@@ -18,6 +18,7 @@ import {getSelectedSlideIds} from "../../../Model/Store/GetState/getSelectedSlid
 type SidebarProps = {
     slides: Slide[],
     selectedSlideIds: string[],
+    currentSlideId: string|null,
     createNewSlide: () => AnyAction,
     changeCurrentSlide: (id: string|null) => AnyAction,
     updateSlidesSelection: (ids: string[]) => AnyAction,
@@ -29,6 +30,7 @@ type SidebarProps = {
 function Sidebar({
     slides,
     selectedSlideIds,
+    currentSlideId,
     createNewSlide,
     changeCurrentSlide,
     updateSlidesSelection,
@@ -36,7 +38,6 @@ function Sidebar({
     moveSelectedSlidesDown,
     showDropdownList
 }: SidebarProps): JSX.Element {
-    const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
     const [displayAddSlideButton, setDisplayAddSlideButton] = useState(false);
 
     function SidebarItem(props: {slide: Slide, index: number}): JSX.Element {
@@ -44,10 +45,12 @@ function Sidebar({
 
         function handleSelection(e: any): void {
             if (e.shiftKey) {
-                const selectedSlideIds = slides.filter((_, i) => range(currentSlideIndex, index).includes(i)).map((slide) => slide.id);
-                updateSlidesSelection(selectedSlideIds);
+                if (currentSlideId) {
+                    const currentSlideIndex = slides.findIndex((slide) => slide.id === currentSlideId);
+                    const selectedSlideIds = slides.filter((_, i) => range(currentSlideIndex, index).includes(i)).map((slide) => slide.id);
+                    updateSlidesSelection(selectedSlideIds);
+                }
             } else {
-                setCurrentSlideIndex(index);
                 changeCurrentSlide(slide.id);
                 updateSlidesSelection([slide.id]);
             }
@@ -101,7 +104,8 @@ function Sidebar({
 const mapStateToProps = (state: AppState) => {
     return {
         slides: state.present.presentation.slides,
-        selectedSlideIds: state.present.selectedSlideIds
+        selectedSlideIds: state.present.selectedSlideIds,
+        currentSlideId: state.present.currentSlideId
     }
 }
 

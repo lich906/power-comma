@@ -18,7 +18,8 @@ type MainMenuProps = {
     showStringInputPopup: (texts: StringInputPopupTexts, onSubmitFn: (val: string) => void) => void,
     undo: () => AnyAction,
     redo: () => AnyAction,
-    changePresentationTitle: (title: string) => AnyAction
+    changePresentationTitle: (title: string) => AnyAction,
+    openPresentationAsync: () => Promise<void>
 }
 
 function MainMenu({
@@ -27,7 +28,8 @@ function MainMenu({
     showStringInputPopup,
     undo,
     redo,
-    changePresentationTitle
+    changePresentationTitle,
+    openPresentationAsync
 }: MainMenuProps): JSX.Element {
     const FileDropdownListContent: DropdownMenuItemProps[] = [
         {
@@ -42,7 +44,7 @@ function MainMenu({
         {
             title: "Open",
             hotkey: "Ctrl + O",
-            handler: () => console.log("Open")
+            handler: openPresentationAsync
         },
         {
             title: "Save",

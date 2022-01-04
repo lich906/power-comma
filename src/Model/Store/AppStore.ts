@@ -5,12 +5,11 @@ import {UNDO_COMMAND} from "./Actions/History/undo";
 import {REDO_COMMAND} from "./Actions/History/redo";
 import {RESET_HISTORY} from "./Actions/History/reset";
 import {OPEN_PRESENTATION} from "./Actions/Editor/openPresentation";
-import {openPresentationJSON} from "../../AdditionalFunctions/openPresentationJSON";
 
-function enhance(reducer: Function) {
+function enhance(reducer: typeof EditorReducers) {
     const initialAppState: App = {
         past: [],
-        present: reducer(undefined, {}),
+        present: reducer(undefined, {type: ""}),
         future: []
     }
 
@@ -50,21 +49,18 @@ function enhance(reducer: Function) {
                     present: present
                 };
             case OPEN_PRESENTATION:
-                let newState: App = state;
-                openPresentationJSON().then((presentation) => {
-                    let firstSlideId: string|null = presentation.slides[0] ? presentation.slides[0].id : null;
-                    newState = {
-                        past: [],
-                        present: {
-                            presentation: presentation,
-                            currentSlideId: firstSlideId,
-                            selectedSlideIds: firstSlideId ? [firstSlideId]: [],
-                            selectedElementIds: []
-                        },
-                        future: []
-                    }
-                }, (reason) => console.log(reason));
-                return newState;
+                const presentation = action.presentation;
+                const firstSlideId: string|null = presentation.slides[0] ? presentation.slides[0].id : null;
+                return  {
+                    past: [],
+                    present: {
+                        presentation: presentation,
+                        currentSlideId: firstSlideId,
+                        selectedSlideIds: firstSlideId ? [firstSlideId]: [],
+                        selectedElementIds: []
+                    },
+                    future: []
+                }
             default:
                 const newPresent = reducer(present, action);
                 if (newPresent.presentation === present.presentation) {
