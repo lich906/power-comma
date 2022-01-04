@@ -38,7 +38,7 @@ function App({
     const [stringInputPopupOnSubmitFn, setStringInputPopupOnSubmitFn] = useState(() => (_: string) => {})
     const [displayStringInputPopup, setDisplayStringInputPopup] = useState(false);
 
-    const handleKeyDown = useCallback((e: any): void => {
+    const handleKeyDown = useCallback((e: KeyboardEvent): void => {
         if (e.ctrlKey && e.altKey) {
             switch (e.keyCode) {
                 case 83:

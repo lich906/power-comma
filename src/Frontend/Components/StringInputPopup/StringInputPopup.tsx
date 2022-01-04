@@ -21,7 +21,7 @@ function StringInputPopup({
 }: StringInputPopupProps): JSX.Element {
     const [inputValue, setInputValue] = useState("");
 
-    function updateInputValue(e: any) {
+    function updateInputValue(e: React.ChangeEvent<HTMLInputElement>) {
         setInputValue(e.target.value);
     }
 

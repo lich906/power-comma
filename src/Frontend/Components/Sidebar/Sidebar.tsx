@@ -43,7 +43,7 @@ function Sidebar({
     function SidebarItem(props: {slide: Slide, index: number}): JSX.Element {
         const {slide, index} = props;
 
-        function handleSelection(e: any): void {
+        function handleSelection(e: React.MouseEvent): void {
             if (e.shiftKey) {
                 if (currentSlideId) {
                     const currentSlideIndex = slides.findIndex((slide) => slide.id === currentSlideId);
@@ -66,7 +66,7 @@ function Sidebar({
         )
     }
 
-    function showContextMenu(e: any) {
+    function showContextMenu(e: React.MouseEvent) {
         e.preventDefault();
         showDropdownList([
             {
