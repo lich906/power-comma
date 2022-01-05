@@ -1,4 +1,4 @@
-import {Color} from "./Types/Elements/StyleTypes";
+import {Color} from "./Types/StyleTypes";
 
 export const DEFAULT_SLIDE_TITLE = 'New Slide';
 export const DEFAULT_PRESENTATION_TITLE = 'Untitled';
