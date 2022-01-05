@@ -14,6 +14,7 @@ import {
     moveSelectedSlidesUp
 } from "../../../Model/Store/Actions/Presentation/moveSelectedSlides";
 import {getSelectedSlideIds} from "../../../Model/Store/GetState/getSelectedSlideIds";
+import {deleteSlides} from "../../../Model/Store/Actions/Presentation/deleteSlides";
 
 type SidebarProps = {
     slides: Slide[],
@@ -24,6 +25,7 @@ type SidebarProps = {
     updateSlidesSelection: (ids: string[]) => AnyAction,
     moveSelectedSlidesUp: () => AnyAction,
     moveSelectedSlidesDown: () => AnyAction,
+    deleteSlides: (ids: string[]) => AnyAction,
     showDropdownList: Function
 }
 
@@ -36,12 +38,13 @@ function Sidebar({
     updateSlidesSelection,
     moveSelectedSlidesUp,
     moveSelectedSlidesDown,
+    deleteSlides,
     showDropdownList
 }: SidebarProps): JSX.Element {
     const [displayAddSlideButton, setDisplayAddSlideButton] = useState(false);
 
-    function SidebarItem(props: {slide: Slide, index: number}): JSX.Element {
-        const {slide, index} = props;
+    function SidebarItem(props: {slide: Slide, index: number, onContextMenu: React.MouseEventHandler}): JSX.Element {
+        const {slide, index, onContextMenu} = props;
 
         function handleSelection(e: React.MouseEvent): void {
             if (e.shiftKey) {
@@ -62,22 +65,40 @@ function Sidebar({
                 slide={slide}
                 isSelected={selectedSlideIds.includes(slide.id)}
                 onClickHandler={handleSelection}
+                onContextMenu={onContextMenu}
             />
         )
     }
 
+    function handleDeletion(slideIds: string[]): void {
+        updateSlidesSelection(selectedSlideIds.filter((id) => !slideIds.includes(id)));
+        if (selectedSlideIds.length === 0 || (currentSlideId && slideIds.includes(currentSlideId))) {
+            changeCurrentSlide(null);
+        }
+        deleteSlides(slideIds);
+    }
+
     function showContextMenu(e: React.MouseEvent) {
         e.preventDefault();
+        const id = e.currentTarget.getAttribute("data-id");
         showDropdownList([
             {
                 title: "Move selected up",
-                hotkey: "Ctrl+↑",
+                hotkey: "Ctrl + ↑",
                 handler: moveSelectedSlidesUp
             },
             {
                 title: "Move selected down",
-                hotkey: "Ctrl+↓",
+                hotkey: "Ctrl + ↓",
                 handler: moveSelectedSlidesDown
+            },
+            {
+                title: "Delete slide",
+                handler: () => handleDeletion([id ? id : ""])
+            },
+            {
+                title: "Delete selected slides",
+                handler: () => handleDeletion(selectedSlideIds)
             }
         ], {x: e.clientX, y: e.clientY});
     }
@@ -88,9 +109,8 @@ function Sidebar({
                 onMouseEnter={() => setDisplayAddSlideButton(true)}
                 onMouseLeave={() => setDisplayAddSlideButton(false)}
                 className={styles.slidesContainer}
-                onContextMenu={showContextMenu}
             >
-                {slides.map((slide, index) => <SidebarItem key={slide.id} slide={slide} index={index}/>)}
+                {slides.map((slide, index) => <SidebarItem key={slide.id} slide={slide} index={index} onContextMenu={showContextMenu}/>)}
                 <div className={`${styles.addSlide} ${!displayAddSlideButton ? styles.hidden : ""}`} onClick={createNewSlide}>New slide</div>
             </div>
             <div className={styles.additionalInfo}>
@@ -115,6 +135,7 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
         updateSlidesSelection: (ids: string[]) => dispatch(updateSlidesSelection(ids)),
         moveSelectedSlidesUp: () => dispatch(moveSelectedSlidesUp(getSelectedSlideIds())),
         moveSelectedSlidesDown: () => dispatch(moveSelectedSlidesDown(getSelectedSlideIds())),
+        deleteSlides: (ids: string[]) => dispatch(deleteSlides(ids))
     }
 }
 
