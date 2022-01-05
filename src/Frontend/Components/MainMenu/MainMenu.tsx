@@ -8,10 +8,15 @@ import {AnyAction} from "redux";
 import {StringInputPopupTexts} from "../StringInputPopup/StringInputPopup";
 import {DropdownMenuItemProps} from "../DropdownList/DropdownList";
 import {changePresentationTitle} from "../../../Model/Store/Actions/Presentation/changePresentationTitle";
-import {renamePresentationPopupTexts, savePresentationPopupTexts} from "../../Constants";
+import {
+    createNewPresentationPopupTexts,
+    renamePresentationPopupTexts,
+    savePresentationPopupTexts
+} from "../../Constants";
 import {savePresentationJSON} from "../../../AdditionalFunctions/savePresentationJSON";
 import {Presentation} from "../../../Model/Types/Presentation";
 import {openPresentationAsync} from "../../../AdditionalFunctions/openPresentationAsync";
+import {createNewPresentation} from "../../../Model/Store/Actions/Editor/createNewPresentation";
 
 type MainMenuProps = {
     presentation: Presentation,
@@ -19,7 +24,8 @@ type MainMenuProps = {
     showStringInputPopup: (texts: StringInputPopupTexts, onSubmitFn: (val: string) => void) => void,
     undo: () => AnyAction,
     redo: () => AnyAction,
-    changePresentationTitle: (title: string) => AnyAction
+    changePresentationTitle: (title: string) => AnyAction,
+    createNewPresentation: (title: string) => AnyAction
 }
 
 function MainMenu({
@@ -28,13 +34,14 @@ function MainMenu({
     showStringInputPopup,
     undo,
     redo,
-    changePresentationTitle
+    changePresentationTitle,
+    createNewPresentation
 }: MainMenuProps): JSX.Element {
     const FileDropdownListContent: DropdownMenuItemProps[] = [
         {
             title: "New",
             hotkey: "Ctrl + Alt + N",
-            handler: () => console.log("New")
+            handler: () => showStringInputPopup(createNewPresentationPopupTexts, createNewPresentation)
         },
         {
             title: "Rename",
@@ -108,7 +115,8 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
     return {
         undo: () => dispatch(undo()),
         redo: () => dispatch(redo()),
-        changePresentationTitle: (title: string) => dispatch(changePresentationTitle(title))
+        changePresentationTitle: (title: string) => dispatch(changePresentationTitle(title)),
+        createNewPresentation: (title: string) => dispatch(createNewPresentation(title))
     }
 }
 

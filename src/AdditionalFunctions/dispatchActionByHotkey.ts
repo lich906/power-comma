@@ -4,11 +4,16 @@ import {redo} from "../Model/Store/Actions/History/redo";
 import {getSelectedSlideIds} from "../Model/Store/GetState/getSelectedSlideIds";
 import {appDispatch} from "../Model/Store/AppStore";
 import {openPresentationAsync} from "./openPresentationAsync";
-import {renamePresentationPopupTexts, savePresentationPopupTexts} from "../Frontend/Constants";
+import {
+    createNewPresentationPopupTexts,
+    renamePresentationPopupTexts,
+    savePresentationPopupTexts
+} from "../Frontend/Constants";
 import {savePresentationJSON} from "./savePresentationJSON";
 import {getPresentation} from "../Model/Store/GetState/getPresentation";
 import {changePresentationTitle} from "../Model/Store/Actions/Presentation/changePresentationTitle";
 import {StringInputPopupTexts} from "../Frontend/Components/StringInputPopup/StringInputPopup";
+import {createNewPresentation} from "../Model/Store/Actions/Editor/createNewPresentation";
 
 export function dispatchActionByHotkey(
     e: KeyboardEvent,
@@ -27,6 +32,10 @@ export function dispatchActionByHotkey(
             case 78:
                 e.preventDefault();
                 console.log('Ctrl+Alt+N');
+                showStringInputPopup(
+                    createNewPresentationPopupTexts,
+                    (title: string) => appDispatch(createNewPresentation(title))
+                )
                 break;
             case 82:
                 console.log('Ctrl+Alt+R');

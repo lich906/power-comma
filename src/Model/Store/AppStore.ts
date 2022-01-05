@@ -3,9 +3,11 @@ import {EditorReducers} from "./Reducers/EditorReducers";
 import {App} from "../Types/App";
 import {UNDO_COMMAND} from "./Actions/History/undo";
 import {REDO_COMMAND} from "./Actions/History/redo";
-import {RESET_HISTORY} from "./Actions/History/reset";
 import {OPEN_PRESENTATION} from "./Actions/Editor/openPresentation";
 import {isPresentationChangerAction} from "./Actions/isPresentationChangerAction";
+import {CREATE_NEW_PRESENTATION} from "./Actions/Editor/createNewPresentation";
+import {getInitialSlideState} from "./InitialStates";
+import {Presentation} from "../Types/Presentation";
 
 function enhance(reducer: typeof EditorReducers) {
     const initialAppState: App = {
@@ -43,12 +45,6 @@ function enhance(reducer: typeof EditorReducers) {
                     future: future,
                     present: present
                 };
-            case RESET_HISTORY:
-                return {
-                    past: [],
-                    future: [],
-                    present: present
-                };
             case OPEN_PRESENTATION:
                 const presentation = action.presentation;
                 const firstSlideId: string|null = presentation.slides[0] ? presentation.slides[0].id : null;
@@ -62,7 +58,22 @@ function enhance(reducer: typeof EditorReducers) {
                     },
                     future: []
                 }
-            default:
+            case CREATE_NEW_PRESENTATION:
+                const newPresentation: Presentation = {
+                    title: action.title,
+                    slides: [getInitialSlideState()]
+                };
+                return {
+                    future: [],
+                    present: {
+                        presentation: newPresentation,
+                        currentSlideId: newPresentation.slides[0].id,
+                        selectedSlideIds: [newPresentation.slides[0].id],
+                        selectedElementIds: []
+                    },
+                    past: [],
+                }
+                default:
                 const newPresent = reducer(present, action);
                 if (isPresentationChangerAction(action)) {
                     return {

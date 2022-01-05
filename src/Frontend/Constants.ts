@@ -23,3 +23,9 @@ export const savePresentationPopupTexts: StringInputPopupTexts = {
     inputPlaceholder: "File name",
     submitBtnText: "Save to file"
 }
+
+export const createNewPresentationPopupTexts: StringInputPopupTexts = {
+    title: "Create new presentation",
+    inputPlaceholder: "Presentation title",
+    submitBtnText: "Create"
+}
