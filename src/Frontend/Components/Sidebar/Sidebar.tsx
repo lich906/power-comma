@@ -13,8 +13,10 @@ import {
     moveSelectedSlidesDown,
     moveSelectedSlidesUp
 } from "../../../Model/Store/Actions/Presentation/moveSelectedSlides";
-import {getSelectedSlideIds} from "../../../Model/Store/GetState/getSelectedSlideIds";
+import {selectSelectedSlideIds} from "../../../Model/Store/Selectors/selectSelectedSlideIds";
 import {deleteSlides} from "../../../Model/Store/Actions/Presentation/deleteSlides";
+import {previousSlide} from "../../../AdditionalFunctions/previousSlide";
+import {nextSlide} from "../../../AdditionalFunctions/nextSlide";
 
 type SidebarProps = {
     slides: Slide[],
@@ -83,13 +85,23 @@ function Sidebar({
         const id = e.currentTarget.getAttribute("data-id");
         showDropdownList([
             {
-                title: "Move selected up",
+                title: "Previous slide",
                 hotkey: "Ctrl + ↑",
+                handler: previousSlide
+            },
+            {
+                title: "Next slide",
+                hotkey: "Ctrl + ↓",
+                handler: nextSlide
+            },
+            {
+                title: "Move selected up",
+                hotkey: "Ctrl + Alt + ↑",
                 handler: moveSelectedSlidesUp
             },
             {
                 title: "Move selected down",
-                hotkey: "Ctrl + ↓",
+                hotkey: "Ctrl + Alt + ↓",
                 handler: moveSelectedSlidesDown
             },
             {
@@ -133,8 +145,8 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
         createNewSlide: () => dispatch(createNewSlide()),
         changeCurrentSlide: (id: string|null) => dispatch(changeCurrentSlide(id)),
         updateSlidesSelection: (ids: string[]) => dispatch(updateSlidesSelection(ids)),
-        moveSelectedSlidesUp: () => dispatch(moveSelectedSlidesUp(getSelectedSlideIds())),
-        moveSelectedSlidesDown: () => dispatch(moveSelectedSlidesDown(getSelectedSlideIds())),
+        moveSelectedSlidesUp: () => dispatch(moveSelectedSlidesUp(selectSelectedSlideIds())),
+        moveSelectedSlidesDown: () => dispatch(moveSelectedSlidesDown(selectSelectedSlideIds())),
         deleteSlides: (ids: string[]) => dispatch(deleteSlides(ids))
     }
 }

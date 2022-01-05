@@ -18,25 +18,29 @@ type DropdownMenuProps = {
     setDisplayDropdownList: React.Dispatch<boolean>
 }
 
-function DropdownList(props: DropdownMenuProps) {
+function DropdownList({content, anchor, setDisplayDropdownList}: DropdownMenuProps) {
+
+    function DropdownMenuItem(props: DropdownMenuItemProps) {
+        return (
+            <div className={styles.item}
+                 onClick={() => {
+                     props.handler();
+                     setDisplayDropdownList(false);
+                 }}
+            >
+                <span className={styles.itemTitle}>{props.title}</span>
+                {props.hotkey && <span className={styles.hotkey}>{props.hotkey}</span>}
+            </div>
+        )
+    }
+
     return (
         <div
             className={styles.dropdownList}
-            style={{top: props.anchor.y, left: props.anchor.x}}
-            onMouseLeave={() => props.setDisplayDropdownList(false)}
+            style={{top: anchor.y, left: anchor.x}}
+            onMouseLeave={() => setDisplayDropdownList(false)}
         >
-            {props.content.map((item, i) => <DropdownMenuItem key={i} title={item.title} handler={item.handler} hotkey={item.hotkey}/>)}
-        </div>
-    )
-}
-
-function DropdownMenuItem(props: DropdownMenuItemProps) {
-    return (
-        <div className={styles.item}
-             onClick={() => {props.handler()}}
-        >
-            <span className={styles.itemTitle}>{props.title}</span>
-            {props.hotkey ? <span className={styles.hotkey}>{props.hotkey}</span> : ""}
+            {content.map((item, i) => <DropdownMenuItem key={i} title={item.title} handler={item.handler} hotkey={item.hotkey}/>)}
         </div>
     )
 }

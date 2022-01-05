@@ -1,5 +1,5 @@
 import {appStore} from "../AppStore";
 
-export function getSelectedSlideIds(): string[] {
+export function selectSelectedSlideIds(): string[] {
     return appStore.getState().present.selectedSlideIds;
 }
