@@ -1,9 +1,9 @@
 import {AnyAction} from "redux";
 
-export const UNDO_COMMAND = 'UNDO';
+export const UNDO = 'UNDO';
 export function undo(): AnyAction {
     return {
-        type: UNDO_COMMAND
+        type: UNDO
     }
 }
 

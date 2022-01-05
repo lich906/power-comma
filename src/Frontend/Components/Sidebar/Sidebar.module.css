@@ -1,33 +1,37 @@
+@import "../../StyleConstants.css";
+
 .sidebar {
-    border-right: #afafaf 1px solid;
+    border-right: var(--theme-color-2) 1px solid;
     display: flex;
     flex-direction: column;
+    width: 16%;
 }
 
-.slides-container {
-    width: 200px;
+.slidesContainer {
     overflow: auto;
     display: flex;
     flex-direction: column;
     height: 97%;
 }
 
-.slides-container::-webkit-scrollbar {
+.slidesContainer::-webkit-scrollbar {
     display: none;
 }
 
-.additional-info {
-    color: #4b4b4b;
+.additionalInfo {
+    overflow: hidden;
+    height: 3%;
+    color: var(--theme-color-4);
     font-size: 12px;
-    border-top: #afafaf 1px solid;
+    border-top: var(--theme-color-2) 1px solid;
     padding: 0 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.add-slide {
-    color: #4b4b4b;
+.addSlide {
+    color: var(--theme-color-4);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -39,9 +43,9 @@
     cursor: pointer;
 }
 
-.add-slide:hover {
-    background-color: #30a7ff;
-    color: #ececec;
+.addSlide:hover {
+    background-color: var(--theme-color-1);
+    color: var(--theme-color-3);
 }
 
 .hidden {

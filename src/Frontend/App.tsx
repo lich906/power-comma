@@ -1,70 +1,83 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import './App.css';
+import styles from './App.module.css';
 import Sidebar from "./Components/Sidebar/Sidebar";
-import {Slide} from "../Model/Types/Slide";
-import {AppDispatch, AppState} from "../Model/Store/AppStore";
+import {AppState} from "../Model/Store/AppStore";
 import {connect} from "react-redux";
-import {createNewSlide} from "../Model/Store/Actions/Presentation/createNewSlide";
 import MainMenu from "./Components/MainMenu/MainMenu"
-import DropdownList from "./Components/DropdownList/DropdownList";
-import {undo} from "../Model/Store/Actions/History/undo";
-import {redo} from "../Model/Store/Actions/History/redo";
+import DropdownList, {AnchorType} from "./Components/DropdownList/DropdownList";
+import StringInputPopup, {StringInputPopupTexts} from "./Components/StringInputPopup/StringInputPopup";
+import {initialAnchor, initialStringInputPopupTexts} from "./Constants";
+import {dispatchActionByHotkey} from "../AdditionalFunctions/dispatchActionByHotkey";
 
-function App(props: {slides: Slide[], createNewSlide: any, undo: any, redo: any}) {
+type AppProps = {
+    currentSlideId: string|null,
+    presentationTitle: string
+}
+
+function App({currentSlideId, presentationTitle}: AppProps) {
     const [dropdownListContent, setDropdownListContent] = useState([]);
     const [displayDropdownList, setDisplayDropdownList] = useState(false);
-    const [dropdownListAnchor, setDropdownListAnchor] = useState({x: undefined, y: undefined})
-    const {undo, redo} = props;
+    const [dropdownListAnchor, setDropdownListAnchor] = useState(initialAnchor)
+    const [stringInputPopupTexts, setStringInputPopupTexts] = useState(initialStringInputPopupTexts);
+    const [stringInputPopupOnSubmitFn, setStringInputPopupOnSubmitFn] = useState(() => (_: string) => {})
+    const [displayStringInputPopup, setDisplayStringInputPopup] = useState(false);
 
-    const handleKeyDown = useCallback((e: any): void => {
-        if (e.ctrlKey) {
-            switch (e.keyCode) {
-                case 90:
-                    undo();
-                    break;
-                case 89:
-                    redo();
-                    break;
-            }
-        }
-    }, [undo, redo]);
+    const handleKeyDown = useCallback((e: KeyboardEvent) => dispatchActionByHotkey(e, showStringInputPopup), []);
 
     useEffect(() => {
         document.addEventListener("keydown", handleKeyDown);
     }, [handleKeyDown]);
 
+    function showDropdownList(content: never[], anchor: AnchorType): void {
+        setDropdownListContent(content);
+        setDropdownListAnchor(anchor);
+        setDisplayDropdownList(true);
+    }
+
+    function showStringInputPopup(texts: StringInputPopupTexts, onSubmitFn: (val: string) => void): void {
+        setStringInputPopupTexts(texts);
+        setStringInputPopupOnSubmitFn(() => onSubmitFn);
+        setDisplayStringInputPopup(true);
+    }
+
     return (
-        <div className="app" onKeyPress={handleKeyDown}>
+        <div className={styles.app}>
             <MainMenu
-                setDropdownListContent={setDropdownListContent}
-                setDropdownListAnchor={setDropdownListAnchor}
-                setDisplayDropdownList={setDisplayDropdownList}
+                showDropdownList={showDropdownList}
+                showStringInputPopup={showStringInputPopup}
             />
-            <div className="main-container">
-                <Sidebar slides={props.slides} createNewSlide={props.createNewSlide}/>
+            <div className={styles.mainContainer}>
+                <Sidebar showDropdownList={showDropdownList}/>
+                <div className={styles.editorContainer}>
+                    <div className={styles.presentationTitle}>{presentationTitle}</div>
+                    {currentSlideId}
+                </div>
             </div>
-            {displayDropdownList ?
+            {
+                displayDropdownList &&
                 <DropdownList
                     setDisplayDropdownList={setDisplayDropdownList}
-                    items={dropdownListContent}
+                    content={dropdownListContent}
                     anchor={dropdownListAnchor}
-                /> : ""}
+                />
+            }
+            {
+                displayStringInputPopup &&
+                <StringInputPopup
+                    texts={stringInputPopupTexts}
+                    onSubmit={stringInputPopupOnSubmitFn}
+                    setDisplayStringInputPopup={setDisplayStringInputPopup}
+                />
+            }
         </div>
     );
 }
 
 const mapStateToProps = (state: AppState) => {
     return {
-        slides: state.present.presentation.slides
+        currentSlideId: state.present.currentSlideId,
+        presentationTitle: state.present.presentation.title
     }
 }
 
-const mapDispatchToProps = (dispatch: AppDispatch) => {
-    return {
-        createNewSlide: () => dispatch(createNewSlide()),
-        undo: () => dispatch(undo()),
-        redo: () => dispatch(redo())
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);

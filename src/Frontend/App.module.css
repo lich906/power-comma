@@ -1,0 +1,27 @@
+@import "StyleConstants.css";
+
+.app {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    white-space: nowrap;
+}
+
+.mainContainer {
+    display: flex;
+    height: 95%;
+}
+
+.editorContainer {
+    display: flex;
+    flex-direction: column;
+    width: 84%;
+}
+
+.presentationTitle {
+    color: var(--theme-color-4);
+    border-bottom: 1px solid var(--theme-color-2);
+    display: flex;
+    justify-content: center;
+    font-weight: 500;
+}

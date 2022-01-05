@@ -15,7 +15,7 @@ const selectedSlideIds = (state: string[] = [], action: AnyAction): string[] => 
     }
 }
 
-const selectedElementsIds = (state: string[] = [], action: AnyAction): string[] => {
+const selectedElementIds = (state: string[] = [], action: AnyAction): string[] => {
     switch (action.type) {
         case UPDATE_ELEMENTS_SELECTION:
             return action.elementIds
@@ -33,11 +33,11 @@ const currentSlideId = (state: string|null = null, action: AnyAction): string|nu
     }
 }
 
-export const EditorReducers = (state: Editor = initialEditorState, action: AnyAction): any => {
+export const EditorReducers = (state: Editor = initialEditorState, action: AnyAction): Editor => {
     return {
         presentation: PresentationReducers(state.presentation, action),
         selectedSlideIds: selectedSlideIds(state.selectedSlideIds, action),
-        selectedElementsIds: selectedElementsIds(state.selectedElementIds, action),
+        selectedElementIds: selectedElementIds(state.selectedElementIds, action),
         currentSlideId: currentSlideId(state.currentSlideId, action)
     }
 }

@@ -1,0 +1,34 @@
+@import "../../StyleConstants.css";
+
+.mainMenu {
+    height: 5%;
+    display: flex;
+    border-bottom: 1px solid var(--theme-color-2);
+}
+
+.item {
+    color: var(--theme-color-4);
+    font-size: 12px;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.item:hover {
+    background: var(--theme-color-1);
+    color: var(--theme-color-3);
+}
+
+.logo {
+    height: 0;
+    position: absolute;
+    right: 10px;
+    top: -5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    font-weight: 800;
+    font-family: sans-serif;
+}
