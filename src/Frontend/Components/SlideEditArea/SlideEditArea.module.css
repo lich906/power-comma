@@ -1,0 +1,9 @@
+@import "../../StyleConstants.css";
+
+.slide {
+    height: 900px;
+    width: 1400px;
+    display: flex;
+    margin: auto;
+    background-color: rgb(125, 156, 151);   
+}
