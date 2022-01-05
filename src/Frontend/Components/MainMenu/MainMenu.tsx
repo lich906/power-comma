@@ -11,6 +11,7 @@ import {changePresentationTitle} from "../../../Model/Store/Actions/Presentation
 import {renamePresentationPopupTexts, savePresentationPopupTexts} from "../../Constants";
 import {savePresentationJSON} from "../../../AdditionalFunctions/savePresentationJSON";
 import {Presentation} from "../../../Model/Types/Presentation";
+import {openPresentationAsync} from "../../../AdditionalFunctions/openPresentationAsync";
 
 type MainMenuProps = {
     presentation: Presentation,
@@ -18,8 +19,7 @@ type MainMenuProps = {
     showStringInputPopup: (texts: StringInputPopupTexts, onSubmitFn: (val: string) => void) => void,
     undo: () => AnyAction,
     redo: () => AnyAction,
-    changePresentationTitle: (title: string) => AnyAction,
-    openPresentationAsync: () => Promise<void>
+    changePresentationTitle: (title: string) => AnyAction
 }
 
 function MainMenu({
@@ -28,8 +28,7 @@ function MainMenu({
     showStringInputPopup,
     undo,
     redo,
-    changePresentationTitle,
-    openPresentationAsync
+    changePresentationTitle
 }: MainMenuProps): JSX.Element {
     const FileDropdownListContent: DropdownMenuItemProps[] = [
         {
@@ -39,6 +38,7 @@ function MainMenu({
         },
         {
             title: "Rename",
+            hotkey: "Ctrl + Alt + R",
             handler: () => showStringInputPopup(renamePresentationPopupTexts, changePresentationTitle)
         },
         {

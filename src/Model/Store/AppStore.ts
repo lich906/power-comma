@@ -80,6 +80,8 @@ const appReducers = enhance(EditorReducers);
 
 export let appStore = createStore(appReducers);
 
+export const appDispatch = appStore.dispatch
+
 export type AppState = ReturnType<typeof appStore.getState>
 
 export type AppDispatch = typeof appStore.dispatch

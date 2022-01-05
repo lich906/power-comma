@@ -94,8 +94,7 @@ function Sidebar({
                 <div className={`${styles.addSlide} ${!displayAddSlideButton ? styles.hidden : ""}`} onClick={createNewSlide}>New slide</div>
             </div>
             <div className={styles.additionalInfo}>
-                <span>Slides count: {slides.length}</span>
-                <span>Selected: {selectedSlideIds.length}</span>
+                <span>Selected {selectedSlideIds.length} of {slides.length}</span>
             </div>
         </div>
     )

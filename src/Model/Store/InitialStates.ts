@@ -14,7 +14,6 @@ export const getInitialSlideState = (): Slide => {
 }
 
 export const initialPresentationState: Presentation = {
-    fileName: null,
     title: DEFAULT_PRESENTATION_TITLE,
     slides: [getInitialSlideState()]
 }
