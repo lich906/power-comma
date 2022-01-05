@@ -1,8 +1,8 @@
 import {AnyAction, createStore} from "redux";
 import {EditorReducers} from "./Reducers/EditorReducers";
 import {App} from "../Types/App";
-import {UNDO_COMMAND} from "./Actions/History/undo";
-import {REDO_COMMAND} from "./Actions/History/redo";
+import {UNDO} from "./Actions/History/undo";
+import {REDO} from "./Actions/History/redo";
 import {OPEN_PRESENTATION} from "./Actions/Editor/openPresentation";
 import {isPresentationChangerAction} from "./Actions/isPresentationChangerAction";
 import {CREATE_NEW_PRESENTATION} from "./Actions/Editor/createNewPresentation";
@@ -19,7 +19,7 @@ function enhance(reducer: typeof EditorReducers) {
     return function (state: App = initialAppState, action: AnyAction): App {
         let {past, present, future} = state
         switch (action.type) {
-            case UNDO_COMMAND:
+            case UNDO:
                 if (past.length > 0) {
                     future = future.concat([present]);
                     present = past[past.length - 1];
@@ -32,7 +32,7 @@ function enhance(reducer: typeof EditorReducers) {
                     future: future,
                     present: present
                 };
-            case REDO_COMMAND:
+            case REDO:
                 if (future.length > 0) {
                     past = past.concat([present]);
                     present = future[future.length - 1];

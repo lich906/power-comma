@@ -6,7 +6,6 @@ import {Presentation} from "../../Types/Presentation";
 import {DELETE_SLIDES} from "../Actions/Presentation/deleteSlides";
 import {MOVE_SELECTED_SLIDES_DOWN, MOVE_SELECTED_SLIDES_UP} from "../Actions/Presentation/moveSelectedSlides";
 import {CHANGE_PRESENTATION_TITLE} from "../Actions/Presentation/changePresentationTitle";
-import {DELETE_ALL_SLIDES} from "../Actions/Presentation/deleteAllSlides";
 import {last} from "../../../Utils/array";
 
 const slides = (state: Slide[] = [getInitialSlideState()], action: AnyAction): Slide[] => {
@@ -15,8 +14,6 @@ const slides = (state: Slide[] = [getInitialSlideState()], action: AnyAction): S
     switch (action.type) {
         case CREATE_NEW_SLIDE:
             return state.concat([getInitialSlideState()]);
-        case DELETE_ALL_SLIDES:
-            return [];
         case DELETE_SLIDES:
             return state.filter((slide) => !action.slideIds.includes(slide.id))
         case MOVE_SELECTED_SLIDES_UP:

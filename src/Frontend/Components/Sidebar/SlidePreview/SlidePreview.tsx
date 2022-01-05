@@ -6,13 +6,19 @@ type SlidePreviewProps = {
     slide: Slide,
     order: number,
     isSelected: boolean,
-    onClickHandler: React.MouseEventHandler<HTMLDivElement>
+    onClickHandler: React.MouseEventHandler<HTMLDivElement>,
+    onContextMenu: React.MouseEventHandler<HTMLDivElement>
 }
 
-function SlidePreview({slide, order, isSelected, onClickHandler}: SlidePreviewProps): JSX.Element {
+function SlidePreview({slide, order, isSelected, onClickHandler, onContextMenu}: SlidePreviewProps): JSX.Element {
 
     return (
-        <div className={`${styles.slide} ${isSelected ? styles.selected : ""}`} onClick={onClickHandler}>
+        <div
+            data-id={slide.id}
+            className={`${styles.slide} ${isSelected ? styles.selected : ""}`}
+            onClick={onClickHandler}
+            onContextMenu={onContextMenu}
+        >
             <span className={styles.order}>{order}</span>
             {slide.id}
         </div>
