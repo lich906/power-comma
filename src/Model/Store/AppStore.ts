@@ -5,6 +5,7 @@ import {UNDO_COMMAND} from "./Actions/History/undo";
 import {REDO_COMMAND} from "./Actions/History/redo";
 import {RESET_HISTORY} from "./Actions/History/reset";
 import {OPEN_PRESENTATION} from "./Actions/Editor/openPresentation";
+import {isPresentationChangerAction} from "./Actions/isPresentationChangerAction";
 
 function enhance(reducer: typeof EditorReducers) {
     const initialAppState: App = {
@@ -63,14 +64,14 @@ function enhance(reducer: typeof EditorReducers) {
                 }
             default:
                 const newPresent = reducer(present, action);
-                if (newPresent.presentation === present.presentation) {
-                    return state;
+                if (isPresentationChangerAction(action)) {
+                    return {
+                        past: past.concat([present]),
+                        present: newPresent,
+                        future: []
+                    };
                 }
-                return {
-                    past: past.concat([present]),
-                    present: newPresent,
-                    future: []
-                };
+                return {...state, present: newPresent};
         }
     }
 }
