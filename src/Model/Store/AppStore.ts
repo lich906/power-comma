@@ -8,6 +8,7 @@ import {isPresentationChangerAction} from "./Actions/isPresentationChangerAction
 import {CREATE_NEW_PRESENTATION} from "./Actions/Editor/createNewPresentation";
 import {getInitialSlideState} from "./InitialStates";
 import {Presentation} from "../Types/Presentation";
+import {last, popImmutable, pushImmutable} from "../../Utils/array";
 
 function enhance(reducer: typeof EditorReducers) {
     const initialAppState: App = {
@@ -21,31 +22,23 @@ function enhance(reducer: typeof EditorReducers) {
         switch (action.type) {
             case UNDO:
                 if (past.length > 0) {
-                    future = future.concat([present]);
-                    present = past[past.length - 1];
-                    past = past.filter((_, i) => i !== (past.length - 1));
-                } else {
-                    return state;
+                    return {
+                        future: pushImmutable(future, present),
+                        present: last(past),
+                        past: popImmutable(past)
+                    }
                 }
-                return {
-                    past: past,
-                    future: future,
-                    present: present
-                };
+                return state;
 
             case REDO:
                 if (future.length > 0) {
-                    past = past.concat([present]);
-                    present = future[future.length - 1];
-                    future = future.filter((_, i) => i !== (future.length - 1));
-                } else {
-                    return state;
+                    return {
+                        past: pushImmutable(past, present),
+                        present: last(future),
+                        future: popImmutable(future)
+                    }
                 }
-                return {
-                    past: past,
-                    future: future,
-                    present: present
-                };
+                return state;
 
             case OPEN_PRESENTATION:
                 const presentation = action.presentation;
@@ -81,7 +74,7 @@ function enhance(reducer: typeof EditorReducers) {
                 const newPresent = reducer(present, action);
                 if (isPresentationChangerAction(action)) {
                     return {
-                        past: past.concat([present]),
+                        past: pushImmutable(past, present),
                         present: newPresent,
                         future: []
                     };
