@@ -8,7 +8,6 @@ import {createNewSlide} from "../../../Model/Store/Actions/Presentation/createNe
 import {connect} from "react-redux";
 import {changeCurrentSlide} from "../../../Model/Store/Actions/Editor/changeCurrentSlide";
 import {updateSlidesSelection} from "../../../Model/Store/Actions/Editor/updateSlidesSelection";
-import {AnyAction} from "redux";
 import {
     moveSelectedSlidesDown,
     moveSelectedSlidesUp
@@ -18,16 +17,7 @@ import {deleteSlides} from "../../../Model/Store/Actions/Presentation/deleteSlid
 import {previousSlide} from "../../../AdditionalFunctions/previousSlide";
 import {nextSlide} from "../../../AdditionalFunctions/nextSlide";
 
-type SidebarProps = {
-    slides: Slide[],
-    selectedSlideIds: string[],
-    currentSlideId: string|null,
-    createNewSlide: () => AnyAction,
-    changeCurrentSlide: (id: string|null) => AnyAction,
-    updateSlidesSelection: (ids: string[]) => AnyAction,
-    moveSelectedSlidesUp: () => AnyAction,
-    moveSelectedSlidesDown: () => AnyAction,
-    deleteSlides: (ids: string[]) => AnyAction,
+type SidebarProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps> & {
     showDropdownList: Function
 }
 

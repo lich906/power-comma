@@ -10,10 +10,7 @@ import {initialAnchor, initialStringInputPopupTexts} from "./Constants";
 import {dispatchActionByHotkey} from "../AdditionalFunctions/dispatchActionByHotkey";
 import SlideEditArea from "./Components/SlideEditArea/SlideEditArea"
 
-type AppProps = {
-    currentSlideId: string|null,
-    presentationTitle: string
-}
+type AppProps = ReturnType<typeof mapStateToProps>
 
 function App({currentSlideId, presentationTitle}: AppProps) {
     const [dropdownListContent, setDropdownListContent] = useState([]);

@@ -4,7 +4,6 @@ import {AppDispatch, AppState} from "../../../Model/Store/AppStore";
 import {redo} from "../../../Model/Store/Actions/History/redo";
 import {undo} from "../../../Model/Store/Actions/History/undo";
 import {connect} from "react-redux";
-import {AnyAction} from "redux";
 import {StringInputPopupTexts} from "../StringInputPopup/StringInputPopup";
 import {DropdownMenuItemProps} from "../DropdownList/DropdownList";
 import {changePresentationTitle} from "../../../Model/Store/Actions/Presentation/changePresentationTitle";
@@ -14,18 +13,12 @@ import {
     savePresentationPopupTexts
 } from "../../Constants";
 import {savePresentationJSON} from "../../../AdditionalFunctions/savePresentationJSON";
-import {Presentation} from "../../../Model/Types/Presentation";
 import {openPresentationAsync} from "../../../AdditionalFunctions/openPresentationAsync";
 import {createNewPresentation} from "../../../Model/Store/Actions/Editor/createNewPresentation";
 
-type MainMenuProps = {
-    presentation: Presentation,
+type MainMenuProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps> & {
     showDropdownList: Function,
-    showStringInputPopup: (texts: StringInputPopupTexts, onSubmitFn: (val: string) => void) => void,
-    undo: () => AnyAction,
-    redo: () => AnyAction,
-    changePresentationTitle: (title: string) => AnyAction,
-    createNewPresentation: (title: string) => AnyAction
+    showStringInputPopup: (texts: StringInputPopupTexts, onSubmitFn: (val: string) => void) => void
 }
 
 function MainMenu({
