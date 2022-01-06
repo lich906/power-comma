@@ -8,6 +8,7 @@ import DropdownList, {AnchorType} from "./Components/DropdownList/DropdownList";
 import StringInputPopup, {StringInputPopupTexts} from "./Components/StringInputPopup/StringInputPopup";
 import {initialAnchor, initialStringInputPopupTexts} from "./Constants";
 import {dispatchActionByHotkey} from "../AdditionalFunctions/dispatchActionByHotkey";
+import SlideEditArea from "./Components/SlideEditArea/SlideEditArea"
 
 type AppProps = {
     currentSlideId: string|null,
@@ -50,7 +51,8 @@ function App({currentSlideId, presentationTitle}: AppProps) {
                 <Sidebar showDropdownList={showDropdownList}/>
                 <div className={styles.editorContainer}>
                     <div className={styles.presentationTitle}>{presentationTitle}</div>
-                    {currentSlideId}
+                    <SlideEditArea 
+                    />
                 </div>
             </div>
             {
