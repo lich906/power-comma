@@ -9,9 +9,7 @@ type CommonType = {
     readonly fill: Color|null;
 }
 
-export type Circle = CommonType & {
-    readonly r: number;
-}
+export type Circle = CommonType
 
 export type Picture = CommonType & {
     readonly src: string;
@@ -27,3 +25,16 @@ export type TextBox = CommonType & {
 }
 
 export type Triangle = CommonType
+
+export type Element = (Rectangle|Triangle|Circle|Picture|TextBox) & {
+    readonly type: elementType;
+    readonly id: string;
+}
+
+export enum elementType {
+    textBox,
+    rectangle,
+    triangle,
+    circle,
+    picture
+}

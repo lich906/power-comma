@@ -7,6 +7,7 @@ import {DELETE_SLIDES} from "../Actions/Presentation/deleteSlides";
 import {MOVE_SELECTED_SLIDES_DOWN, MOVE_SELECTED_SLIDES_UP} from "../Actions/Presentation/moveSelectedSlides";
 import {CHANGE_PRESENTATION_TITLE} from "../Actions/Presentation/changePresentationTitle";
 import {last} from "../../../Utils/array";
+import {SlideReducers} from "./SlideReducers";
 
 const slides = (state: Slide[] = [getInitialSlideState()], action: AnyAction): Slide[] => {
     let newState: Slide[] = [];
@@ -14,8 +15,10 @@ const slides = (state: Slide[] = [getInitialSlideState()], action: AnyAction): S
     switch (action.type) {
         case CREATE_NEW_SLIDE:
             return state.concat([getInitialSlideState()]);
+
         case DELETE_SLIDES:
             return state.filter((slide) => !action.slideIds.includes(slide.id))
+
         case MOVE_SELECTED_SLIDES_UP:
             startIndex = state.findIndex((slide) => action.slideIds[0] === slide.id);
             if (startIndex === 0) {
@@ -27,6 +30,7 @@ const slides = (state: Slide[] = [getInitialSlideState()], action: AnyAction): S
             newState.push(state[startIndex - 1]);
             newState.push(...state.slice(endIndex + 1));
             return newState;
+
         case MOVE_SELECTED_SLIDES_DOWN:
             startIndex = state.findIndex((slide) => action.slideIds[0] === slide.id);
             endIndex = state.findIndex((slide) => last(action.slideIds) === slide.id);
@@ -38,7 +42,15 @@ const slides = (state: Slide[] = [getInitialSlideState()], action: AnyAction): S
             newState.push(...state.slice(startIndex, endIndex + 1));
             newState.push(...state.slice(endIndex + 2));
             return newState;
+
         default:
+            if (action.slideId) {
+                const slideIndex = state.findIndex((slide) => slide.id === action.slideId);
+                const slide = SlideReducers(state[slideIndex], {slideId: action.slideId, type: action.type});
+                newState = state;
+                newState[slideIndex] = slide;
+                return newState;
+            }
             return state;
     }
 }
@@ -52,7 +64,7 @@ const title = (state: string, action: AnyAction): string => {
     }
 }
 
-export const PresentationReducers = (state: Presentation = initialPresentationState, action: AnyAction): any => {
+export const PresentationReducers = (state: Presentation = initialPresentationState, action: AnyAction): Presentation => {
     return {
         slides: slides(state.slides, action),
         title: title(state.title, action),
