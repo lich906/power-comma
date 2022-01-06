@@ -34,7 +34,6 @@ const background = (state: BackgroundPicture|Color = DEFAULT_SLIDE_BACKGROUND_CO
 }
 
 const elements = (state: Element[] = [], action: AnyAction): Element[] => {
-    console.log(action.elementType);
     switch (action.type) {
         case ADD_NEW_ELEMENT:
             let newElement: Rectangle | Triangle | Circle | Picture | TextBox;
