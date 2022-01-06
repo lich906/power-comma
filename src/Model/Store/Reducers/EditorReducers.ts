@@ -1,4 +1,4 @@
-import {initialEditorState} from "../InitialStates";
+import {INITIAL_EDITOR_STATE} from "../InitialStates";
 import {AnyAction} from "redux";
 import {UPDATE_SLIDES_SELECTION} from "../Actions/Editor/updateSlidesSelection";
 import {Editor} from "../../Types/Editor";
@@ -33,7 +33,7 @@ const currentSlideId = (state: string|null = null, action: AnyAction): string|nu
     }
 }
 
-export const EditorReducers = (state: Editor = initialEditorState, action: AnyAction): Editor => {
+export const EditorReducers = (state: Editor = INITIAL_EDITOR_STATE, action: AnyAction): Editor => {
     return {
         presentation: PresentationReducers(state.presentation, action),
         selectedSlideIds: selectedSlideIds(state.selectedSlideIds, action),

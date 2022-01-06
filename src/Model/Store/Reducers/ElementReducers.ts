@@ -52,14 +52,28 @@ export const ElementReducers = (state: Element, action: AnyAction): Element => {
         width: 0,
         x: 0,
         y: 0
-
     }
     switch (state.type) {
         case elementType.rectangle:
+            return {
+                ...commonReducers,
+                type: state.type,
+                id: state.id
+            };
         case elementType.circle:
+            return {
+                ...commonReducers,
+                type: state.type,
+                id: state.id
+            };
+        case elementType.triangle:
+            return {
+                ...commonReducers,
+                type: state.type,
+                id: state.id
+            };
         case elementType.picture:
         case elementType.textBox:
-        case elementType.triangle:
         default:
             return state;
     }

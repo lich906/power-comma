@@ -3,12 +3,12 @@ import {Slide} from "../../Types/Slide";
 import {CHANGE_SLIDE_TITLE} from "../Actions/Slide/changeSlideTitle";
 import {Circle, Element, elementType, Picture, Rectangle, TextBox, Triangle} from "../../Types/Element";
 import {BackgroundPicture, Color} from "../../Types/StyleTypes";
+import {DEFAULT_SLIDE_BACKGROUND_COLOR, DEFAULT_SLIDE_TITLE} from "../../Constants";
 import {
-    DEFAULT_SLIDE_BACKGROUND_COLOR,
-    DEFAULT_SLIDE_TITLE, INITIAL_CIRCLE_STATE, INITIAL_PICTURE_STATE,
+    INITIAL_CIRCLE_STATE, INITIAL_PICTURE_STATE,
     INITIAL_RECTANGLE_STATE, INITIAL_TEXTBOX_STATE,
     INITIAL_TRIANGLE_STATE
-} from "../../Constants";
+} from "../InitialStates"
 import {AnyAction} from "redux";
 import {ADD_NEW_ELEMENT} from "../Actions/Slide/addNewElement";
 import {CHANGE_SLIDE_BACKGROUND_COLOR, CHANGE_SLIDE_BACKGROUND_PICTURE} from "../Actions/Slide/changeSlideBackground";

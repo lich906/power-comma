@@ -1,7 +1,7 @@
 import {Slide} from "../../Types/Slide";
 import {AnyAction} from "redux";
 import {CREATE_NEW_SLIDE} from "../Actions/Presentation/createNewSlide";
-import {initialPresentationState, getInitialSlideState} from "../InitialStates";
+import {INITIAL_PRESENTATION_STATE, getInitialSlideState} from "../InitialStates";
 import {Presentation} from "../../Types/Presentation";
 import {DELETE_SLIDES} from "../Actions/Presentation/deleteSlides";
 import {MOVE_SELECTED_SLIDES_DOWN, MOVE_SELECTED_SLIDES_UP} from "../Actions/Presentation/moveSelectedSlides";
@@ -62,7 +62,7 @@ const title = (state: string, action: AnyAction): string => {
     }
 }
 
-export const PresentationReducers = (state: Presentation = initialPresentationState, action: AnyAction): Presentation => {
+export const PresentationReducers = (state: Presentation = INITIAL_PRESENTATION_STATE, action: AnyAction): Presentation => {
     return {
         slides: slides(state.slides, action),
         title: title(state.title, action),
