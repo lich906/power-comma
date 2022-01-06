@@ -14,6 +14,9 @@ import {ADD_NEW_ELEMENT} from "../Actions/Slide/addNewElement";
 import {CHANGE_SLIDE_BACKGROUND_COLOR, CHANGE_SLIDE_BACKGROUND_PICTURE} from "../Actions/Slide/changeSlideBackground";
 import {generate} from "../../../Utils/generate";
 import {DELETE_ELEMENTS} from "../Actions/Slide/deleteElements";
+import {DRAG_ELEMENTS} from "../Actions/Slide/dragElements";
+import {ElementReducers} from "./ElementReducers";
+import {replaceAtIndexImmutable} from "../../../Utils/array";
 
 const title = (state: string = DEFAULT_SLIDE_TITLE, action: AnyAction): string => {
     if (action.type === CHANGE_SLIDE_TITLE) {
@@ -76,9 +79,28 @@ const elements = (state: Element[] = [], action: AnyAction): Element[] => {
                 default:
                     return state;
             }
+
         case DELETE_ELEMENTS:
             return state.filter((element) => !action.ids.includes(element.id));
+
+        case DRAG_ELEMENTS:
+            return state.map((element) => {
+                if (action.ids.includes(element.id)) {
+                    return {
+                        ...element,
+                        x: element.x + action.dx,
+                        y: element.y + action.dy
+                    }
+                }
+                return element;
+            });
+
         default:
+            if (action.elementId) {
+                const elementId = state.findIndex((element) => element.id === action.elementId);
+                const element = ElementReducers(state[elementId], action);
+                return replaceAtIndexImmutable(state, elementId, element);
+            }
             return state;
     }
 }

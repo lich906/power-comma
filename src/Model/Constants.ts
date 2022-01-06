@@ -10,7 +10,13 @@ export const DEFAULT_SLIDE_BACKGROUND_COLOR: Color = {
     hex: '#ffffff'
 }
 
-const DEFAULT_ELEMENT_FILL: Color = {
+export const DEFAULT_BORDER_WIDTH: number = 1;
+
+export const DEFAULT_BORDER_COLOR: Color = {
+    hex: '#000000'
+};
+
+export const DEFAULT_ELEMENT_FILL: Color = {
     hex: '#038fee'
 }
 
