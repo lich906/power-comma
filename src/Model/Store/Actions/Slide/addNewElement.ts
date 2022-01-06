@@ -1,9 +1,11 @@
 import {SlideAction} from "../ActionTypes";
+import {elementType} from "../../../Types/Element";
 
 export const ADD_NEW_ELEMENT = 'addNewElement';
-export function addNewElement(slideId: string, type: string): SlideAction {
+export function addNewElement(slideId: string, type: elementType): SlideAction {
     return {
         type: ADD_NEW_ELEMENT,
-        slideId: slideId
+        slideId: slideId,
+        elementType: type
     }
 }

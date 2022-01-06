@@ -4,6 +4,6 @@ export const DELETE_SLIDES = 'DELETE_SLIDES';
 export function deleteSlides(ids: string[]): AnyAction {
     return {
         type: DELETE_SLIDES,
-        slideIds: ids
+        ids: ids
     }
 }

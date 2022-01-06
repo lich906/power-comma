@@ -4,6 +4,6 @@ export const UPDATE_SLIDES_SELECTION = 'UPDATE_SLIDES_SELECTION';
 export function updateSlidesSelection(ids: string[]): AnyAction {
     return {
         type: UPDATE_SLIDES_SELECTION,
-        slideIds: ids
+        ids: ids
     }
 }

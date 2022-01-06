@@ -17,14 +17,14 @@ const slides = (state: Slide[] = [getInitialSlideState()], action: AnyAction): S
             return state.concat([getInitialSlideState()]);
 
         case DELETE_SLIDES:
-            return state.filter((slide) => !action.slideIds.includes(slide.id))
+            return state.filter((slide) => !action.ids.includes(slide.id))
 
         case MOVE_SELECTED_SLIDES_UP:
-            startIndex = state.findIndex((slide) => action.slideIds[0] === slide.id);
+            startIndex = state.findIndex((slide) => action.ids[0] === slide.id);
             if (startIndex === 0) {
                 return state;
             }
-            endIndex = state.findIndex((slide) => last(action.slideIds) === slide.id);
+            endIndex = state.findIndex((slide) => last(action.ids) === slide.id);
             newState = state.slice(0, startIndex - 1);
             newState.push(...state.slice(startIndex, endIndex + 1));
             newState.push(state[startIndex - 1]);
@@ -32,8 +32,8 @@ const slides = (state: Slide[] = [getInitialSlideState()], action: AnyAction): S
             return newState;
 
         case MOVE_SELECTED_SLIDES_DOWN:
-            startIndex = state.findIndex((slide) => action.slideIds[0] === slide.id);
-            endIndex = state.findIndex((slide) => last(action.slideIds) === slide.id);
+            startIndex = state.findIndex((slide) => action.ids[0] === slide.id);
+            endIndex = state.findIndex((slide) => last(action.ids) === slide.id);
             if (endIndex === state.length - 1) {
                 return state;
             }
@@ -46,7 +46,7 @@ const slides = (state: Slide[] = [getInitialSlideState()], action: AnyAction): S
         default:
             if (action.slideId) {
                 const slideIndex = state.findIndex((slide) => slide.id === action.slideId);
-                const slide = SlideReducers(state[slideIndex], {slideId: action.slideId, type: action.type});
+                const slide = SlideReducers(state[slideIndex], action);
                 newState = state;
                 newState[slideIndex] = slide;
                 return newState;

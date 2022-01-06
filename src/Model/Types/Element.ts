@@ -1,6 +1,6 @@
 import {BorderType, Color} from "./StyleTypes";
 
-type CommonType = {
+export type CommonType = {
     readonly x: number;
     readonly y: number;
     readonly width: number;

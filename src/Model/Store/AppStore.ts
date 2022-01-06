@@ -32,6 +32,7 @@ function enhance(reducer: typeof EditorReducers) {
                     future: future,
                     present: present
                 };
+
             case REDO:
                 if (future.length > 0) {
                     past = past.concat([present]);
@@ -45,6 +46,7 @@ function enhance(reducer: typeof EditorReducers) {
                     future: future,
                     present: present
                 };
+
             case OPEN_PRESENTATION:
                 const presentation = action.presentation;
                 const firstSlideId: string|null = presentation.slides[0] ? presentation.slides[0].id : null;
@@ -58,6 +60,7 @@ function enhance(reducer: typeof EditorReducers) {
                     },
                     future: []
                 }
+
             case CREATE_NEW_PRESENTATION:
                 const newPresentation: Presentation = {
                     title: action.title,
@@ -73,7 +76,8 @@ function enhance(reducer: typeof EditorReducers) {
                     },
                     past: [],
                 }
-                default:
+
+            default:
                 const newPresent = reducer(present, action);
                 if (isPresentationChangerAction(action)) {
                     return {
