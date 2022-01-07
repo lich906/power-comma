@@ -4,9 +4,12 @@ import {Slide} from "../../../Model/Types/Slide";
 import {AppDispatch, AppState} from "../../../Model/Store/AppStore";
 import {connect} from "react-redux";
 import SlideContent from "./SlideContent/SlideContent";
-import {AnchorType} from "../../Components/DropdownList/DropdownList";
+import {AnchorType} from "../../../Model/Types/ExtraTypes";
 import {selectCurrentSlide} from "../../../Model/Store/Selectors/selectCurrentSlide";
-import {Color} from "../../../Model/Types/StyleTypes";
+import {Color} from "../../../Model/Types/ExtraTypes";
+import {BackgroundPicture} from "../../../Model/Types/ExtraTypes";
+import {addNewElement} from "../../../Model/Store/Actions/Slide/addNewElement";
+import {elementType} from "../../../Model/Types/Element";
 
 type ActionMenuItemProps = {
     title: string;
@@ -27,32 +30,47 @@ function SlideEditArea({
         {
             title: "Circle",
             hotkey: "",
-            handler: () => console.log("Circle")
+            handler: () => {
+                console.log("Circle")
+                addNewElement(slide!.id, 3 )
+            }
         },
         {
             title: "Picture",
             hotkey: "",
-            handler: () => console.log("Picture")
+            handler: () => {
+                console.log("Picture")
+                addNewElement(slide!.id, 4 )
+            }
         },
         {
             title: "Rectangle",
             hotkey: "",
-            handler: () => console.log("Rectangle")
+            handler: () => {
+                console.log("Rectangle")
+                addNewElement(slide!.id, 1 )
+            }
         },
         {
             title: "TextBox",
             hotkey: "",
-            handler: () => console.log("TextBox")
+            handler: () => {
+                console.log("TextBox")
+                addNewElement(slide!.id, 0 )
+            }
         },
         {
             title: "Triangle",
             hotkey: "",
-            handler: () => console.log("Triangle")
+            handler: () => {
+                console.log("Triangle")
+                addNewElement(slide!.id, 2 )
+            }
         }
     ];
 
     const SlideStyle = {
-        color: 'blue',
+        backgroundColor: (slide?.background as Color).hex,
         backgroundImage: 'url(' + (slide?.background as BackgroundPicture).src + ')',
     };
 
@@ -60,9 +78,7 @@ function SlideEditArea({
     return (
         <div className={styles.slide}
         // right Click = action menu
-        //добавить функцию что добавит цвет или картинку на фон
         style = {SlideStyle}
-
         onContextMenu={(e) => {
             e.preventDefault();
             showActionMenu(ActionMenuItemContent, mousePosition(e))

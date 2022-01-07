@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Slide} from "../../../../Model/Types/Slide";
 import styles from './SlideContent.module.css';
-import {AnchorType} from "../../../Components/DropdownList/DropdownList";
+import {AnchorType} from "../../../../Model/Types/ExtraTypes";
 
 type SlideContentProps = {
     slide?: Slide
@@ -10,32 +10,23 @@ type SlideContentProps = {
 function SlideContent({
     slide
 }: SlideContentProps): JSX.Element {
-
+    console.log(slide?.elements.length);
     return (
-        <div
-        // left Click = select element
-        // left Click + cursore Muve = select element area
-        // left Click(elementSelect = true)+ cursore Muve = muve element
-        onClick={(e) => {
-            if(e.shiftKey)
-            {
-                console.log("yes")
-            }
-            else 
-            {
-                console.log("no")
-            }
+        <canvas
+            id = "canvas" 
+            className={styles.convasContainer}> 
             
-        }}>
-            <canvas 
-                className={styles.convasContainer}
-            >  
-            </canvas>
-            
-        </div>
+            {slide?.elements.map((item, i) => SlideDrawItem(i))} 
+        </canvas>
+        
     )
 }
 
-
+function SlideDrawItem(i: number) {
+    const canvas = document.getElementById("canvas") as HTMLCanvasElement;
+    const ctx = canvas.getContext('2d');
+    ctx!.fillStyle = 'rgba(3,169,244,1)';
+    ctx!.fillRect(i*10, 30, 2, 5);
+}
 
 export default SlideContent;
