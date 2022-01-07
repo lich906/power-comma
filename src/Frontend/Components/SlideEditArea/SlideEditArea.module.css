@@ -5,5 +5,5 @@
     width: 1400px;
     display: flex;
     margin: auto;
-    background-color: rgb(125, 156, 151);   
+    background-color: var(--theme-color-5);   
 }

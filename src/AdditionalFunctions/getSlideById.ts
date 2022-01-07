@@ -1,6 +1,7 @@
-import {Presentation} from "../Model/Types/Presentation"
 import {Slide} from "../Model/Types/Slide"
+import {selectSlides} from "../Model/Store/Selectors/selectSlides";
 
-export function getSlideById(presentation: Presentation, slideId: string|null): Slide {
-    return presentation.slides.filter(slide => slide.id === slideId)[0];
+export function getSlideById(slideId: string|null): Slide {
+    const slides = selectSlides();
+    return slides.filter(slide => slide.id === slideId)[0];
 }

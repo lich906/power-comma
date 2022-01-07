@@ -7,13 +7,9 @@ type SlideContentProps = {
     slide?: Slide
 }
 
-
-
 function SlideContent({
     slide
 }: SlideContentProps): JSX.Element {
-
-    
 
     return (
         <div
@@ -32,7 +28,7 @@ function SlideContent({
             
         }}>
             <canvas 
-            className={styles.convasContainer}
+                className={styles.convasContainer}
             >  
             </canvas>
             

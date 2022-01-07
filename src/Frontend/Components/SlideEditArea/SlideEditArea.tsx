@@ -8,12 +8,7 @@ import {getSlideById} from "../../../AdditionalFunctions/getSlideById";
 import {Presentation} from "../../../Model/Types/Presentation"
 import {initialAnchor} from "../../Constants";
 import DropdownList, {AnchorType} from "../../Components/DropdownList/DropdownList";
-
-type SlideEditAreaProps = {
-    currentSlideId: string|null,
-    presentation: Presentation,
-    showActionMenu: Function,
-}
+import {selectCurrentSlideId} from "../../../Model/Store/Selectors/selectCurrentSlideId";
 
 type ActionMenuItemProps = {
     title: string;
@@ -21,13 +16,16 @@ type ActionMenuItemProps = {
     handler: () => void;
 }
 
+type SlideEditAreaProps = {
+    showActionMenu: Function,
+}
+
 function SlideEditArea({
-    presentation, 
-    currentSlideId,
     showActionMenu,
 }: SlideEditAreaProps): JSX.Element {
 
-    const slide = getSlideById(presentation, currentSlideId)
+    const currentSlideId = selectCurrentSlideId();
+    const slide = getSlideById(currentSlideId)
     const ActionMenuItemContent: ActionMenuItemProps[] = [
         {
             title: "Circle",
@@ -63,7 +61,6 @@ function SlideEditArea({
             e.preventDefault();
             showActionMenu(ActionMenuItemContent, mousePosition(e))
         }}
-        
         >
             <SlideContent
                 slide = {slide}
@@ -73,7 +70,7 @@ function SlideEditArea({
 }
 
 function mousePosition(e: any): AnchorType{
-    const rect = e.target.getBoundingClientRect()
+    //const rect = e.target.getBoundingClientRect()
     const x = e.pageX //-rect.left если кординаты внутри canvas
     const y = e.pageY //-rect.top 
     return {x, y};
@@ -81,8 +78,6 @@ function mousePosition(e: any): AnchorType{
 
 const mapStateToProps = (state: AppState) => {
     return {
-        presentation: state.present.presentation,
-        currentSlideId: state.present.currentSlideId
     }
 }
 
