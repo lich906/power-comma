@@ -3,10 +3,10 @@ import {Presentation} from "../Types/Presentation";
 import {Slide} from "../Types/Slide";
 import {generate} from "../../Utils/generate";
 import {
-    DEFAULT_ELEMENT_FILL, DEFAULT_NO_SOURCE_IMAGE, DEFAULT_POSITION,
+    DEFAULT_ELEMENT_FILL, DEFAULT_FONT_SIZE, DEFAULT_NO_SOURCE_IMAGE, DEFAULT_POSITION,
     DEFAULT_PRESENTATION_TITLE, DEFAULT_SIZE,
     DEFAULT_SLIDE_BACKGROUND_COLOR,
-    DEFAULT_SLIDE_TITLE, DEFAULT_TEXT_COLOR
+    DEFAULT_SLIDE_TITLE, DEFAULT_TEXT_COLOR, DEFAULT_TEXTBOX_CONTENT
 } from "../Constants";
 import {Circle, CommonType, Picture, Rectangle, TextBox, Triangle} from "../Types/Element";
 
@@ -51,8 +51,8 @@ export const INITIAL_PICTURE_STATE: Picture = {
 
 export const INITIAL_TEXTBOX_STATE: TextBox = {
     ...INITIAL_COMMON_STATE,
-    content: "Text...",
+    content: DEFAULT_TEXTBOX_CONTENT,
     fontFamily: "",
-    fontSize: 0,
+    fontSize: DEFAULT_FONT_SIZE,
     textColor: DEFAULT_TEXT_COLOR,
 }

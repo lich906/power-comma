@@ -23,6 +23,12 @@ export const DEFAULT_SIZE: SizeType = {
     height: 200
 }
 
+export const DEFAULT_FONT_SIZE: number = 16;
+
+export const DEFAULT_FONT_FAMILY: string = 'cursive';
+
+export const DEFAULT_TEXTBOX_CONTENT: string = "Text...";
+
 export const DEFAULT_BORDER_COLOR: Color = {
     hex: '#000000'
 };

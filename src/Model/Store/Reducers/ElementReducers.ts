@@ -1,5 +1,5 @@
 import {AnyAction} from "redux";
-import {CommonType, Element, elementType, Picture} from "../../Types/Element";
+import {CommonType, Element, elementType, Picture, TextBox} from "../../Types/Element";
 import {AnchorType, BorderType, Color, SizeType} from "../../Types/ExtraTypes";
 import {SET_BORDER_WIDTH} from "../Actions/Elements/setBorderWidth";
 import {SET_BORDER_COLOR} from "../Actions/Elements/setBorderColor";
@@ -7,15 +7,23 @@ import {DISABLE_BORDER} from "../Actions/Elements/disableBorder";
 import {
     DEFAULT_BORDER_COLOR,
     DEFAULT_BORDER_WIDTH,
-    DEFAULT_ELEMENT_FILL, DEFAULT_NO_SOURCE_IMAGE,
+    DEFAULT_ELEMENT_FILL,
+    DEFAULT_FONT_FAMILY,
+    DEFAULT_FONT_SIZE,
+    DEFAULT_NO_SOURCE_IMAGE,
     DEFAULT_POSITION,
-    DEFAULT_SIZE
+    DEFAULT_SIZE,
+    DEFAULT_TEXT_COLOR, DEFAULT_TEXTBOX_CONTENT
 } from "../../Constants";
 import {DISABLE_FILL} from "../Actions/Elements/disableFill";
 import {SET_FILL_COLOR} from "../Actions/Elements/setFillColor";
 import {UPDATE_POSITION} from "../Actions/Elements/updatePosition";
 import {UPDATE_SIZE} from "../Actions/Elements/updateSize";
 import {CHANGE_IMAGE_SOURCE} from "../Actions/Elements/changeImageSource";
+import {SET_TEXT_COLOR} from "../Actions/Elements/setTextColor";
+import {SET_FONT_FAMILY} from "../Actions/Elements/setFontFamily";
+import {SET_FONT_SIZE} from "../Actions/Elements/setFontSize";
+import {SET_TEXTBOX_CONTENT} from "../Actions/Elements/setTextboxContent";
 
 const position = (state: AnchorType = DEFAULT_POSITION, action: AnyAction): AnchorType => {
     if (action.type === UPDATE_POSITION) {
@@ -80,6 +88,34 @@ const src = (state: string = DEFAULT_NO_SOURCE_IMAGE, action: AnyAction): string
     return state;
 }
 
+const textColor = (state: Color = DEFAULT_TEXT_COLOR, action: AnyAction): Color => {
+    if (action.type === SET_TEXT_COLOR) {
+        return action.color;
+    }
+    return state;
+}
+
+const fontFamily = (state: string = DEFAULT_FONT_FAMILY, action: AnyAction): string => {
+    if (action.type === SET_FONT_FAMILY) {
+        return action.fontFamily;
+    }
+    return state;
+}
+
+const fontSize = (state: number = DEFAULT_FONT_SIZE, action: AnyAction): number => {
+    if (action.type === SET_FONT_SIZE) {
+        return action.fontSize;
+    }
+    return state;
+}
+
+const content = (state: string = DEFAULT_TEXTBOX_CONTENT, action: AnyAction): string => {
+    if (action.type === SET_TEXTBOX_CONTENT) {
+        return action.content;
+    }
+    return state;
+}
+
 export const ElementReducers = (state: Element, action: AnyAction): Element => {
     const commonReducers: CommonType = {
         position: position(state.position, action),
@@ -114,6 +150,15 @@ export const ElementReducers = (state: Element, action: AnyAction): Element => {
                 id: state.id
             }
         case elementType.textBox:
+            return {
+                ...commonReducers,
+                textColor: textColor((state as TextBox).textColor, action),
+                fontFamily: fontFamily((state as TextBox).fontFamily, action),
+                fontSize: fontSize((state as TextBox).fontSize, action),
+                content: content((state as TextBox).content, action),
+                type: elementType.textBox,
+                id: state.id
+            }
         default:
             return state;
     }
