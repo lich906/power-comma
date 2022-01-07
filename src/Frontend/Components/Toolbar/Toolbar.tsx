@@ -9,26 +9,26 @@ type ToolbarProps = ReturnType<typeof mapStateToProps> & typeof mapDispatchToPro
 function Toolbar(props: ToolbarProps): JSX.Element {
 
     if (props.currentSlideId) {
-        const slideId = props.currentSlideId
+        const slideId = props.currentSlideId;
         return (
             <div className={styles.toolbar}>
                 <div className={styles.heading}>Add element</div>
                 <div className={styles.elementButtonsContainer}>
                     <div className={styles.addRect}
                          title={"Rectangle"}
-                         onClick={() => addNewElement(slideId, elementType.rectangle)}/>
+                         onClick={() => props.addNewElement(slideId, elementType.rectangle)}/>
                     <div className={styles.addTriangle}
                          title={"Triangle"}
-                         onClick={() => addNewElement(slideId, elementType.triangle)}/>
+                         onClick={() => props.addNewElement(slideId, elementType.triangle)}/>
                     <div className={styles.addCircle}
                          title={"Circle"}
-                         onClick={() => addNewElement(slideId, elementType.circle)}/>
+                         onClick={() => props.addNewElement(slideId, elementType.circle)}/>
                     <div className={styles.addPicture}
                          title={"Picture"}
-                         onClick={() => addNewElement(slideId, elementType.picture)}/>
+                         onClick={() => props.addNewElement(slideId, elementType.picture)}/>
                     <div className={styles.addText}
                          title={"Text"}
-                         onClick={() => addNewElement(slideId, elementType.textBox)}/>
+                         onClick={() => props.addNewElement(slideId, elementType.textBox)}/>
                 </div>
             </div>
         )
