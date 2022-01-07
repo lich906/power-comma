@@ -56,11 +56,17 @@ function SlideEditArea({
     return (
         <div className={styles.slide}
         // right Click = action menu
+        //добавить функцию что доватит цвет или картинку на фон
+        style = {{
+            background : "#ffa"
+        }}
+
         onContextMenu={(e) => {
             e.preventDefault();
             showActionMenu(ActionMenuItemContent, mousePosition(e))
         }}
         >
+            {slide?.id}
             <SlideContent
                 slide = {slide}
             />
