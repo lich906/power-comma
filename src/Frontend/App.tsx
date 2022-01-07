@@ -22,6 +22,10 @@ function App({currentSlideId, presentationTitle}: AppProps) {
     const [stringInputPopupTexts, setStringInputPopupTexts] = useState(initialStringInputPopupTexts);
     const [stringInputPopupOnSubmitFn, setStringInputPopupOnSubmitFn] = useState(() => (_: string) => {})
     const [displayStringInputPopup, setDisplayStringInputPopup] = useState(false);
+    const [actionMenuContent, setActionMenuContent] = useState([]);
+    const [displayActionMenu, setDisplayActionMenut] = useState(false);
+    const [actionMenuAnchor, setActionMenuAnchor] = useState(initialAnchor)
+
 
     const handleKeyDown = useCallback((e: KeyboardEvent) => dispatchActionByHotkey(e, showStringInputPopup), []);
 
@@ -41,6 +45,12 @@ function App({currentSlideId, presentationTitle}: AppProps) {
         setDisplayStringInputPopup(true);
     }
 
+    function showActionMenu(content: never[], anchor: AnchorType): void {
+        setActionMenuContent(content);
+        setDisplayActionMenut(true);
+        setActionMenuAnchor(anchor);
+    }
+
     return (
         <div className={styles.app}>
             <MainMenu
@@ -52,6 +62,7 @@ function App({currentSlideId, presentationTitle}: AppProps) {
                 <div className={styles.editorContainer}>
                     <div className={styles.presentationTitle}>{presentationTitle}</div>
                     <SlideEditArea 
+                        showActionMenu = {showActionMenu}
                     />
                 </div>
             </div>
@@ -69,6 +80,14 @@ function App({currentSlideId, presentationTitle}: AppProps) {
                     texts={stringInputPopupTexts}
                     onSubmit={stringInputPopupOnSubmitFn}
                     setDisplayStringInputPopup={setDisplayStringInputPopup}
+                />
+            }
+            {
+                displayActionMenu &&
+                <DropdownList
+                    setDisplayDropdownList={setDisplayActionMenut}
+                    content={actionMenuContent}
+                    anchor={actionMenuAnchor}
                 />
             }
         </div>
