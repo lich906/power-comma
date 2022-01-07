@@ -4,11 +4,9 @@ import {Slide} from "../../../Model/Types/Slide";
 import {AppDispatch, AppState} from "../../../Model/Store/AppStore";
 import {connect} from "react-redux";
 import SlideContent from "./SlideContent/SlideContent";
-import {Presentation} from "../../../Model/Types/Presentation"
-import {initialAnchor} from "../../Constants";
-import DropdownList, {AnchorType} from "../../Components/DropdownList/DropdownList";
+import {AnchorType} from "../../Components/DropdownList/DropdownList";
 import {selectCurrentSlide} from "../../../Model/Store/Selectors/selectCurrentSlide";
-
+import {Color} from "../../../Model/Types/StyleTypes";
 
 type ActionMenuItemProps = {
     title: string;
@@ -53,13 +51,17 @@ function SlideEditArea({
         }
     ];
 
+    const SlideStyle = {
+        color: 'blue',
+        backgroundImage: 'url(' + (slide?.background as BackgroundPicture).src + ')',
+    };
+
+
     return (
         <div className={styles.slide}
         // right Click = action menu
-        //добавить функцию что доватит цвет или картинку на фон
-        style = {{
-            background : "#ffa"
-        }}
+        //добавить функцию что добавит цвет или картинку на фон
+        style = {SlideStyle}
 
         onContextMenu={(e) => {
             e.preventDefault();
