@@ -11,6 +11,7 @@ import {dispatchActionByHotkey} from "../AdditionalFunctions/dispatchActionByHot
 import SlideEditArea from "./Components/SlideEditArea/SlideEditArea"
 import {AnchorType} from "../Model/Types/ExtraTypes";
 import {DEFAULT_POSITION} from "../Model/Constants";
+import Toolbar from "./Components/Toolbar/Toolbar";
 
 type AppProps = ReturnType<typeof mapStateToProps>
 
@@ -50,8 +51,11 @@ function App({currentSlideId, presentationTitle}: AppProps) {
                 <Sidebar showDropdownList={showDropdownList}/>
                 <div className={styles.editorContainer}>
                     <div className={styles.presentationTitle}>{presentationTitle}</div>
-                    <SlideEditArea 
-                    />
+                    <div className={styles.editAreaWrapper}>
+                        <SlideEditArea
+                        />
+                        <Toolbar/>
+                    </div>
                 </div>
             </div>
             {

@@ -1,0 +1,49 @@
+@import "../../StyleConstants.css";
+
+.toolbar {
+    border-left: 1px solid var(--theme-color-2);
+    width: 10%;
+    display: flex;
+    flex-direction: column;
+}
+
+.heading {
+    margin: 15px auto 5px;
+    font-weight: bold;
+    width: min-content;
+}
+
+.elementButtonsContainer {
+    padding: 0 10%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    height: 20%;
+}
+
+.elementButtonsContainer div {
+    background-size: cover;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.addRect {
+    background: url('./res/rectangle.svg');
+}
+
+.addTriangle {
+    background: url('./res/triangle.svg');
+}
+
+.addCircle {
+    background: url('./res/circle.svg');
+}
+
+.addPicture {
+    background: url('./res/picture.svg');
+}
+
+.addText {
+    background: url('./res/text.svg');
+}

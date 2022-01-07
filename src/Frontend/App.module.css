@@ -24,4 +24,10 @@
     display: flex;
     justify-content: center;
     font-weight: 500;
+    height: 3%;
+}
+
+.editAreaWrapper {
+    display: flex;
+    height: 97%;
 }
