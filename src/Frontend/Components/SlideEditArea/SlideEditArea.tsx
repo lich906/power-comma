@@ -4,11 +4,11 @@ import {Slide} from "../../../Model/Types/Slide";
 import {AppDispatch, AppState} from "../../../Model/Store/AppStore";
 import {connect} from "react-redux";
 import SlideContent from "./SlideContent/SlideContent";
-import {getSlideById} from "../../../AdditionalFunctions/getSlideById";
 import {Presentation} from "../../../Model/Types/Presentation"
 import {initialAnchor} from "../../Constants";
 import DropdownList, {AnchorType} from "../../Components/DropdownList/DropdownList";
-import {selectCurrentSlideId} from "../../../Model/Store/Selectors/selectCurrentSlideId";
+import {selectCurrentSlide} from "../../../Model/Store/Selectors/selectCurrentSlide";
+
 
 type ActionMenuItemProps = {
     title: string;
@@ -24,32 +24,31 @@ function SlideEditArea({
     showActionMenu,
 }: SlideEditAreaProps): JSX.Element {
 
-    const currentSlideId = selectCurrentSlideId();
-    const slide = getSlideById(currentSlideId)
+    const slide = selectCurrentSlide();
     const ActionMenuItemContent: ActionMenuItemProps[] = [
         {
             title: "Circle",
-            hotkey: "Ctrl + C",
+            hotkey: "",
             handler: () => console.log("Circle")
         },
         {
             title: "Picture",
-            hotkey: "Ctrl + p",
+            hotkey: "",
             handler: () => console.log("Picture")
         },
         {
             title: "Rectangle",
-            hotkey: "Ctrl + R",
+            hotkey: "",
             handler: () => console.log("Rectangle")
         },
         {
             title: "TextBox",
-            hotkey: "Ctrl + T",
+            hotkey: "",
             handler: () => console.log("TextBox")
         },
         {
             title: "Triangle",
-            hotkey: "Ctrl + Alt + T",
+            hotkey: "",
             handler: () => console.log("Triangle")
         }
     ];
