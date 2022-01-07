@@ -1,17 +1,13 @@
-import {BorderType, Color} from "./StyleTypes";
+import {AnchorType, BorderType, Color, SizeType} from "./ExtraTypes";
 
-type CommonType = {
-    readonly x: number;
-    readonly y: number;
-    readonly width: number;
-    readonly height: number;
+export type CommonType = {
+    readonly position: AnchorType;
+    readonly size: SizeType;
     readonly border: BorderType|null;
     readonly fill: Color|null;
 }
 
-export type Circle = CommonType & {
-    readonly r: number;
-}
+export type Circle = CommonType
 
 export type Picture = CommonType & {
     readonly src: string;
@@ -27,3 +23,16 @@ export type TextBox = CommonType & {
 }
 
 export type Triangle = CommonType
+
+export type Element = (Rectangle|Triangle|Circle|Picture|TextBox) & {
+    readonly type: elementType;
+    readonly id: string;
+}
+
+export enum elementType {
+    textBox,
+    rectangle,
+    triangle,
+    circle,
+    picture
+}

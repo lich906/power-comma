@@ -1,15 +1,14 @@
-import {Circle, Picture, Rectangle, TextBox, Triangle} from "./Element";
-import {Color} from "./StyleTypes";
-
-
-export type Element = (Rectangle|Triangle|Circle|Picture|TextBox) & {
-    readonly typeName: string;
-    readonly id: string;
-}
+import {Element} from "./Element";
+import {BackgroundPicture, Color} from "./ExtraTypes";
 
 export type Slide = {
     readonly title: string;
     readonly elements: Element[];
-    readonly background: Picture|Color;
+    readonly background: BackgroundPicture|Color;
     readonly id: string;
+}
+
+export enum slideBackgroundType {
+    picture,
+    color
 }

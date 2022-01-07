@@ -1,4 +1,4 @@
-import {initialEditorState} from "../InitialStates";
+import {INITIAL_EDITOR_STATE} from "../InitialStates";
 import {AnyAction} from "redux";
 import {UPDATE_SLIDES_SELECTION} from "../Actions/Editor/updateSlidesSelection";
 import {Editor} from "../../Types/Editor";
@@ -9,7 +9,7 @@ import {PresentationReducers} from "./PresentationReducers";
 const selectedSlideIds = (state: string[] = [], action: AnyAction): string[] => {
     switch (action.type) {
         case UPDATE_SLIDES_SELECTION:
-            return action.slideIds
+            return action.ids
         default:
             return state;
     }
@@ -18,7 +18,7 @@ const selectedSlideIds = (state: string[] = [], action: AnyAction): string[] => 
 const selectedElementIds = (state: string[] = [], action: AnyAction): string[] => {
     switch (action.type) {
         case UPDATE_ELEMENTS_SELECTION:
-            return action.elementIds
+            return action.ids
         default:
             return state;
     }
@@ -27,13 +27,13 @@ const selectedElementIds = (state: string[] = [], action: AnyAction): string[] =
 const currentSlideId = (state: string|null = null, action: AnyAction): string|null => {
     switch (action.type) {
         case CHANGE_CURRENT_SLIDE:
-            return action.slideId;
+            return action.id;
         default:
             return state;
     }
 }
 
-export const EditorReducers = (state: Editor = initialEditorState, action: AnyAction): Editor => {
+export const EditorReducers = (state: Editor = INITIAL_EDITOR_STATE, action: AnyAction): Editor => {
     return {
         presentation: PresentationReducers(state.presentation, action),
         selectedSlideIds: selectedSlideIds(state.selectedSlideIds, action),
