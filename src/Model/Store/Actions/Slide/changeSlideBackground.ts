@@ -17,10 +17,5 @@ export function changeSlideBackground(slideId: string, type: slideBackgroundType
                 slideId: slideId,
                 payload: payload
             }
-        default:
-            return {
-                type: "",
-                slideId: slideId
-            }
     }
 }

@@ -10,3 +10,13 @@ export type BorderType = {
     readonly width: number;
     readonly color: Color;
 }
+
+export type AnchorType = {
+    x: number;
+    y: number;
+}
+
+export type SizeType = {
+    width: number;
+    height: number;
+}

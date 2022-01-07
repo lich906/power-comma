@@ -3,8 +3,8 @@ import {Presentation} from "../Types/Presentation";
 import {Slide} from "../Types/Slide";
 import {generate} from "../../Utils/generate";
 import {
-    DEFAULT_ELEMENT_FILL,
-    DEFAULT_PRESENTATION_TITLE,
+    DEFAULT_ELEMENT_FILL, DEFAULT_NO_SOURCE_IMAGE, DEFAULT_POSITION,
+    DEFAULT_PRESENTATION_TITLE, DEFAULT_SIZE,
     DEFAULT_SLIDE_BACKGROUND_COLOR,
     DEFAULT_SLIDE_TITLE, DEFAULT_TEXT_COLOR
 } from "../Constants";
@@ -32,12 +32,10 @@ export const INITIAL_EDITOR_STATE: Editor = {
 }
 
 const INITIAL_COMMON_STATE: CommonType = {
+    position: DEFAULT_POSITION,
+    size: DEFAULT_SIZE,
     border: null,
-    fill: DEFAULT_ELEMENT_FILL,
-    height: 200,
-    width: 200,
-    x: 0,
-    y: 0
+    fill: DEFAULT_ELEMENT_FILL
 }
 
 export const INITIAL_RECTANGLE_STATE: Rectangle = INITIAL_COMMON_STATE;
@@ -48,7 +46,7 @@ export const INITIAL_CIRCLE_STATE: Circle = INITIAL_COMMON_STATE;
 
 export const INITIAL_PICTURE_STATE: Picture = {
     ...INITIAL_COMMON_STATE,
-    src: 'url(\'\')'
+    src: DEFAULT_NO_SOURCE_IMAGE
 }
 
 export const INITIAL_TEXTBOX_STATE: TextBox = {

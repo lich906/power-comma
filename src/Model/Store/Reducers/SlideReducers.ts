@@ -2,7 +2,7 @@ import {getInitialSlideState} from "../InitialStates";
 import {Slide} from "../../Types/Slide";
 import {CHANGE_SLIDE_TITLE} from "../Actions/Slide/changeSlideTitle";
 import {Circle, Element, elementType, Picture, Rectangle, TextBox, Triangle} from "../../Types/Element";
-import {BackgroundPicture, Color} from "../../Types/StyleTypes";
+import {BackgroundPicture, Color} from "../../Types/ExtraTypes";
 import {DEFAULT_SLIDE_BACKGROUND_COLOR, DEFAULT_SLIDE_TITLE} from "../../Constants";
 import {
     INITIAL_CIRCLE_STATE, INITIAL_PICTURE_STATE,
@@ -17,6 +17,7 @@ import {DELETE_ELEMENTS} from "../Actions/Slide/deleteElements";
 import {DRAG_ELEMENTS} from "../Actions/Slide/dragElements";
 import {ElementReducers} from "./ElementReducers";
 import {replaceAtIndexImmutable} from "../../../Utils/array";
+import {updatePosition} from "../Actions/Elements/updatePosition";
 
 const title = (state: string = DEFAULT_SLIDE_TITLE, action: AnyAction): string => {
     if (action.type === CHANGE_SLIDE_TITLE) {
@@ -66,6 +67,7 @@ const elements = (state: Element[] = [], action: AnyAction): Element[] => {
                     newElement = INITIAL_PICTURE_STATE;
                     return [...state, {
                         ...newElement,
+                        src: action.src ? action.src : (newElement as Picture).src,
                         type: elementType.picture,
                         id: generate()
                     }];
@@ -86,11 +88,7 @@ const elements = (state: Element[] = [], action: AnyAction): Element[] => {
         case DRAG_ELEMENTS:
             return state.map((element) => {
                 if (action.ids.includes(element.id)) {
-                    return {
-                        ...element,
-                        x: element.x + action.dx,
-                        y: element.y + action.dy
-                    }
+                    return ElementReducers(element, updatePosition(action.slideId, element.id, action.delta))
                 }
                 return element;
             });

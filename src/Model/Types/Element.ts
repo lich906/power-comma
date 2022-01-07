@@ -1,10 +1,8 @@
-import {BorderType, Color} from "./StyleTypes";
+import {AnchorType, BorderType, Color, SizeType} from "./ExtraTypes";
 
 export type CommonType = {
-    readonly x: number;
-    readonly y: number;
-    readonly width: number;
-    readonly height: number;
+    readonly position: AnchorType;
+    readonly size: SizeType;
     readonly border: BorderType|null;
     readonly fill: Color|null;
 }

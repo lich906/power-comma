@@ -1,5 +1,5 @@
 import {Element} from "./Element";
-import {BackgroundPicture, Color} from "./StyleTypes";
+import {BackgroundPicture, Color} from "./ExtraTypes";
 
 export type Slide = {
     readonly title: string;
