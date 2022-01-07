@@ -3,7 +3,7 @@ import styles from './Sidebar.module.css';
 import {range} from "../../Utils/Range";
 import {Slide} from "../../../Model/Types/Slide";
 import SlidePreview from "./SlidePreview/SlidePreview";
-import {AppDispatch, AppState} from "../../../Model/Store/AppStore";
+import {AppState} from "../../../Model/Store/AppStore";
 import {createNewSlide} from "../../../Model/Store/Actions/Presentation/createNewSlide";
 import {connect} from "react-redux";
 import {changeCurrentSlide} from "../../../Model/Store/Actions/Editor/changeCurrentSlide";
@@ -12,12 +12,11 @@ import {
     moveSelectedSlidesDown,
     moveSelectedSlidesUp
 } from "../../../Model/Store/Actions/Presentation/moveSelectedSlides";
-import {selectSelectedSlideIds} from "../../../Model/Store/Selectors/selectSelectedSlideIds";
 import {deleteSlides} from "../../../Model/Store/Actions/Presentation/deleteSlides";
 import {previousSlide} from "../../../AdditionalFunctions/previousSlide";
 import {nextSlide} from "../../../AdditionalFunctions/nextSlide";
 
-type SidebarProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps> & {
+type SidebarProps = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {
     showDropdownList: Function
 }
 
@@ -87,12 +86,12 @@ function Sidebar({
             {
                 title: "Move selected up",
                 hotkey: "Ctrl + Alt + ↑",
-                handler: moveSelectedSlidesUp
+                handler: () => moveSelectedSlidesUp(selectedSlideIds)
             },
             {
                 title: "Move selected down",
                 hotkey: "Ctrl + Alt + ↓",
-                handler: moveSelectedSlidesDown
+                handler: () => moveSelectedSlidesDown(selectedSlideIds)
             },
             {
                 title: "Delete slide",
@@ -130,15 +129,14 @@ const mapStateToProps = (state: AppState) => {
     }
 }
 
-const mapDispatchToProps = (dispatch: AppDispatch) => {
-    return {
-        createNewSlide: () => dispatch(createNewSlide()),
-        changeCurrentSlide: (id: string|null) => dispatch(changeCurrentSlide(id)),
-        updateSlidesSelection: (ids: string[]) => dispatch(updateSlidesSelection(ids)),
-        moveSelectedSlidesUp: () => dispatch(moveSelectedSlidesUp(selectSelectedSlideIds())),
-        moveSelectedSlidesDown: () => dispatch(moveSelectedSlidesDown(selectSelectedSlideIds())),
-        deleteSlides: (ids: string[]) => dispatch(deleteSlides(ids))
-    }
+const mapDispatchToProps = {
+    createNewSlide: createNewSlide,
+    changeCurrentSlide: changeCurrentSlide,
+    updateSlidesSelection: updateSlidesSelection,
+    moveSelectedSlidesUp: moveSelectedSlidesUp,
+    moveSelectedSlidesDown: moveSelectedSlidesDown,
+    deleteSlides: deleteSlides
 }
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

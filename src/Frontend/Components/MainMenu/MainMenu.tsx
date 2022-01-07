@@ -1,6 +1,6 @@
 import React from "react";
 import styles from './MainMenu.module.css';
-import {AppDispatch, AppState} from "../../../Model/Store/AppStore";
+import {AppState} from "../../../Model/Store/AppStore";
 import {redo} from "../../../Model/Store/Actions/History/redo";
 import {undo} from "../../../Model/Store/Actions/History/undo";
 import {connect} from "react-redux";
@@ -16,7 +16,7 @@ import {savePresentationJSON} from "../../../AdditionalFunctions/savePresentatio
 import {openPresentationAsync} from "../../../AdditionalFunctions/openPresentationAsync";
 import {createNewPresentation} from "../../../Model/Store/Actions/Editor/createNewPresentation";
 
-type MainMenuProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps> & {
+type MainMenuProps = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {
     showDropdownList: Function,
     showStringInputPopup: (texts: StringInputPopupTexts, onSubmitFn: (val: string) => void) => void
 }
@@ -104,13 +104,11 @@ const mapStateToProps = (state: AppState) => {
     }
 }
 
-const mapDispatchToProps = (dispatch: AppDispatch) => {
-    return {
-        undo: () => dispatch(undo()),
-        redo: () => dispatch(redo()),
-        changePresentationTitle: (title: string) => dispatch(changePresentationTitle(title)),
-        createNewPresentation: (title: string) => dispatch(createNewPresentation(title))
-    }
+const mapDispatchToProps = {
+    undo: undo,
+    redo: redo,
+    changePresentationTitle:changePresentationTitle,
+    createNewPresentation: createNewPresentation
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainMenu)
