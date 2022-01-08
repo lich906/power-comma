@@ -19,7 +19,6 @@ function SlideEditArea({
     return (
         <div className={styles.slide}>
             <SlideContent
-                slide = {slide}
             />
         </div>
     );
