@@ -9,7 +9,7 @@ import {selectCurrentSlide} from "../../../Model/Store/Selectors/selectCurrentSl
 import {Color} from "../../../Model/Types/ExtraTypes";
 import {BackgroundPicture} from "../../../Model/Types/ExtraTypes";
 import {addNewElement} from "../../../Model/Store/Actions/Slide/addNewElement";
-import {elementType} from "../../../Model/Types/Element";
+import AppStore from "../../../Model/Store/AppStore";
 
 type ActionMenuItemProps = {
     title: string;
@@ -32,7 +32,7 @@ function SlideEditArea({
             hotkey: "",
             handler: () => {
                 console.log("Circle")
-                addNewElement(slide!.id, 3 )
+                AppStore.dispatch(addNewElement(slide!.id, 3 ))
             }
         },
         {
@@ -40,7 +40,7 @@ function SlideEditArea({
             hotkey: "",
             handler: () => {
                 console.log("Picture")
-                addNewElement(slide!.id, 4 )
+                AppStore.dispatch(addNewElement(slide!.id, 4 ))
             }
         },
         {
@@ -48,7 +48,7 @@ function SlideEditArea({
             hotkey: "",
             handler: () => {
                 console.log("Rectangle")
-                addNewElement(slide!.id, 1 )
+                AppStore.dispatch(addNewElement(slide!.id, 1 ))
             }
         },
         {
@@ -56,7 +56,7 @@ function SlideEditArea({
             hotkey: "",
             handler: () => {
                 console.log("TextBox")
-                addNewElement(slide!.id, 0 )
+                AppStore.dispatch(addNewElement(slide!.id, 0 ))
             }
         },
         {
@@ -64,7 +64,7 @@ function SlideEditArea({
             hotkey: "",
             handler: () => {
                 console.log("Triangle")
-                addNewElement(slide!.id, 2 )
+                AppStore.dispatch(addNewElement(slide!.id, 2 ))
             }
         }
     ];
