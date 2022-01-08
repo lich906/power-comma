@@ -61,14 +61,6 @@ function Sidebar({
         )
     }
 
-    function handleDeletion(slideIds: string[]): void {
-        updateSlidesSelection(selectedSlideIds.filter((id) => !slideIds.includes(id)));
-        if (selectedSlideIds.length === 0 || (currentSlideId && slideIds.includes(currentSlideId))) {
-            changeCurrentSlide(null);
-        }
-        deleteSlides(slideIds);
-    }
-
     function showContextMenu(e: React.MouseEvent) {
         e.preventDefault();
         const id = e.currentTarget.getAttribute("data-id");
@@ -95,11 +87,11 @@ function Sidebar({
             },
             {
                 title: "Delete slide",
-                handler: () => handleDeletion([id ? id : ""])
+                handler: () => {if (id) deleteSlides([id])}
             },
             {
                 title: "Delete selected slides",
-                handler: () => handleDeletion(selectedSlideIds)
+                handler: () => deleteSlides(selectedSlideIds)
             }
         ], {x: e.clientX, y: e.clientY});
     }
