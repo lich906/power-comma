@@ -7,6 +7,7 @@ import {CHANGE_CURRENT_SLIDE} from "../Actions/Editor/changeCurrentSlide";
 import {PresentationReducers} from "./PresentationReducers";
 import {DELETE_ELEMENTS} from "../Actions/Slide/deleteElements";
 import {DELETE_SLIDES} from "../Actions/Presentation/deleteSlides";
+import {DELETE_SLIDE_BY_ID} from "../Actions/Presentation/deleteSlideById";
 
 const selectedSlideIds = (state: string[] = [], action: AnyAction): string[] => {
     switch (action.type) {
@@ -14,6 +15,8 @@ const selectedSlideIds = (state: string[] = [], action: AnyAction): string[] => 
             return action.ids;
         case DELETE_SLIDES:
             return [];
+        case DELETE_SLIDE_BY_ID:
+            return state.filter((id) => id !== action.id);
         default:
             return state;
     }
@@ -34,8 +37,8 @@ const currentSlideId = (state: string|null = null, action: AnyAction): string|nu
     switch (action.type) {
         case CHANGE_CURRENT_SLIDE:
             return action.id;
-        case DELETE_SLIDES:
-            return null;
+        case DELETE_SLIDE_BY_ID:
+            return state === action.id ? null : state;
         default:
             return state;
     }
