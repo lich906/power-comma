@@ -5,6 +5,8 @@ import {AppState} from "../../../Model/Store/AppStore";
 import {elementType} from "../../../Model/Types/Element";
 import {useState} from "react";
 import {selectCurrentElement} from "../../../Model/Store/Selectors/selectCurrentElement";
+import {selectCurrentSlideId} from "../../../Model/Store/Selectors/selectCurrentSlideId";
+import {selectSelectedElementIds} from "../../../Model/Store/Selectors/selectSelectedElementIds";
 
 type ToolbarProps = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps;
 
@@ -12,11 +14,10 @@ function Toolbar(props: ToolbarProps): JSX.Element {
     const [isBordered, setIsBordered] = useState(false);
     const [isFilled, setIsFilled] = useState(false);
     let commonTools: JSX.Element = (<span className={styles.placeholder}>Select element</span>);
-    const currentElement = selectCurrentElement();
 
-    if (currentElement) {
-        setIsBordered(!!currentElement.border);
-        setIsFilled(!!currentElement.fill);
+    if (props.currentElement) {
+        setIsBordered(!!props.currentElement.border);
+        setIsFilled(!!props.currentElement.fill);
         commonTools = (<>
             <div className={styles.heading}>Border</div>
             <div className={styles.borderTools}><input type={"color"}/><input type={"number"} style={{fontSize: "16px"}}/></div>
@@ -59,8 +60,9 @@ function Toolbar(props: ToolbarProps): JSX.Element {
 }
 
 const mapStateToProps = (state: AppState) => ({
-    selectedElementIds: state.present.selectedElementIds,
-    currentSlideId: state.present.currentSlideId
+    selectedElementIds: selectSelectedElementIds(state),
+    currentSlideId: selectCurrentSlideId(state),
+    currentElement: selectCurrentElement(state)
 })
 
 const mapDispatchToProps = {
