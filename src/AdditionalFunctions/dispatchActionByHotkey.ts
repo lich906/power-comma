@@ -16,6 +16,7 @@ import {StringInputPopupTexts} from "../Frontend/Components/StringInputPopup/Str
 import {createNewPresentation} from "../Model/Store/Actions/Editor/createNewPresentation";
 import {nextSlide} from "./nextSlide";
 import {previousSlide} from "./previousSlide";
+import {deleteSlides} from "../Model/Store/Actions/Presentation/deleteSlides";
 
 export function dispatchActionByHotkey(
     e: KeyboardEvent,
@@ -90,6 +91,10 @@ export function dispatchActionByHotkey(
             case 40:
                 console.log('Ctrl+ArrowDown');
                 nextSlide(appStore.getState(), appDispatch);
+                break;
+            case 46:
+                console.log('Ctrl+Alt+Del');
+                appDispatch(deleteSlides(selectSelectedSlideIds(appStore.getState())));
                 break;
         }
     }

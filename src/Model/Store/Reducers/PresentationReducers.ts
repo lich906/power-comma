@@ -8,6 +8,7 @@ import {MOVE_SELECTED_SLIDES_DOWN, MOVE_SELECTED_SLIDES_UP} from "../Actions/Pre
 import {CHANGE_PRESENTATION_TITLE} from "../Actions/Presentation/changePresentationTitle";
 import {last, pushImmutable, replaceAtIndexImmutable} from "../../../Utils/array";
 import {SlideReducers} from "./SlideReducers";
+import {DELETE_SLIDE_BY_ID} from "../Actions/Presentation/deleteSlideById";
 
 const slides = (state: Slide[] = [getInitialSlideState()], action: AnyAction): Slide[] => {
     let newState: Slide[] = [];
@@ -17,7 +18,10 @@ const slides = (state: Slide[] = [getInitialSlideState()], action: AnyAction): S
             return pushImmutable(state, getInitialSlideState());
 
         case DELETE_SLIDES:
-            return state.filter((slide) => !action.ids.includes(slide.id))
+            return state.filter((slide) => !action.ids.includes(slide.id));
+
+        case DELETE_SLIDE_BY_ID:
+            return state.filter((slide) => slide.id !== action.id);
 
         case MOVE_SELECTED_SLIDES_UP:
             startIndex = state.findIndex((slide) => action.ids[0] === slide.id);
