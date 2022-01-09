@@ -15,6 +15,7 @@ import {
 import {savePresentationJSON} from "../../../AdditionalFunctions/savePresentationJSON";
 import {openPresentationAsync} from "../../../AdditionalFunctions/openPresentationAsync";
 import {createNewPresentation} from "../../../Model/Store/Actions/Editor/createNewPresentation";
+import {selectPresentation} from "../../../Model/Store/Selectors/selectPresentation";
 
 type MainMenuProps = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {
     showDropdownList: Function,
@@ -100,7 +101,7 @@ function MainMenu({
 
 const mapStateToProps = (state: AppState) => {
     return {
-        presentation: state.present.presentation
+        presentation: selectPresentation(state)
     }
 }
 

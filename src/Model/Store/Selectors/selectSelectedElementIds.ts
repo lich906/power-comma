@@ -1,5 +1,5 @@
-import {appStore} from "../AppStore";
+import {AppState} from "../AppStore";
 
-export function selectSelectedElementIds(): string[] {
-    return appStore.getState().present.selectedElementIds;
+export function selectSelectedElementIds(state: AppState): string[] {
+    return state.present.selectedElementIds;
 }
