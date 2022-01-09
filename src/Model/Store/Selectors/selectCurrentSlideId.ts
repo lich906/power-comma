@@ -1,5 +1,5 @@
-import {appStore} from "../AppStore";
+import {AppState} from "../AppStore";
 
-export function selectCurrentSlideId(): string|null {
-    return appStore.getState().present.currentSlideId;
+export function selectCurrentSlideId(state: AppState): string|null {
+    return state.present.currentSlideId;
 }

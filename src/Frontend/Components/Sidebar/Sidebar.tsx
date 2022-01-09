@@ -15,6 +15,9 @@ import {
 import {deleteSlides} from "../../../Model/Store/Actions/Presentation/deleteSlides";
 import {previousSlide} from "../../../AdditionalFunctions/previousSlide";
 import {nextSlide} from "../../../AdditionalFunctions/nextSlide";
+import {selectSelectedSlideIds} from "../../../Model/Store/Selectors/selectSelectedSlideIds";
+import {selectCurrentSlideId} from "../../../Model/Store/Selectors/selectCurrentSlideId";
+import {selectSlides} from "../../../Model/Store/Selectors/selectSlides";
 
 type SidebarProps = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {
     showDropdownList: Function
@@ -115,9 +118,9 @@ function Sidebar({
 
 const mapStateToProps = (state: AppState) => {
     return {
-        slides: state.present.presentation.slides,
-        selectedSlideIds: state.present.selectedSlideIds,
-        currentSlideId: state.present.currentSlideId
+        slides: selectSlides(state),
+        selectedSlideIds: selectSelectedSlideIds(state),
+        currentSlideId: selectCurrentSlideId(state)
     }
 }
 
