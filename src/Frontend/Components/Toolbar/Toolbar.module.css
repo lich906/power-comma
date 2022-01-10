@@ -5,21 +5,21 @@
     width: 10%;
     display: flex;
     flex-direction: column;
+    padding: 0 1.3%;
 }
 
 .heading {
-    margin: 15px auto 5px;
+    margin: 20px auto 10px;
     font-weight: bold;
     width: min-content;
     color: var(--theme-color-4);
 }
 
 .elementButtonsContainer {
-    padding: 0 10%;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    height: 20%;
+    height: 15%;
 }
 
 .elementButtonsContainer div {
@@ -49,18 +49,29 @@
     background: url('./res/text.svg');
 }
 
-.borderTools {
-    height: 6%;
+.toolList {
     display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-.borderTools input {
+.toolList div {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.toolList div input {
     margin: 0;
     padding: 0;
-    width: 50%;
-    height: 100%;
+    width: 35%;
     border: 1px solid;
     box-sizing: border-box;
+}
+
+.toolList div label {
+    color: var(--theme-color-4);
+    font-size: 14px;
 }
 
 .placeholder {

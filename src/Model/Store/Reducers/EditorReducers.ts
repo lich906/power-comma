@@ -27,6 +27,7 @@ const selectedElementIds = (state: string[] = [], action: AnyAction): string[] =
         case UPDATE_ELEMENTS_SELECTION:
             return action.ids;
         case DELETE_ELEMENTS:
+        case CHANGE_CURRENT_SLIDE:
             return [];
         default:
             return state;
@@ -39,6 +40,8 @@ const currentSlideId = (state: string|null = null, action: AnyAction): string|nu
             return action.id;
         case DELETE_SLIDE_BY_ID:
             return state === action.id ? null : state;
+        case DELETE_SLIDES:
+            return null;
         default:
             return state;
     }

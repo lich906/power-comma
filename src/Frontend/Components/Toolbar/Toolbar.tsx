@@ -11,18 +11,69 @@ import {selectSelectedElementIds} from "../../../Model/Store/Selectors/selectSel
 type ToolbarProps = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps;
 
 function Toolbar(props: ToolbarProps): JSX.Element {
-    const [isBordered, setIsBordered] = useState(false);
-    const [isFilled, setIsFilled] = useState(false);
+    const [isBordered, setIsBordered] = useState(!!props.currentElement?.border);
+    const [isFilled, setIsFilled] = useState(!!props.currentElement?.fill);
     let commonTools: JSX.Element = (<span className={styles.placeholder}>Select element</span>);
+    let additionalTools: JSX.Element|undefined;
 
     if (props.currentElement) {
-        setIsBordered(!!props.currentElement.border);
-        setIsFilled(!!props.currentElement.fill);
-        commonTools = (<>
-            <div className={styles.heading}>Border</div>
-            <div className={styles.borderTools}><input type={"color"}/><input type={"number"} style={{fontSize: "16px"}}/></div>
-            <div className={styles.heading}>Fill</div>
-        </>)
+        commonTools = (
+            <>
+                <div className={styles.heading} style={!isBordered ? {textDecoration: "line-through"} : {}}>
+                    Border
+                    <input checked={isBordered} onChange={(event) => {
+                        setIsBordered(event.target.checked);
+                    }} type={"checkbox"}/>
+                </div>
+                { isBordered &&
+                    <div className={styles.toolList}>
+                        <div><label>Color</label><input type={"color"}/></div>
+                        <div><label>Width</label><input type={"number"}/></div>
+                    </div>
+                }
+                <div className={styles.heading} style={!isFilled ? {textDecoration: "line-through"} : {}}>
+                    Fill
+                    <input checked={isFilled} onChange={(event) => {
+                        setIsFilled(event.target.checked);
+                    }} type={"checkbox"}/>
+                </div>
+                { isFilled &&
+                    <div className={styles.toolList}>
+                        <div><label>Color</label><input type={"color"}/></div>
+                    </div>
+                }
+            </>
+        )
+
+        switch (props.currentElement.type) {
+            case elementType.picture:
+                additionalTools = (
+                    <>
+                        <div className={styles.heading}>Picture</div>
+                        <div className={styles.toolList}>
+                            <div><label>Change Source</label></div>
+                        </div>
+                    </>
+                );
+                break;
+            case elementType.textBox:
+                additionalTools = (
+                    <>
+                        <div className={styles.heading}>Text</div>
+                        <div className={styles.toolList}>
+                            <div>
+                                <label>Font</label>
+                                <select>
+                                    <option>Roboto</option>
+                                    <option>Open Sans</option>
+                                </select>
+                            </div>
+                            <div><label>Font size</label><input type={"number"}/></div>
+                            <div><label>Font color</label><input type={"color"}/></div>
+                        </div>
+                    </>
+                );
+        }
     }
 
     if (props.currentSlideId) {
@@ -48,6 +99,7 @@ function Toolbar(props: ToolbarProps): JSX.Element {
                          onClick={() => props.addNewElement(slideId, elementType.textBox)}/>
                 </div>
                 {commonTools}
+                {additionalTools}
             </div>
         )
     } else {
