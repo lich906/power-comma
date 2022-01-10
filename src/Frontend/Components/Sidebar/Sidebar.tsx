@@ -15,6 +15,10 @@ import {
 import {deleteSlides} from "../../../Model/Store/Actions/Presentation/deleteSlides";
 import {previousSlide} from "../../../AdditionalFunctions/previousSlide";
 import {nextSlide} from "../../../AdditionalFunctions/nextSlide";
+import {selectSelectedSlideIds} from "../../../Model/Store/Selectors/selectSelectedSlideIds";
+import {selectCurrentSlideId} from "../../../Model/Store/Selectors/selectCurrentSlideId";
+import {selectSlides} from "../../../Model/Store/Selectors/selectSlides";
+import {deleteSlideById} from "../../../Model/Store/Actions/Presentation/deleteSlideById";
 
 type SidebarProps = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {
     showDropdownList: Function
@@ -30,6 +34,7 @@ function Sidebar({
     moveSelectedSlidesUp,
     moveSelectedSlidesDown,
     deleteSlides,
+    deleteSlideById,
     showDropdownList
 }: SidebarProps): JSX.Element {
     const [displayAddSlideButton, setDisplayAddSlideButton] = useState(false);
@@ -87,10 +92,11 @@ function Sidebar({
             },
             {
                 title: "Delete slide",
-                handler: () => {if (id) deleteSlides([id])}
+                handler: () => {if (id) deleteSlideById(id)}
             },
             {
                 title: "Delete selected slides",
+                hotkey: "Ctrl + Del",
                 handler: () => deleteSlides(selectedSlideIds)
             }
         ], {x: e.clientX, y: e.clientY});
@@ -115,9 +121,9 @@ function Sidebar({
 
 const mapStateToProps = (state: AppState) => {
     return {
-        slides: state.present.presentation.slides,
-        selectedSlideIds: state.present.selectedSlideIds,
-        currentSlideId: state.present.currentSlideId
+        slides: selectSlides(state),
+        selectedSlideIds: selectSelectedSlideIds(state),
+        currentSlideId: selectCurrentSlideId(state)
     }
 }
 
@@ -127,7 +133,8 @@ const mapDispatchToProps = {
     updateSlidesSelection: updateSlidesSelection,
     moveSelectedSlidesUp: moveSelectedSlidesUp,
     moveSelectedSlidesDown: moveSelectedSlidesDown,
-    deleteSlides: deleteSlides
+    deleteSlides: deleteSlides,
+    deleteSlideById: deleteSlideById
 }
 
 

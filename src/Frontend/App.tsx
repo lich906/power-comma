@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import styles from './App.module.css';
 import Sidebar from "./Components/Sidebar/Sidebar";
-import {AppState} from "../Model/Store/AppStore";
+import {AppDispatch, AppState} from "../Model/Store/AppStore";
 import {connect} from "react-redux";
 import MainMenu from "./Components/MainMenu/MainMenu"
 import DropdownList from "./Components/DropdownList/DropdownList";
@@ -12,9 +12,9 @@ import SlideEditArea from "./Components/SlideEditArea/SlideEditArea"
 import {AnchorType} from "../Model/Types/ExtraTypes";
 import {DEFAULT_POSITION} from "../Model/Constants";
 
-type AppProps = ReturnType<typeof mapStateToProps>
+type AppProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>
 
-function App({currentSlideId, presentationTitle}: AppProps) {
+function App({currentSlideId, presentationTitle, appDispatch}: AppProps) {
     const [dropdownListContent, setDropdownListContent] = useState([]);
     const [displayDropdownList, setDisplayDropdownList] = useState(false);
     const [dropdownListAnchor, setDropdownListAnchor] = useState(DEFAULT_POSITION);
@@ -22,7 +22,9 @@ function App({currentSlideId, presentationTitle}: AppProps) {
     const [stringInputPopupOnSubmitFn, setStringInputPopupOnSubmitFn] = useState(() => (_: string) => {});
     const [displayStringInputPopup, setDisplayStringInputPopup] = useState(false);
 
-    const handleKeyDown = useCallback((e: KeyboardEvent) => dispatchActionByHotkey(e, showStringInputPopup), []);
+    const handleKeyDown = useCallback((e: KeyboardEvent) => {
+        dispatchActionByHotkey(e, showStringInputPopup, appDispatch);
+    }, [appDispatch]);
 
     useEffect(() => {
         document.addEventListener("keydown", handleKeyDown);
@@ -88,4 +90,8 @@ const mapStateToProps = (state: AppState) => {
     }
 }
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = (dispatch: AppDispatch) => ({
+    appDispatch: dispatch
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
