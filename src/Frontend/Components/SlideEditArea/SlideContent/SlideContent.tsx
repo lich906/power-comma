@@ -2,16 +2,21 @@ import {useState} from "react";
 import {Slide} from "../../../../Model/Types/Slide";
 import styles from './SlideContent.module.css';
 import { Element, elementType, Picture, TextBox, Triangle} from "../../../../Model/Types/Element";
-import {Color, BorderType, AnchorType} from "../../../../Model/Types/ExtraTypes";
+import {Color, BorderType, AnchorType, MenuItemProps} from "../../../../Model/Types/ExtraTypes";
 import {AppState, appStore} from "../../../../Model/Store/AppStore";
 import {connect} from "react-redux";
 import {dragElements} from "../../../../Model/Store/Actions/Slide/dragElements";
 import {addSelectedElementId} from "../../../../AdditionalFunctions/addSelectedElementId";
 import {selectSelectedElementIds} from "../../../../Model/Store/Selectors/selectSelectedElementIds";
 import {updateElementsSelection} from "../../../../Model/Store/Actions/Editor/updateElementsSelection";
+import {updateSize} from "../../../../Model/Store/Actions/Elements/updateSize";
+import {updatePosition} from "../../../../Model/Store/Actions/Elements/updatePosition";
 
 type SlideContentProps = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {
     slide?: Slide,
+    showActionMenu: Function,
+    actionMenuItemContent: MenuItemProps[],
+    getMousePosition: Function
 }
 
 type StrokeType = {
@@ -23,7 +28,10 @@ function SlideContent({
     slide,
     state,
     selectedElementIds,
+    showActionMenu,
+    actionMenuItemContent,
     dragElements,
+    getMousePosition,
     addSelectedElementId,
     selectSelectedElementIds,
     updateElementsSelection
@@ -31,11 +39,29 @@ function SlideContent({
     //console.log(slide?.elements.length);
 
     let isPressed = false;
-    let isSomeElementSelected = false;
+    let isPressedToResize = false;
+    let isElementSelectionUpdate = false;
     let delta = { 
         x: 0,
         y: 0
     };
+
+    const actionMenuItemContentModif: MenuItemProps[] = [
+        {
+            title: "Color",
+            hotkey: "",
+            handler: () => {
+                console.log("Color "+ selectedElementIds)
+            }
+        },
+        {
+            title: "Fill",
+            hotkey: "",
+            handler: () => {
+                console.log("Fill "+ selectedElementIds)
+            }
+        },
+    ];
 
     function getStrokeStyle(border: BorderType): StrokeType {
         if (border != null)
@@ -78,6 +104,26 @@ function SlideContent({
                         delta.y = e.pageY
                     }}
                 />
+
+                <rect 
+                    fill={"#177"} 
+                    height={15} 
+                    width={15}
+                    y={startPoint.y-10}
+                    x={startPoint.x+width-10}
+                    className = {
+                        `${!props.isSelected ? styles.hidden : ""}`
+                    }
+
+                    onMouseDown={(e)=>{
+                        isPressed = true;
+                        isPressedToResize = true; 
+                        console.log("resize");
+                        delta.x = e.pageX ; 
+                        delta.y = e.pageY 
+                    }}
+                />
+
             </g>
         )
     }
@@ -223,7 +269,6 @@ function SlideContent({
     }
 
     function showElementSelection(elementId: string, e: React.MouseEvent) {
-        isSomeElementSelected = true;
         if (e.shiftKey) {
             if (selectedElementIds){
                 console.log("selected::" + selectedElementIds);    
@@ -234,6 +279,7 @@ function SlideContent({
             console.log("selected< "+ selectedElementIds);
             updateElementsSelection([elementId]);
             console.log("selected> "+ selectedElementIds);
+            isElementSelectionUpdate = true;
         } 
         
         dragElements(slide!.id, selectedElementIds ,{ x:(delta.x), y:(delta.y) });
@@ -246,24 +292,46 @@ function SlideContent({
             className = {styles.elementContainer}
             xmlns = {"http://www.w3.org/2000/svg"}
 
+            onContextMenu={(e) => {
+                e.preventDefault();
+                if (selectedElementIds.length<1)
+                {
+                    showActionMenu(actionMenuItemContent, getMousePosition(e))
+                } else {
+                    showActionMenu(actionMenuItemContentModif, getMousePosition(e))
+                }
+                
+            }}
+
             onMouseUp={(e)=>{
-                if (isPressed) {
-                    isPressed = false;
+                if (isPressedToResize)
+                {
+                    isPressedToResize = false;
+                    console.log("resize< " + slide!.elements.find(element => element.id === selectedElementIds[0])?.size.height);
                     delta.x = e.pageX-delta.x; 
                     delta.y = e.pageY-delta.y;
-                    dragElements(slide!.id, selectedElementIds ,{ x:(delta.x), y:(delta.y) });
-                    console.log(delta);
+                    appStore.dispatch(updateSize(slide!.id, selectedElementIds[0], {x: (delta.x), y: (delta.y) }));
+                    console.log("resize> " + delta.y + ' ' + slide!.elements.find(element => element.id === selectedElementIds[0])?.size.height);
                     delta = {x:0, y:0};
-                } 
+                } else {
+                    if (isPressed) {
+                        isPressed = false;
+                        delta.x = e.pageX-delta.x; 
+                        delta.y = e.pageY-delta.y;
+                        dragElements(slide!.id, selectedElementIds ,{ x:(delta.x), y:(delta.y) });
+                        console.log(delta);
+                        delta = {x:0, y:0};
+                    }
+                }     
             }}
 
             onMouseDown={(e)=>{
-                if (!isPressed && !e.shiftKey && (selectedElementIds.length>1)) {
+                if (!isPressed && !e.shiftKey && (selectedElementIds.length>=1)) {
                     updateElementsSelection([]);
-                    isSomeElementSelected = false;
                     console.log(delta);
                     delta = {x:0, y:0};
                 } 
+                
             }}
         >  
             {slide?.elements.map((item, index) => <SlideDrawItem 
@@ -289,7 +357,9 @@ const mapDispatchToProps = {
     dragElements: dragElements,
     addSelectedElementId: addSelectedElementId,
     selectSelectedElementIds: selectSelectedElementIds,
-    updateElementsSelection: updateElementsSelection
+    updateElementsSelection: updateElementsSelection,
+    updateSize: updateSize,
+    updatePosition: updatePosition
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SlideContent);

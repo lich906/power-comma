@@ -4,16 +4,12 @@ import {connect} from "react-redux";
 import SlideContent from "./SlideContent/SlideContent";
 import {AnchorType} from "../../../Model/Types/ExtraTypes";
 import {selectCurrentSlide} from "../../../Model/Store/Selectors/selectCurrentSlide";
-import {Color} from "../../../Model/Types/ExtraTypes";
+import {Color, MenuItemProps} from "../../../Model/Types/ExtraTypes";
 import {BackgroundPicture} from "../../../Model/Types/ExtraTypes";
 import {addNewElement} from "../../../Model/Store/Actions/Slide/addNewElement";
 
 
-type ActionMenuItemProps = {
-    title: string;
-    hotkey?: string | undefined;
-    handler: () => void;
-}
+
 
 type SlideEditAreaProps = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {
     showActionMenu: Function
@@ -25,7 +21,7 @@ function SlideEditArea({
     addNewElement,
 }: SlideEditAreaProps): JSX.Element {
     const slide = selectCurrentSlide(state);
-    const ActionMenuItemContent: ActionMenuItemProps[] = [
+    const ActionMenuItemContent: MenuItemProps[] = [
         {
             title: "Circle",
             hotkey: "",
@@ -68,6 +64,8 @@ function SlideEditArea({
         }
     ];
 
+    
+
     const SlideStyle = {
         backgroundColor: (slide?.background as Color).hex,
         backgroundImage: 'url(' + (slide?.background as BackgroundPicture).src + ')',
@@ -78,13 +76,13 @@ function SlideEditArea({
         <div className={styles.slide}
         // right Click = action menu
         style = {SlideStyle}
-        onContextMenu={(e) => {
-            e.preventDefault();
-            showActionMenu(ActionMenuItemContent, getMousePosition(e))
-        }}
+        
         >
             <SlideContent
                 slide = {slide}
+                showActionMenu = {showActionMenu}
+                actionMenuItemContent = {ActionMenuItemContent}
+                getMousePosition = {getMousePosition}
             />
         </div>
     );

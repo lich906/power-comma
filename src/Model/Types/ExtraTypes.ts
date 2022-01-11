@@ -20,3 +20,9 @@ export type SizeType = {
     width: number;
     height: number;
 }
+
+export type MenuItemProps = {
+    title: string;
+    hotkey?: string | undefined;
+    handler: () => void;
+}
