@@ -12,7 +12,6 @@ import {updateElementsSelection} from "../../../../Model/Store/Actions/Editor/up
 
 type SlideContentProps = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {
     slide?: Slide,
-    getMousePosition: Function
 }
 
 type StrokeType = {
@@ -22,16 +21,21 @@ type StrokeType = {
 
 function SlideContent({
     slide,
-    getMousePosition
+    state,
+    selectedElementIds,
+    dragElements,
+    addSelectedElementId,
+    selectSelectedElementIds,
+    updateElementsSelection
 }: SlideContentProps): JSX.Element {
     //console.log(slide?.elements.length);
 
     let isPressed = false;
+    let isSomeElementSelected = false;
     let delta = { 
         x: 0,
         y: 0
     };
-    let isSomeElementSelected = false;
 
     function getStrokeStyle(border: BorderType): StrokeType {
         if (border != null)
@@ -44,21 +48,24 @@ function SlideContent({
     function ElementTransformFrame(props:{height:number, width: number, x: number, y: number, elementId: string, isSelected: boolean}): JSX.Element {
         const startPoint = {
             x: props.x,
-            y: props.y
+            y: props.y 
         }
-        
+
+        let width = props.width;
+        let height = props.height;
+
         return (
             <g>
                 <polyline
                     points={" " + startPoint.x + " " + startPoint.y + " " + 
-                    startPoint.x + " " + (startPoint.y-props.height) + " " +
-                        (startPoint.x+props.width) + " " + (startPoint.y-props.height) + " " +
-                        (startPoint.x+props.width) + " " + (startPoint.y) + " " +
+                    startPoint.x + " " + (startPoint.y-height) + " " +
+                        (startPoint.x+width) + " " + (startPoint.y-height) + " " +
+                        (startPoint.x+width) + " " + (startPoint.y) + " " +
                         (startPoint.x) + " " + (startPoint.y) + " " }
                     stroke = {"#000"}
                     fill = {""}
                     fillOpacity={0}
-                    strokeOpacity={80}
+                    strokeOpacity={20}
                     strokeWidth = {4}
                     className = {
                         `${!props.isSelected ? styles.hidden : ""}`
@@ -95,7 +102,7 @@ function SlideContent({
                         />
                             
                         <ElementTransformFrame 
-                            isSelected={selectSelectedElementIds(appStore.getState()).includes(props.item.id)}
+                            isSelected={selectedElementIds.includes(props.item.id)}
                             height={props.item.size.height} 
                             width={props.item.size.width} 
                             x={((props.item.position.x) as number)} 
@@ -119,7 +126,7 @@ function SlideContent({
                         />
                             
                         <ElementTransformFrame 
-                            isSelected={selectSelectedElementIds(appStore.getState()).includes(props.item.id)}
+                            isSelected={selectedElementIds.includes(props.item.id)}
                             height={props.item.size.height} 
                             width={props.item.size.width} 
                             x={((props.item.position.x-props.item.size.width/2) as number)} 
@@ -144,10 +151,10 @@ function SlideContent({
                         />
 
                         <ElementTransformFrame 
-                            isSelected={selectSelectedElementIds(appStore.getState()).includes(props.item.id)}
-                            height={props.item.size.height} 
-                            width={props.item.size.width} 
-                            x={((props.item.position.x-props.item.size.width) as number)} 
+                            isSelected={selectedElementIds.includes(props.item.id)}
+                            height={props.item.size.height/2} 
+                            width={props.item.size.width/2} 
+                            x={((props.item.position.x-props.item.size.width/2) as number)} 
                             y={(props.item.position.y as number)} 
                             elementId={props.item.id}/>
                     </g>
@@ -172,7 +179,7 @@ function SlideContent({
                         </text>
 
                         <ElementTransformFrame 
-                            isSelected={selectSelectedElementIds(appStore.getState()).includes(props.item.id)}
+                            isSelected={selectedElementIds.includes(props.item.id)}
                             height={(props.item as TextBox).fontSize} 
                             width={((props.item as TextBox).fontSize * ((props.item as TextBox).content.length))} 
                             x={((props.item.position.x) as number)} y={(props.item.position.y as number)} 
@@ -182,8 +189,7 @@ function SlideContent({
 
             case elementType.picture:
                 const pictureStyle = {
-                    href: "url(" +(props.item as Picture).src + ")",
-                    
+                    href: "src(" +(props.item as Picture).src + ")",
                 }
                 return(
                     <g>
@@ -195,10 +201,11 @@ function SlideContent({
                             y={props.item.position.y}
                             x={props.item.position.x}
                             onClick={(e) => props.elementSelectFunction(props.item.id, e)}
+
                         />
 
                         <ElementTransformFrame 
-                            isSelected={selectSelectedElementIds(appStore.getState()).includes(props.item.id)}
+                            isSelected={selectedElementIds.includes(props.item.id)}
                             height={props.item.size.height} 
                             width={props.item.size.width} 
                             x={((props.item.position.x) as number)} 
@@ -216,16 +223,19 @@ function SlideContent({
     }
 
     function showElementSelection(elementId: string, e: React.MouseEvent) {
-        
+        isSomeElementSelected = true;
         if (e.shiftKey) {
-            addSelectedElementId(selectSelectedElementIds(appStore.getState()), elementId);
-            console.log("selected:" + selectSelectedElementIds(appStore.getState()));
+            if (selectedElementIds != undefined){
+                addSelectedElementId(selectedElementIds, elementId);
+                console.log("selected:" + selectedElementIds);
+            }
         } else {
-            console.log("selected< "+ selectSelectedElementIds(appStore.getState()));
-            appStore.dispatch(updateElementsSelection([elementId]));
-            console.log("selected> "+ selectSelectedElementIds(appStore.getState()));
+            console.log("selected< "+ selectedElementIds);
+            updateElementsSelection([elementId]);
+            console.log("selected> "+ selectedElementIds);
         } 
-        appStore.dispatch(dragElements(slide!.id, selectSelectedElementIds(appStore.getState()) ,{ x:(delta.x), y:(delta.y) }));
+        
+        dragElements(slide!.id, selectedElementIds ,{ x:(delta.x), y:(delta.y) });
     }
 
 
@@ -240,12 +250,19 @@ function SlideContent({
                     isPressed = false;
                     delta.x = e.pageX-delta.x; 
                     delta.y = e.pageY-delta.y;
-                    appStore.dispatch(dragElements(slide!.id, selectSelectedElementIds(appStore.getState()) ,{ x:(delta.x), y:(delta.y) }));
+                    dragElements(slide!.id, selectedElementIds ,{ x:(delta.x), y:(delta.y) });
                     console.log(delta);
                     delta = {x:0, y:0};
-                } else {
-                    
-                }
+                } 
+            }}
+
+            onMouseDown={(e)=>{
+                if (!isPressed && !e.shiftKey && (selectedElementIds.length>1)) {
+                    updateElementsSelection([]);
+                    isSomeElementSelected = false;
+                    console.log(delta);
+                    delta = {x:0, y:0};
+                } 
             }}
         >  
             {slide?.elements.map((item, index) => <SlideDrawItem 
@@ -262,7 +279,8 @@ function SlideContent({
 
 const mapStateToProps = (state: AppState) => {
     return {
-        
+        state: state,
+        selectedElementIds: selectSelectedElementIds(state) == undefined ? [] : selectSelectedElementIds(state)
     }
 }
 

@@ -85,7 +85,6 @@ function SlideEditArea({
         >
             <SlideContent
                 slide = {slide}
-                getMousePosition = {getMousePosition}
             />
         </div>
     );
