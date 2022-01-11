@@ -66,7 +66,7 @@ function SlideContent({
                     fill = {""}
                     fillOpacity={0}
                     strokeOpacity={20}
-                    strokeWidth = {4}
+                    strokeWidth = {2}
                     className = {
                         `${!props.isSelected ? styles.hidden : ""}`
                     }  
@@ -225,8 +225,9 @@ function SlideContent({
     function showElementSelection(elementId: string, e: React.MouseEvent) {
         isSomeElementSelected = true;
         if (e.shiftKey) {
-            if (selectedElementIds != undefined){
-                addSelectedElementId(selectedElementIds, elementId);
+            if (selectedElementIds){
+                console.log("selected::" + selectedElementIds);    
+                updateElementsSelection([...selectedElementIds, elementId]);
                 console.log("selected:" + selectedElementIds);
             }
         } else {
@@ -280,7 +281,7 @@ function SlideContent({
 const mapStateToProps = (state: AppState) => {
     return {
         state: state,
-        selectedElementIds: selectSelectedElementIds(state) == undefined ? [] : selectSelectedElementIds(state)
+        selectedElementIds: selectSelectedElementIds(state)
     }
 }
 
