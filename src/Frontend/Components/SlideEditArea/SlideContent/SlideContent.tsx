@@ -25,6 +25,12 @@ function SlideContent({
     getMousePosition
 }: SlideContentProps): JSX.Element {
     //console.log(slide?.elements.length);
+    let isPressed = false;
+    let delta = { 
+        x: 0,
+        y: 0
+    };
+    let isSomeElementSelected = false;
 
     function getStrokeStyle(border: BorderType): StrokeType {
         if (border != null)
@@ -39,12 +45,6 @@ function SlideContent({
             x: props.x,
             y: props.y
         }
-
-        let isPressed = false;
-        let delta = { 
-            x: 0,
-            y: 0
-        };
         
         return (
             <g>
@@ -61,20 +61,14 @@ function SlideContent({
                     strokeWidth = {4}
                     className = {
                         `${!props.displayElementSelection ? styles.hidden : ""}`
-                    }
-
+                    }  
+                    
                     onMouseDown={(e)=>{
                         isPressed = true; 
+                        console.log(isPressed);
                         delta.x = e.pageX; 
                         delta.y = e.pageY
                     }}
-                    onMouseUp={(e)=>{
-                        isPressed = false;
-                        delta.x = e.pageX-delta.x; 
-                        delta.y = e.pageY-delta.y;
-                        appStore.dispatch(dragElements(slide!.id, selectSelectedElementIds(appStore.getState()) ,{ x:(delta.x), y:(delta.y) }));
-                        console.log(delta);
-                    }}            
                 />
             </g>
         )
@@ -194,14 +188,16 @@ function SlideContent({
 
     function showElementSelection(setDisplayElementSelection:Function, displayElementSelection: boolean, elementId: string, e: React.MouseEvent) {
         
+        isSomeElementSelected = true;
+
         if (e.shiftKey) {
-            let selectedElementsId = selectSelectedElementIds(appStore.getState()) != undefined ? selectSelectedElementIds(appStore.getState()) : [];
-            addSelectedElementId((selectedElementsId as string[]), elementId);
-            updateElementsSelection(selectedElementsId);
+            addSelectedElementId(selectSelectedElementIds(appStore.getState()), elementId);
             setDisplayElementSelection(!displayElementSelection);
+            console.log("selected:"+selectSelectedElementIds(appStore.getState()));
         } else {
             setDisplayElementSelection(!displayElementSelection);
-            updateElementsSelection([elementId]);
+            appStore.dispatch(updateElementsSelection([elementId]));
+            console.log("selected "+ selectSelectedElementIds(appStore.getState()));
         } 
     }
 
@@ -211,6 +207,25 @@ function SlideContent({
             id = "elementContainer" 
             className = {styles.elementContainer}
             xmlns = {"http://www.w3.org/2000/svg"}
+
+            onMouseUp={(e)=>{
+                if (isPressed) {
+                    isPressed = false;
+                    delta.x = e.pageX-delta.x; 
+                    delta.y = e.pageY-delta.y;
+                    appStore.dispatch(dragElements(slide!.id, selectSelectedElementIds(appStore.getState()) ,{ x:(delta.x), y:(delta.y) }));
+                    console.log(delta);
+                }
+            }}
+
+            onMouseDown={(e)=>{
+                if (isSomeElementSelected)
+                {
+                    updateElementsSelection([]);
+                }
+            }}
+
+
             >  
             {slide?.elements.map((item, index) => <SlideDrawItem key={item.id} index={index} item={item} elementSelectFunction={showElementSelection}/>)} 
         </svg>
