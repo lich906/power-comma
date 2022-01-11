@@ -2,10 +2,7 @@ import React, {useState} from "react";
 import {Slide} from "../../../../Model/Types/Slide";
 import styles from './SlideContent.module.css';
 import { Element, elementType, Picture, TextBox, Triangle} from "../../../../Model/Types/Element";
-import {AnchorType} from "../../../../Model/Types/ExtraTypes";
-import {Color, BorderType} from "../../../../Model/Types/ExtraTypes";
-import { type } from "os";
-import { isNumber } from "util";
+import {Color, BorderType, AnchorType} from "../../../../Model/Types/ExtraTypes";
 
 type SlideContentProps = {
     slide?: Slide
@@ -20,6 +17,8 @@ function SlideContent({
     slide
 }: SlideContentProps): JSX.Element {
     console.log(slide?.elements.length);
+   
+
 
     function getStrokeStyle(border: BorderType): StrokeType {
         if (border != null)
@@ -29,13 +28,40 @@ function SlideContent({
         return {strokeWidth: 0, stroke: " "};
     }
 
-    function SlideDrawItem(props:{index: number, item: Element}): JSX.Element {
+    function ElementTransformFrame(props:{height:number, width: number, x: number, y: number, displayElementSelection: boolean}): JSX.Element {
+        const startPoint = {
+            x: props.x,
+            y: props.y
+        }
+        return (
+            <g>
+                <polyline
+                    points={" " + startPoint.x + " " + startPoint.y + " " + 
+                    startPoint.x + " " + (startPoint.y-props.height) + " " +
+                        (startPoint.x+props.width) + " " + (startPoint.y-props.height) + " " +
+                        (startPoint.x+props.width) + " " + (startPoint.y) + " " +
+                        (startPoint.x) + " " + (startPoint.y) + " " }
+                    stroke = {"#123123"}
+                    fillOpacity={0}
+                    strokeOpacity={80}
+                    strokeWidth = {8}
+                    className = {
+                        `${!props.displayElementSelection ? styles.hidden : ""}`
+                    }
+                                
+                />
+            </g>
+        )
+    }
+
+    function SlideDrawItem(props:{index: number, item: Element, elementSelectFunction: Function}): JSX.Element {
         const stroke = getStrokeStyle(props.item.border as BorderType);
+        const [displayElementSelection, setDisplayElementSelection] = useState(false);
         switch (props.item.type) {
             case elementType.rectangle:
                 return(
-                    <g>
-                        <title>{props.item.id}</title>
+                    <g
+                        onClick={() => props.elementSelectFunction(setDisplayElementSelection, displayElementSelection)}>
                         <rect 
                             fill={(props.item.fill as Color).hex} 
                             id={props.item.id} 
@@ -45,13 +71,17 @@ function SlideContent({
                             x={props.item.position.x}
                             stroke = {""+stroke.stroke}
                             strokeWidth = {0 + stroke.strokeWidth}/>
+                            
+                        <ElementTransformFrame height={props.item.size.height} width={props.item.size.width} x={((props.item.position.x) as number)} y={((props.item.position.y+props.item.size.height) as number)} displayElementSelection={displayElementSelection}/>
                     </g>
                 )
 
             case elementType.circle:
+                
                 return(
-                    <g>
-                        <title>{props.item.id}</title>
+                    <g
+                        onClick={() => props.elementSelectFunction(setDisplayElementSelection, displayElementSelection)}>
+
                         <circle 
                             fill={(props.item.fill as Color).hex} 
                             id={props.item.id} 
@@ -59,23 +89,27 @@ function SlideContent({
                             y={props.item.position.y}
                             x={props.item.position.x}
                             stroke = {""+stroke.stroke}
-                            strokeWidth = {0 + stroke.strokeWidth}
-                            />
+                            strokeWidth = {0 + stroke.strokeWidth}/>
+                            
+                        <ElementTransformFrame height={props.item.size.height} width={props.item.size.width} x={((props.item.position.x-props.item.size.width) as number)} y={(props.item.position.y as number)} displayElementSelection={displayElementSelection}/>
+                        
                     </g>
                 )
 
             case elementType.triangle:
                 return(
-                    <g>
-                        <title>{props.item.id}</title>
+                    <g
+                        onClick={() => props.elementSelectFunction(setDisplayElementSelection, displayElementSelection)}>
                         <polygon
                             points={"" + props.item.position.x + " " + props.item.position.y + " " + 
-                            (props.item as Triangle).position1.x + " " + (props.item as Triangle).position1.y + " " +
-                            (props.item as Triangle).position2.x + " " + (props.item as Triangle).position2.y}
+                                (props.item as Triangle).position1.x + " " + (props.item as Triangle).position1.y + " " +
+                                (props.item as Triangle).position2.x + " " + (props.item as Triangle).position2.y}
                             fill={(props.item.fill as Color).hex} 
                             id={props.item.id} 
                             stroke = {""+stroke.stroke}
                             strokeWidth = {0 + stroke.strokeWidth}/>
+
+                        <ElementTransformFrame height={props.item.size.height} width={props.item.size.width} x={((props.item.position.x-props.item.size.width) as number)} y={(props.item.position.y as number)} displayElementSelection={displayElementSelection}/>
                     </g>
                 )
 
@@ -86,8 +120,8 @@ function SlideContent({
                     fill:(props.item as TextBox).textColor.hex
                 }
                 return(
-                    <g>
-                        <title>{props.item.id}</title>
+                    <g
+                        onClick={() => props.elementSelectFunction(setDisplayElementSelection, displayElementSelection)}>
                         <text
                             id={props.item.id} 
                             style={textStyle}
@@ -95,6 +129,8 @@ function SlideContent({
                             x={props.item.position.x}>
                             {(props.item as TextBox).content}
                         </text>
+
+                        <ElementTransformFrame height={props.item.size.height} width={props.item.size.width} x={((props.item.position.x-props.item.size.width) as number)} y={(props.item.position.y as number)} displayElementSelection={displayElementSelection}/>
                     </g>
                 )
 
@@ -104,8 +140,8 @@ function SlideContent({
                     
                 }
                 return(
-                    <g>
-                        <title>{props.item.id}</title>
+                    <g
+                        onClick={() => props.elementSelectFunction(setDisplayElementSelection, displayElementSelection)}>
                         <image
                             id={props.item.id} 
                             href={pictureStyle.href}
@@ -113,6 +149,8 @@ function SlideContent({
                             width={props.item.size.width}
                             y={props.item.position.y}
                             x={props.item.position.x}/>
+
+                        <ElementTransformFrame height={props.item.size.height} width={props.item.size.width} x={((props.item.position.x) as number)} y={((props.item.position.y + props.item.size.width) as number)} displayElementSelection={displayElementSelection}/>
                     </g>
                 )
                     
@@ -124,6 +162,11 @@ function SlideContent({
         
     }
 
+    function showElementSelection(setDisplayElementSelection:Function, displayElementSelection: boolean) {
+        console.log("select");
+        setDisplayElementSelection(!displayElementSelection);
+    }
+
 
     return (
         <svg
@@ -132,7 +175,7 @@ function SlideContent({
             xmlns = {"http://www.w3.org/2000/svg"}
             > 
             
-            {slide?.elements.map((item, index) => <SlideDrawItem key={item.id} index={index} item={item}/>)} 
+            {slide?.elements.map((item, index) => <SlideDrawItem key={item.id} index={index} item={item} elementSelectFunction={showElementSelection}/>)} 
         </svg>
         
     )
