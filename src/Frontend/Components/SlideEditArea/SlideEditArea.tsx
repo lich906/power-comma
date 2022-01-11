@@ -1,7 +1,5 @@
-import React, {useState} from "react";
 import styles from './SlideEditArea.module.css';
-import {Slide} from "../../../Model/Types/Slide";
-import {AppDispatch, AppState} from "../../../Model/Store/AppStore";
+import {AppState} from "../../../Model/Store/AppStore";
 import {connect} from "react-redux";
 import SlideContent from "./SlideContent/SlideContent";
 import {AnchorType} from "../../../Model/Types/ExtraTypes";
@@ -9,7 +7,7 @@ import {selectCurrentSlide} from "../../../Model/Store/Selectors/selectCurrentSl
 import {Color} from "../../../Model/Types/ExtraTypes";
 import {BackgroundPicture} from "../../../Model/Types/ExtraTypes";
 import {addNewElement} from "../../../Model/Store/Actions/Slide/addNewElement";
-import AppStore from "../../../Model/Store/AppStore";
+
 
 type ActionMenuItemProps = {
     title: string;
@@ -82,17 +80,18 @@ function SlideEditArea({
         style = {SlideStyle}
         onContextMenu={(e) => {
             e.preventDefault();
-            showActionMenu(ActionMenuItemContent, mousePosition(e))
+            showActionMenu(ActionMenuItemContent, getMousePosition(e))
         }}
         >
             <SlideContent
                 slide = {slide}
+                getMousePosition = {getMousePosition}
             />
         </div>
     );
 }
 
-function mousePosition(e: any): AnchorType{
+function getMousePosition(e: any): AnchorType{
     //const rect = e.target.getBoundingClientRect()
     const x = e.pageX //-rect.left если кординаты внутри canvas
     const y = e.pageY //-rect.top 
