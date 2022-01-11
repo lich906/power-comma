@@ -1,5 +1,5 @@
 import {AnyAction} from "redux";
-import {CommonType, Element, elementType, Picture, TextBox} from "../../Types/Element";
+import {CommonType, Element, elementType, Picture, TextBox, Triangle} from "../../Types/Element";
 import {AnchorType, BorderType, Color, SizeType} from "../../Types/ExtraTypes";
 import {SET_BORDER_WIDTH} from "../Actions/Elements/setBorderWidth";
 import {SET_BORDER_COLOR} from "../Actions/Elements/setBorderColor";
@@ -26,6 +26,26 @@ import {SET_FONT_SIZE} from "../Actions/Elements/setFontSize";
 import {SET_TEXTBOX_CONTENT} from "../Actions/Elements/setTextboxContent";
 
 const position = (state: AnchorType = DEFAULT_POSITION, action: AnyAction): AnchorType => {
+    if (action.type === UPDATE_POSITION) {
+        return {
+            x: state.x + action.delta.x,
+            y: state.y + action.delta.y
+        }
+    }
+    return state;
+}
+
+const position1 = (state: AnchorType = DEFAULT_POSITION, action: AnyAction): AnchorType => {
+    if (action.type === UPDATE_POSITION) {
+        return {
+            x: state.x + action.delta.x,
+            y: state.y + action.delta.y
+        }
+    }
+    return state;
+}
+
+const position2 = (state: AnchorType = DEFAULT_POSITION, action: AnyAction): AnchorType => {
     if (action.type === UPDATE_POSITION) {
         return {
             x: state.x + action.delta.x,
@@ -139,6 +159,8 @@ export const ElementReducers = (state: Element, action: AnyAction): Element => {
         case elementType.triangle:
             return {
                 ...commonReducers,
+                position1: position1((state as Triangle).position1, action),
+                position2: position2((state as Triangle).position2, action),
                 type: state.type,
                 id: state.id
             };

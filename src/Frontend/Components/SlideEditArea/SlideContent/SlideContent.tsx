@@ -98,21 +98,20 @@ function SlideContent({
                 )
 
             case elementType.circle:
-                
                 return(
                     <g>
                         <circle 
                             fill={(props.item.fill as Color).hex} 
                             id={props.item.id} 
-                            r={props.item.size.width/2}  
-                            y={props.item.position.y}
-                            x={props.item.position.x}
+                            r={(props.item.size.width/2)}  
+                            cy={props.item.position.y}
+                            cx={props.item.position.x}
                             stroke = {""+stroke.stroke}
                             strokeWidth = {0 + stroke.strokeWidth}
                             onClick={(e) => props.elementSelectFunction(setDisplayElementSelection, displayElementSelection, props.item.id, e)}
                         />
                             
-                        <ElementTransformFrame height={props.item.size.height} width={props.item.size.width} x={((props.item.position.x-props.item.size.width) as number)} y={(props.item.position.y as number)} displayElementSelection={displayElementSelection} elementId={props.item.id}/>
+                        <ElementTransformFrame height={props.item.size.height} width={props.item.size.width} x={((props.item.position.x-props.item.size.width/2) as number)} y={((props.item.position.y+props.item.size.height/2) as number)} displayElementSelection={displayElementSelection} elementId={props.item.id}/>
                         
                     </g>
                 )
@@ -153,7 +152,7 @@ function SlideContent({
                             {(props.item as TextBox).content}
                         </text>
 
-                        <ElementTransformFrame height={props.item.size.height} width={props.item.size.width} x={((props.item.position.x-props.item.size.width) as number)} y={(props.item.position.y as number)} displayElementSelection={displayElementSelection} elementId={props.item.id}/>
+                        <ElementTransformFrame height={(props.item as TextBox).fontSize} width={((props.item as TextBox).fontSize * ((props.item as TextBox).content.length))} x={((props.item.position.x) as number)} y={(props.item.position.y as number)} displayElementSelection={displayElementSelection} elementId={props.item.id}/>
                     </g>
                 )
 
@@ -193,7 +192,7 @@ function SlideContent({
         if (e.shiftKey) {
             addSelectedElementId(selectSelectedElementIds(appStore.getState()), elementId);
             setDisplayElementSelection(!displayElementSelection);
-            console.log("selected:"+selectSelectedElementIds(appStore.getState()));
+            console.log("selected:" + selectSelectedElementIds(appStore.getState()));
         } else {
             setDisplayElementSelection(!displayElementSelection);
             appStore.dispatch(updateElementsSelection([elementId]));
@@ -218,12 +217,6 @@ function SlideContent({
                 }
             }}
 
-            onMouseDown={(e)=>{
-                if (isSomeElementSelected)
-                {
-                    updateElementsSelection([]);
-                }
-            }}
 
 
             >  
