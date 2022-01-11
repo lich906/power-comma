@@ -14,8 +14,18 @@ export const DEFAULT_NO_SOURCE_IMAGE: string = 'data:image/png;base64,iVBORw0KGg
 export const DEFAULT_BORDER_WIDTH: number = 1;
 
 export const DEFAULT_POSITION: AnchorType = {
-    x: 0,
-    y: 0
+    x: 100,
+    y: 100
+}
+
+export const DEFAULT_POSITION1: AnchorType = {
+    x: 100,
+    y: 10
+}
+
+export const DEFAULT_POSITION2: AnchorType = {
+    x: 30,
+    y: 5
 }
 
 export const DEFAULT_SIZE: SizeType = {

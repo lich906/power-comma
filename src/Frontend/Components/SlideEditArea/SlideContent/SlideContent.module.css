@@ -1,6 +1,7 @@
 @import "../../../StyleConstants.css";
 
-.convasContainer {
+.elementContainer {
     height: 80%;
     width: 94%; 
+    
 }

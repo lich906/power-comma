@@ -17,22 +17,23 @@ type ActionMenuItemProps = {
     handler: () => void;
 }
 
-type SlideEditAreaProps = {
-    showActionMenu: Function,
+type SlideEditAreaProps = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {
+    showActionMenu: Function
 }
 
 function SlideEditArea({
+    state,
     showActionMenu,
+    addNewElement,
 }: SlideEditAreaProps): JSX.Element {
-
-    const slide = selectCurrentSlide();
+    const slide = selectCurrentSlide(state);
     const ActionMenuItemContent: ActionMenuItemProps[] = [
         {
             title: "Circle",
             hotkey: "",
             handler: () => {
                 console.log("Circle")
-                AppStore.dispatch(addNewElement(slide!.id, 3 ))
+                addNewElement(slide!.id, 3 )
             }
         },
         {
@@ -40,7 +41,7 @@ function SlideEditArea({
             hotkey: "",
             handler: () => {
                 console.log("Picture")
-                AppStore.dispatch(addNewElement(slide!.id, 4 ))
+                addNewElement(slide!.id, 4 )
             }
         },
         {
@@ -48,7 +49,7 @@ function SlideEditArea({
             hotkey: "",
             handler: () => {
                 console.log("Rectangle")
-                AppStore.dispatch(addNewElement(slide!.id, 1 ))
+                addNewElement(slide!.id, 1 )
             }
         },
         {
@@ -56,7 +57,7 @@ function SlideEditArea({
             hotkey: "",
             handler: () => {
                 console.log("TextBox")
-                AppStore.dispatch(addNewElement(slide!.id, 0 ))
+                addNewElement(slide!.id, 0 )
             }
         },
         {
@@ -64,7 +65,7 @@ function SlideEditArea({
             hotkey: "",
             handler: () => {
                 console.log("Triangle")
-                AppStore.dispatch(addNewElement(slide!.id, 2 ))
+                addNewElement(slide!.id, 2 )
             }
         }
     ];
@@ -84,7 +85,6 @@ function SlideEditArea({
             showActionMenu(ActionMenuItemContent, mousePosition(e))
         }}
         >
-            {slide?.id}
             <SlideContent
                 slide = {slide}
             />
@@ -101,12 +101,13 @@ function mousePosition(e: any): AnchorType{
 
 const mapStateToProps = (state: AppState) => {
     return {
+        state: state,
     }
 }
 
-const mapDispatchToProps = (dispatch: AppDispatch) => {
-    return {
-    }
+const mapDispatchToProps = {
+    addNewElement: addNewElement,
+    
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SlideEditArea);
