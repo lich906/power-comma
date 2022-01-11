@@ -2,7 +2,7 @@ import {undo} from "../Model/Store/Actions/History/undo";
 import {moveSelectedSlidesDown, moveSelectedSlidesUp} from "../Model/Store/Actions/Presentation/moveSelectedSlides";
 import {redo} from "../Model/Store/Actions/History/redo";
 import {selectSelectedSlideIds} from "../Model/Store/Selectors/selectSelectedSlideIds";
-import {appDispatch} from "../Model/Store/AppStore";
+import {AppDispatch, appStore} from "../Model/Store/AppStore";
 import {openPresentationAsync} from "./openPresentationAsync";
 import {
     createNewPresentationPopupTexts,
@@ -16,10 +16,12 @@ import {StringInputPopupTexts} from "../Frontend/Components/StringInputPopup/Str
 import {createNewPresentation} from "../Model/Store/Actions/Editor/createNewPresentation";
 import {nextSlide} from "./nextSlide";
 import {previousSlide} from "./previousSlide";
+import {deleteSlides} from "../Model/Store/Actions/Presentation/deleteSlides";
 
 export function dispatchActionByHotkey(
     e: KeyboardEvent,
-    showStringInputPopup: (texts: StringInputPopupTexts, onSubmitFn: (val: string) => void) => void
+    showStringInputPopup: (texts: StringInputPopupTexts, onSubmitFn: (val: string) => void) => void,
+    appDispatch: AppDispatch
 ): void {
     if (e.ctrlKey && e.altKey) {
         switch (e.keyCode) {
@@ -44,11 +46,11 @@ export function dispatchActionByHotkey(
                 break;
             case 38:
                 console.log('Ctrl+Alt+ArrowUp');
-                appDispatch(moveSelectedSlidesUp(selectSelectedSlideIds()));
+                appDispatch(moveSelectedSlidesUp(selectSelectedSlideIds(appStore.getState())));
                 break;
             case 40:
                 console.log('Ctrl+Alt+ArrowDown');
-                appDispatch(moveSelectedSlidesDown(selectSelectedSlideIds()));
+                appDispatch(moveSelectedSlidesDown(selectSelectedSlideIds(appStore.getState())));
                 break;
         }
     } else if (e.ctrlKey) {
@@ -71,7 +73,7 @@ export function dispatchActionByHotkey(
                 console.log('Ctrl+S');
                 showStringInputPopup(
                     savePresentationPopupTexts,
-                    (fileName: string) => savePresentationJSON(selectPresentation(), fileName)
+                    (fileName: string) => savePresentationJSON(selectPresentation(appStore.getState()), fileName)
                 );
                 break;
             case 49:
@@ -84,11 +86,15 @@ export function dispatchActionByHotkey(
                 break;
             case 38:
                 console.log('Ctrl+ArrowUp');
-                previousSlide();
+                previousSlide(appStore.getState(), appDispatch);
                 break;
             case 40:
                 console.log('Ctrl+ArrowDown');
-                nextSlide();
+                nextSlide(appStore.getState(), appDispatch);
+                break;
+            case 46:
+                console.log('Ctrl+Alt+Del');
+                appDispatch(deleteSlides(selectSelectedSlideIds(appStore.getState())));
                 break;
         }
     }

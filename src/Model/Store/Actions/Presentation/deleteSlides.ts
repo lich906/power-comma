@@ -1,9 +1,9 @@
 import {AnyAction} from "redux";
 
 export const DELETE_SLIDES = 'DELETE_SLIDES';
-export function deleteSlides(slideIds: string[]): AnyAction {
+export function deleteSlides(ids: string[]): AnyAction {
     return {
         type: DELETE_SLIDES,
-        slideIds: slideIds
+        ids: ids
     }
 }

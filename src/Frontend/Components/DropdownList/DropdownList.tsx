@@ -1,15 +1,11 @@
 import React from "react";
 import styles from './DropdownList.module.css';
+import {AnchorType} from "../../../Model/Types/ExtraTypes";
 
 export type DropdownMenuItemProps = {
     title: string,
     hotkey?: string,
     handler: () => void,
-}
-
-export type AnchorType = {
-    x: number,
-    y: number
 }
 
 type DropdownMenuProps = {

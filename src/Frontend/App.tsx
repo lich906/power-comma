@@ -1,28 +1,30 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import styles from './App.module.css';
 import Sidebar from "./Components/Sidebar/Sidebar";
-import {AppState} from "../Model/Store/AppStore";
+import {AppDispatch, AppState} from "../Model/Store/AppStore";
 import {connect} from "react-redux";
 import MainMenu from "./Components/MainMenu/MainMenu"
-import DropdownList, {AnchorType} from "./Components/DropdownList/DropdownList";
+import DropdownList from "./Components/DropdownList/DropdownList";
 import StringInputPopup, {StringInputPopupTexts} from "./Components/StringInputPopup/StringInputPopup";
-import {initialAnchor, initialStringInputPopupTexts} from "./Constants";
+import {initialStringInputPopupTexts} from "./Constants";
 import {dispatchActionByHotkey} from "../AdditionalFunctions/dispatchActionByHotkey";
+import SlideEditArea from "./Components/SlideEditArea/SlideEditArea"
+import {AnchorType} from "../Model/Types/ExtraTypes";
+import {DEFAULT_POSITION} from "../Model/Constants";
 
-type AppProps = {
-    currentSlideId: string|null,
-    presentationTitle: string
-}
+type AppProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>
 
-function App({currentSlideId, presentationTitle}: AppProps) {
+function App({currentSlideId, presentationTitle, appDispatch}: AppProps) {
     const [dropdownListContent, setDropdownListContent] = useState([]);
     const [displayDropdownList, setDisplayDropdownList] = useState(false);
-    const [dropdownListAnchor, setDropdownListAnchor] = useState(initialAnchor)
+    const [dropdownListAnchor, setDropdownListAnchor] = useState(DEFAULT_POSITION);
     const [stringInputPopupTexts, setStringInputPopupTexts] = useState(initialStringInputPopupTexts);
-    const [stringInputPopupOnSubmitFn, setStringInputPopupOnSubmitFn] = useState(() => (_: string) => {})
+    const [stringInputPopupOnSubmitFn, setStringInputPopupOnSubmitFn] = useState(() => (_: string) => {});
     const [displayStringInputPopup, setDisplayStringInputPopup] = useState(false);
 
-    const handleKeyDown = useCallback((e: KeyboardEvent) => dispatchActionByHotkey(e, showStringInputPopup), []);
+    const handleKeyDown = useCallback((e: KeyboardEvent) => {
+        dispatchActionByHotkey(e, showStringInputPopup, appDispatch);
+    }, [appDispatch]);
 
     useEffect(() => {
         document.addEventListener("keydown", handleKeyDown);
@@ -50,7 +52,8 @@ function App({currentSlideId, presentationTitle}: AppProps) {
                 <Sidebar showDropdownList={showDropdownList}/>
                 <div className={styles.editorContainer}>
                     <div className={styles.presentationTitle}>{presentationTitle}</div>
-                    {currentSlideId}
+                    <SlideEditArea 
+                    />
                 </div>
             </div>
             {
@@ -80,4 +83,8 @@ const mapStateToProps = (state: AppState) => {
     }
 }
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = (dispatch: AppDispatch) => ({
+    appDispatch: dispatch
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
