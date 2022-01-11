@@ -25,6 +25,7 @@ function SlideContent({
     getMousePosition
 }: SlideContentProps): JSX.Element {
     //console.log(slide?.elements.length);
+
     let isPressed = false;
     let delta = { 
         x: 0,
@@ -40,7 +41,7 @@ function SlideContent({
         return {strokeWidth: 0, stroke: " "};
     }
 
-    function ElementTransformFrame(props:{height:number, width: number, x: number, y: number, displayElementSelection: boolean, elementId: string}): JSX.Element {
+    function ElementTransformFrame(props:{height:number, width: number, x: number, y: number, elementId: string, isSelected: boolean}): JSX.Element {
         const startPoint = {
             x: props.x,
             y: props.y
@@ -60,7 +61,7 @@ function SlideContent({
                     strokeOpacity={80}
                     strokeWidth = {4}
                     className = {
-                        `${!props.displayElementSelection ? styles.hidden : ""}`
+                        `${!props.isSelected ? styles.hidden : ""}`
                     }  
                     
                     onMouseDown={(e)=>{
@@ -76,7 +77,7 @@ function SlideContent({
 
     function SlideDrawItem(props:{index: number, item: Element, elementSelectFunction: Function}): JSX.Element {
         const stroke = getStrokeStyle(props.item.border as BorderType);
-        const [displayElementSelection, setDisplayElementSelection] = useState(false);
+        
         switch (props.item.type) {
             case elementType.rectangle:
                 return(
@@ -90,10 +91,16 @@ function SlideContent({
                             x={props.item.position.x}
                             stroke = {""+stroke.stroke}
                             strokeWidth = {0 + stroke.strokeWidth}
-                            onClick={(e) => props.elementSelectFunction(setDisplayElementSelection, displayElementSelection, props.item.id, e)}
+                            onClick={(e) => props.elementSelectFunction(props.item.id, e)}
                         />
                             
-                        <ElementTransformFrame height={props.item.size.height} width={props.item.size.width} x={((props.item.position.x) as number)} y={((props.item.position.y+props.item.size.height) as number)} displayElementSelection={displayElementSelection} elementId={props.item.id}/>
+                        <ElementTransformFrame 
+                            isSelected={selectSelectedElementIds(appStore.getState()).includes(props.item.id)}
+                            height={props.item.size.height} 
+                            width={props.item.size.width} 
+                            x={((props.item.position.x) as number)} 
+                            y={((props.item.position.y+props.item.size.height) as number)} 
+                            elementId={props.item.id}/>
                     </g>
                 )
 
@@ -108,10 +115,16 @@ function SlideContent({
                             cx={props.item.position.x}
                             stroke = {""+stroke.stroke}
                             strokeWidth = {0 + stroke.strokeWidth}
-                            onClick={(e) => props.elementSelectFunction(setDisplayElementSelection, displayElementSelection, props.item.id, e)}
+                            onClick={(e) => props.elementSelectFunction(props.item.id, e)}
                         />
                             
-                        <ElementTransformFrame height={props.item.size.height} width={props.item.size.width} x={((props.item.position.x-props.item.size.width/2) as number)} y={((props.item.position.y+props.item.size.height/2) as number)} displayElementSelection={displayElementSelection} elementId={props.item.id}/>
+                        <ElementTransformFrame 
+                            isSelected={selectSelectedElementIds(appStore.getState()).includes(props.item.id)}
+                            height={props.item.size.height} 
+                            width={props.item.size.width} 
+                            x={((props.item.position.x-props.item.size.width/2) as number)} 
+                            y={((props.item.position.y+props.item.size.height/2) as number)} 
+                            elementId={props.item.id}/>
                         
                     </g>
                 )
@@ -127,10 +140,16 @@ function SlideContent({
                             id={props.item.id} 
                             stroke = {""+stroke.stroke}
                             strokeWidth = {0 + stroke.strokeWidth}
-                            onClick={(e) => props.elementSelectFunction(setDisplayElementSelection, displayElementSelection, props.item.id, e)}
+                            onClick={(e) => props.elementSelectFunction(props.item.id, e)}
                         />
 
-                        <ElementTransformFrame height={props.item.size.height} width={props.item.size.width} x={((props.item.position.x-props.item.size.width) as number)} y={(props.item.position.y as number)} displayElementSelection={displayElementSelection} elementId={props.item.id}/>
+                        <ElementTransformFrame 
+                            isSelected={selectSelectedElementIds(appStore.getState()).includes(props.item.id)}
+                            height={props.item.size.height} 
+                            width={props.item.size.width} 
+                            x={((props.item.position.x-props.item.size.width) as number)} 
+                            y={(props.item.position.y as number)} 
+                            elementId={props.item.id}/>
                     </g>
                 )
 
@@ -147,12 +166,17 @@ function SlideContent({
                             style={textStyle}
                             y={props.item.position.y}
                             x={props.item.position.x}
-                            onClick={(e) => props.elementSelectFunction(setDisplayElementSelection, displayElementSelection, props.item.id, e)}
+                            onClick={(e) => props.elementSelectFunction(props.item.id, e)}
                         >
                             {(props.item as TextBox).content}
                         </text>
 
-                        <ElementTransformFrame height={(props.item as TextBox).fontSize} width={((props.item as TextBox).fontSize * ((props.item as TextBox).content.length))} x={((props.item.position.x) as number)} y={(props.item.position.y as number)} displayElementSelection={displayElementSelection} elementId={props.item.id}/>
+                        <ElementTransformFrame 
+                            isSelected={selectSelectedElementIds(appStore.getState()).includes(props.item.id)}
+                            height={(props.item as TextBox).fontSize} 
+                            width={((props.item as TextBox).fontSize * ((props.item as TextBox).content.length))} 
+                            x={((props.item.position.x) as number)} y={(props.item.position.y as number)} 
+                            elementId={props.item.id}/>
                     </g>
                 )
 
@@ -170,10 +194,16 @@ function SlideContent({
                             width={props.item.size.width}
                             y={props.item.position.y}
                             x={props.item.position.x}
-                            onClick={(e) => props.elementSelectFunction(setDisplayElementSelection, displayElementSelection, props.item.id, e)}
+                            onClick={(e) => props.elementSelectFunction(props.item.id, e)}
                         />
 
-                        <ElementTransformFrame height={props.item.size.height} width={props.item.size.width} x={((props.item.position.x) as number)} y={((props.item.position.y + props.item.size.width) as number)} displayElementSelection={displayElementSelection} elementId={props.item.id}/>
+                        <ElementTransformFrame 
+                            isSelected={selectSelectedElementIds(appStore.getState()).includes(props.item.id)}
+                            height={props.item.size.height} 
+                            width={props.item.size.width} 
+                            x={((props.item.position.x) as number)} 
+                            y={((props.item.position.y + props.item.size.width) as number)} 
+                            elementId={props.item.id}/>
                     </g>
                 )
                     
@@ -185,19 +215,17 @@ function SlideContent({
         
     }
 
-    function showElementSelection(setDisplayElementSelection:Function, displayElementSelection: boolean, elementId: string, e: React.MouseEvent) {
+    function showElementSelection(elementId: string, e: React.MouseEvent) {
         
-        isSomeElementSelected = true;
-
         if (e.shiftKey) {
             addSelectedElementId(selectSelectedElementIds(appStore.getState()), elementId);
-            setDisplayElementSelection(!displayElementSelection);
             console.log("selected:" + selectSelectedElementIds(appStore.getState()));
         } else {
-            setDisplayElementSelection(!displayElementSelection);
+            console.log("selected< "+ selectSelectedElementIds(appStore.getState()));
             appStore.dispatch(updateElementsSelection([elementId]));
-            console.log("selected "+ selectSelectedElementIds(appStore.getState()));
+            console.log("selected> "+ selectSelectedElementIds(appStore.getState()));
         } 
+        appStore.dispatch(dragElements(slide!.id, selectSelectedElementIds(appStore.getState()) ,{ x:(delta.x), y:(delta.y) }));
     }
 
 
@@ -214,13 +242,18 @@ function SlideContent({
                     delta.y = e.pageY-delta.y;
                     appStore.dispatch(dragElements(slide!.id, selectSelectedElementIds(appStore.getState()) ,{ x:(delta.x), y:(delta.y) }));
                     console.log(delta);
+                    delta = {x:0, y:0};
+                } else {
+                    
                 }
             }}
-
-
-
-            >  
-            {slide?.elements.map((item, index) => <SlideDrawItem key={item.id} index={index} item={item} elementSelectFunction={showElementSelection}/>)} 
+        >  
+            {slide?.elements.map((item, index) => <SlideDrawItem 
+                key={item.id} 
+                index={index} 
+                item={item} 
+                elementSelectFunction={showElementSelection} 
+            />)} 
         </svg>
         
     )
