@@ -1,0 +1,10 @@
+@import "../../../StyleConstants.css";
+
+.elementContainer {
+    height: 80%;
+    width: 94%; 
+}
+
+.hidden {
+    display: none !important;
+}

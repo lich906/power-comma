@@ -22,7 +22,10 @@ export type TextBox = CommonType & {
     readonly content: string;
 }
 
-export type Triangle = CommonType
+export type Triangle = CommonType & {
+    readonly position1: AnchorType;
+    readonly position2: AnchorType;
+}
 
 export type Element = (Rectangle|Triangle|Circle|Picture|TextBox) & {
     readonly type: elementType;

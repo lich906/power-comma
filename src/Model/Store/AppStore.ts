@@ -93,3 +93,5 @@ export const appDispatch = appStore.dispatch
 export type AppState = ReturnType<typeof appStore.getState>
 
 export type AppDispatch = typeof appStore.dispatch
+
+export default appStore;

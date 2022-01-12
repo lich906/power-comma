@@ -42,6 +42,12 @@ function App({currentSlideId, presentationTitle, appDispatch}: AppProps) {
         setDisplayStringInputPopup(true);
     }
 
+    function showActionMenu(content: never[], anchor: AnchorType): void {
+        setDropdownListContent(content);
+        setDisplayDropdownList(true);
+        setDropdownListAnchor(anchor);
+    }
+
     return (
         <div className={styles.app}>
             <MainMenu
@@ -53,6 +59,7 @@ function App({currentSlideId, presentationTitle, appDispatch}: AppProps) {
                 <div className={styles.editorContainer}>
                     <div className={styles.presentationTitle}>{presentationTitle}</div>
                     <SlideEditArea 
+                        showActionMenu = {showActionMenu}
                     />
                 </div>
             </div>
